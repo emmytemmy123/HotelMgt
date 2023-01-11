@@ -1,6 +1,9 @@
 package fcmb.com.good.exception;
 
-import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
+
+import fcmb.com.good.dto.ApiResponse;
+import fcmb.com.good.utills.MessageUtil;
+import fcmb.com.good.utills.ResponseCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -34,7 +37,7 @@ public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
     public ResponseEntity<ApiResponse> handleMaxSizeException(MaxUploadSizeExceededException exc) {
-        return ResponseEntity.ok(new ApiResponse<>(FAILED.label,EXPECTATION_FAILED.value(),FILE_TOO_LARGE));
+        return ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED, ResponseCode.FAILED,FILE_TOO_LARGE));
     }
     @Override
     protected ResponseEntity handleMethodArgumentNotValid(
@@ -48,15 +51,16 @@ public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
         }
         for (ObjectError error : ex.getBindingResult().getGlobalErrors()) {
             errors.add(error.getObjectName() + ": " + error.getDefaultMessage());
+
         }
-        return  ResponseEntity.ok(new ApiResponse<>(FAILED.label, BAD_REQUEST.value(), errors));
+        return  ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED,ResponseCode.BAD_REQUEST, errors));
     }
 
     @ExceptionHandler(UnknownHostException.class)
     public ResponseEntity handleUnknownHostException(UnknownHostException exception, WebRequest webRequest) {
         String requestUrl = webRequest.getContextPath();
         log.warn("Unknown host for {} access through endpoint {}", exception.getMessage(),requestUrl);
-        return ResponseEntity.ok(new ApiResponse<>(FAILED.label, NOT_FOUND.value(), SERVER_ERROR));
+        return ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED,ResponseCode.INTERNAL_SERVER_ERROR, SERVER_ERROR));
     }
 
 
@@ -64,52 +68,52 @@ public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity handleRecordNotFoundExceptions(RecordNotFoundException exception, WebRequest webRequest) {
         String requestUrl = webRequest.getContextPath();
         log.warn("Record not found for {} access through endpoint {} ", exception.getMessage(),requestUrl);
-        return ResponseEntity.ok(new ApiResponse<>(FAILED.label, NOT_FOUND.value(), exception.getMessage()));
+        return ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED, ResponseCode.NOT_FOUND, exception.getMessage()));
     }
 
     @ExceptionHandler(BadRequestException.class)
     public ResponseEntity handleBadRequestExceptions(BadRequestException exception, WebRequest webRequest) {
         String requestUrl = webRequest.getContextPath();
         log.warn("Bad request exception {} access through endpoint {}", exception.getMessage(),requestUrl);
-        return ResponseEntity.ok(new ApiResponse<>(FAILED.label, BAD_REQUEST.value(), exception.getMessage()));
+        return ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED,ResponseCode.BAD_REQUEST, exception.getMessage()));
 
     }
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity illegalException(RecordNotFoundException exception, WebRequest webRequest) {
         String requestUrl = webRequest.getContextPath();
         log.warn("Record not found for {} access through {}", exception.getMessage(),requestUrl);
-        return ResponseEntity.ok(new ApiResponse<>(FAILED.label, NOT_FOUND.value(), exception.getMessage()));
+        return ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED, ResponseCode.NOT_FOUND, exception.getMessage()));
 
     }
 
     @ExceptionHandler({ MethodArgumentTypeMismatchException.class })
-    public ResponseEntity<Object> handleMethodArgumentTypeMismatch(
+    public ResponseEntity<ApiResponse> handleMethodArgumentTypeMismatch(
             MethodArgumentTypeMismatchException ex, WebRequest request) {
         String error =
                 ex.getName() + " should be of type " + ex.getRequiredType().getName();
 
-        return  ResponseEntity.ok(new ApiResponse<>(FAILED.label, BAD_REQUEST.value(), error)
+        return  ResponseEntity.ok(new ApiResponse<String>(MessageUtil.FAILED, ResponseCode.BAD_REQUEST, error)
         );
     }
     @ExceptionHandler(value = ReadingCsvException.class)
     public ResponseEntity handleReadingCsvException(ReadingCsvException exception) {
         exception.printStackTrace();
         log.warn("An error occur  {}", exception.fillInStackTrace().getMessage());
-        return ResponseEntity.ok(new ApiResponse<>(FAILED.label, INTERNAL_SERVER_ERROR.value(), exception.getMessage()));
+        return ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED, ResponseCode.BAD_REQUEST, exception.getMessage()));
     }
 
     @ExceptionHandler(value = IOException.class)
     public ResponseEntity handleIOException(IOException exception) {
         exception.printStackTrace();
         log.warn("An error occur  {}", exception.fillInStackTrace().getMessage());
-        return ResponseEntity.ok(new ApiResponse<>(FAILED.label, INTERNAL_SERVER_ERROR.value(), exception.getMessage()));
+        return ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED, ResponseCode.BAD_REQUEST, exception.getMessage()));
     }
 
     @ExceptionHandler(value = Exception.class)
     public ResponseEntity handlerGlobalError(Exception exception) {
         exception.printStackTrace();
         log.warn("An error occur  {}", exception.fillInStackTrace().getMessage());
-        return ResponseEntity.ok(new ApiResponse<>(FAILED.label, INTERNAL_SERVER_ERROR.value(), SERVER_ERROR));
+        return ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED, ResponseCode.BAD_REQUEST, SERVER_ERROR));
     }
 
 

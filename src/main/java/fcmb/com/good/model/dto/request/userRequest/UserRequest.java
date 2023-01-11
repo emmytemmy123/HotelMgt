@@ -47,10 +47,6 @@ public class UserRequest  {
     @NotEmpty(message = INVALID_CITY)
     String city;
 
-    @NotNull(message = INVALID_NIN)
-    @NotEmpty(message = INVALID_NIN)
-    String nin;
-
     //   @NotNull(message = INVALID_FORMAT)
 //   @NotEmpty(message = INVALID_FORMAT)
     String photo;
@@ -62,6 +58,17 @@ public class UserRequest  {
     @NotNull(message = INVALID_PASSWORD)
     @NotEmpty(message = INVALID_PASSWORD)
     String password;
+
+    @NotNull(message = INVALID_USERNAME)
+    @NotEmpty(message = INVALID_USERNAME)
+    String postedBy;
+
+    @NotNull(message = INVALID_USERNAME)
+    @NotEmpty(message = INVALID_USERNAME)
+    String role;
+
+
+
 
 
 }

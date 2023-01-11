@@ -62,4 +62,13 @@ public class CustomerRequest {
      @NotEmpty(message = INVALID_PASSWORD)
      String password;
 
+     @NotNull(message = INVALID_USERNAME)
+     @NotEmpty(message = INVALID_USERNAME)
+     String postedBy;
+
+     @NotNull(message = INVALID_USERNAME)
+     @NotEmpty(message = INVALID_USERNAME)
+     String role;
+
+
 }

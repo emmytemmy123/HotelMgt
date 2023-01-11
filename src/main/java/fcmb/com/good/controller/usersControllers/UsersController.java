@@ -3,7 +3,6 @@ package fcmb.com.good.controller.usersControllers;
 import fcmb.com.good.model.dto.request.userRequest.*;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.userResponse.*;
-import fcmb.com.good.model.entity.user.*;
 import fcmb.com.good.services.others.UploadService;
 import fcmb.com.good.services.user.*;
 import io.swagger.annotations.ApiOperation;
@@ -12,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
@@ -60,7 +60,7 @@ public class UsersController  {
 
     @GetMapping(FIND_USER)
     @ApiOperation(value = "Endpoint for retrieving lists of user", response = UserResponse.class, responseContainer = "List")
-    public ApiResponse<List<UserResponse>> getListOfUsers(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+    public ApiResponse<UserResponse> getListOfUsers(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
                                                     @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
         return userService.getListOfUsers(page,size);
     }
@@ -245,6 +245,20 @@ public class UsersController  {
         return userTypeService.deleteUserType(userType_id);
     }
 
+    //change password
+    @PutMapping(CHANGE_USER_PASSWORD)
+    @ApiOperation(value = "Endpoint for updating users password from database", response = String.class)
+    public ApiResponse<changeUserPasswordResponse> changeUserPassword(@RequestBody changeUserPasswordRequest request, String email) {
+        return userService.changeUserPassword(email, request);
+    }
+
+
+    //Forgot Password
+    @GetMapping(FORGOT_USER_PASSWORD)
+    @ApiOperation(value = "Endpoint for getting forgotten users password from database", response = String.class)
+    public ApiResponse<forgotUserPasswordResponse> forgotUserPassword(String email) throws MessagingException {
+        return userService.forgotUserPassword(email);
+    }
 
 
 }

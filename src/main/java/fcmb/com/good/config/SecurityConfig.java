@@ -45,13 +45,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/authenticate", "/authenticated", "/swagger-ui.html").permitAll()
+                .antMatchers("/authentica", "/authenticate", "/forgotUserPassword", "/swagger-ui.html").permitAll()
                 .antMatchers("/v2/api-docs").permitAll()
                 .antMatchers("/swagger-resources/**").permitAll()
                 .antMatchers("/configuration/security").permitAll()
                 .antMatchers("/swagger-ui/*").permitAll()
                 .antMatchers("/webjars/**").permitAll()
-                //.anyRequest().authenticated()
+                .anyRequest().authenticated()
                 .and().exceptionHandling().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

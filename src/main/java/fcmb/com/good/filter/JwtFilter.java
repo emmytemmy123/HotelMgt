@@ -3,6 +3,7 @@ package fcmb.com.good.filter;
 
 import fcmb.com.good.utills.CustomUserDetailsService;
 import fcmb.com.good.utills.JwtUtil;
+import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -24,6 +25,9 @@ public class JwtFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final CustomUserDetailsService service;
 
+    Claims claims = null;
+    private String userName = null;
+
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
 
@@ -35,6 +39,8 @@ public class JwtFilter extends OncePerRequestFilter {
         if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
             token = authorizationHeader.substring(7);
             userName = jwtUtil.extractUsername(token);
+            claims = jwtUtil.extractAllClaims(token);
+
         }
 
         if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -52,4 +58,26 @@ public class JwtFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
+
+    public boolean isAdmin(){
+        return "admin".equalsIgnoreCase((String) claims.get("role"));
+    }
+
+    public boolean isModerator(){
+        return "moderator".equalsIgnoreCase((String) claims.get("role"));
+    }
+
+    public boolean isEmployee(){
+        return "employee".equalsIgnoreCase((String) claims.get("role"));
+    }
+
+
+
+    public String getCurrentUser(){
+        return userName;
+    }
+
+
+
+
 }

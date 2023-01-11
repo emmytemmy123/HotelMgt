@@ -35,6 +35,10 @@ public class UsersEndPoints {
     public static final String FIND_USER_BY_ID= USER+"/{id}";
     public static final String UPDATE_USER= USER+"/update/{id}";
     public static final String DELETE_USER= USER+"/delete/{id}";
+    public static final String CHANGE_USER_PASSWORD= USER+"/changeUserPassword";
+    public static final String FORGOT_USER_PASSWORD= USER+"/forgotUserPassword";
+
+
 
     public static final String ROLE="/role";
     public static final String FIND_ROLE=ROLE+"/list";
@@ -56,6 +60,8 @@ public class UsersEndPoints {
     public static final String FIND_IMAGE_BY_ID= IMAGE+"/{id}";
     public static final String UPDATE_IMAGE= IMAGE+"/update/{id}";
     public static final String DELETE_IMAGE= IMAGE+"/delete/{id}";
+
+
 
 
 

@@ -16,7 +16,9 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
     @Query("select st from Employee st where st.uuid=:recordId")
     Optional<Employee> findByUuid(@Param("recordId") UUID uuid);
 
-    @Query("delete from Employee st where st.uuid=:recordId")
-    Optional<Employee> deleteByUuid(@Param("recordId")UUID uuid);
+    @Query("select e from Employee e where e.email=:email")
+    Optional<Employee> findByEmailId(@Param("email")String email);
+
+
 
 }

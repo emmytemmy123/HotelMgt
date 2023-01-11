@@ -25,7 +25,7 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findByUuid(@Param("recordId")UUID uuid);
 
     @Query("select c from Customer c where c.email=:email")
-     List<Customer> findByEmail(@Param("email")String email);
+    Optional<Customer> findByEmailId(@Param("email")String email);
 
 
 

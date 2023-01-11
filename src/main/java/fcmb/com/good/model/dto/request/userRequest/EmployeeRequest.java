@@ -39,6 +39,10 @@ public class EmployeeRequest  {
         @NotEmpty(message = INVALID_PHONE)
         String phone;
 
+        @NotNull(message = INVALID_PHONE)
+        @NotEmpty(message = INVALID_PHONE)
+        String photo;
+
         @NotNull(message = INVALID_DESIGNATION)
         @NotEmpty(message = INVALID_DESIGNATION)
         String designation;
@@ -50,5 +54,13 @@ public class EmployeeRequest  {
         @NotNull(message = INVALID_PASSWORD)
         @NotEmpty(message = INVALID_PASSWORD)
         String password;
+
+        @NotNull(message = INVALID_USERNAME)
+        @NotEmpty(message = INVALID_USERNAME)
+        String postedBy;
+
+        @NotNull(message = INVALID_USERNAME)
+        @NotEmpty(message = INVALID_USERNAME)
+        String role;
 
 }

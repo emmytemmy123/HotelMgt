@@ -21,6 +21,8 @@ public class Rooms extends BaseEntity {
     private String room_description;
     private String price;
     private String room_status;
+    private <String> items;
+    private Boolean isAvailable;
     private String available_rooms;
     private String state;
     private String current_customer;

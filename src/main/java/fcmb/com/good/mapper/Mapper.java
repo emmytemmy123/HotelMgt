@@ -7,10 +7,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author JIDEX
- */
+
 public class Mapper {
     public static <T, E> E convertObject(T source, Class<E> typeDestination) {
         ModelMapper modelMapper = new ModelMapper();

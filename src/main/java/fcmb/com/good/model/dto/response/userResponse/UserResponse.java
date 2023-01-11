@@ -16,6 +16,7 @@ public class UserResponse extends BaseDto {
      String email;
      String address;
      String username;
+     String password;
 
 
 }

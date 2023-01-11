@@ -12,7 +12,7 @@ public class MessageUtil {
     public final static String SUCCESS = "success";
     public final static String FILE_TOO_LARGE = "File is too large than expected size";
     public final static String PATIENT_NOT_FOUND = "Patient with specified constraint(s) not found";
-    public final static String FAILED = "fail";
+    public final static String FAILED = "failed";
 
 
                             //users messages
@@ -35,9 +35,10 @@ public class MessageUtil {
     public final static String INVALID_SHIFT = "Invalid shift, value is required";
     public final static String INVALID_PERIOD = "Invalid period, value is required";
     public final static String INVALID_DEPARTMENT = "Invalid department, value is required";
+    public final static String EMAIL_EXISTED = "Email is already Registered";
 
 
-                                //transactions
+    //transactions
     public final static String INVALIDATE_LAST_VISIT = "Invalid last visit date, value is required";
     public final static String INVALID_STAFF_UUID = "Staff with specified credential not found";
     public final static String  UNAUTHORIZE = "You are not authorize to add/update item/category";

@@ -1,4 +1,4 @@
-package fcmb.com.good.model.entity.user;
+package fcmb.com.good.model.entity.file;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -22,11 +22,10 @@ public class BaseUser extends BaseEntity {
     private String username;
     private String password;
     private String postedBy;
-<<<<<<< HEAD
-=======
+
     private String role;
 
->>>>>>> origin/emmy2
+
 
 
 }

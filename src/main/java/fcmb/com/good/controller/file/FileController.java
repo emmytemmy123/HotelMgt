@@ -16,15 +16,26 @@ public class FileController {
     @Autowired
     private StorageService storageService;
 
-    @PostMapping
+    @PostMapping("/upload_image_to_db")
     public ResponseEntity<?> uploadFile(@RequestParam("image")MultipartFile file) throws IOException {
        String uploadImageResponse = storageService.uploadImage(file);
        return  ResponseEntity.status( HttpStatus.OK).body(uploadImageResponse);
     }
+    @PostMapping("/upload_image_to_file")
+    public ResponseEntity<?>uploadFileSystem(@RequestParam("image")MultipartFile file) throws IOException {
+     String response =  storageService.uploadImageToFile(file);
+     return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
     @GetMapping("/{filename}")
-    public ResponseEntity<?> downloadFile(@PathVariable("filename") String fileName){
+    public ResponseEntity<?> downloadFileFromDb(@PathVariable("filename") String fileName){
        byte [] downloadedFile =  storageService.downloadImage(fileName);
        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png"))
                .body(downloadedFile);
+    }
+    @GetMapping("/file/{filename}")
+    public ResponseEntity<?> downloadFileSystem(@PathVariable("filename") String fileName) throws IOException {
+     byte [] fileInByte =  storageService.downloadImageToFile(fileName);
+        return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.valueOf("image/png"))
+                .body(fileInByte);
     }
 }

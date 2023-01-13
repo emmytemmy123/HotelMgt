@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -21,7 +22,7 @@ public class Rooms extends BaseEntity {
     private String room_description;
     private String price;
     private String room_status;
-    private <String> items;
+    private List<String> items;
     private Boolean isAvailable;
     private String available_rooms;
     private String state;

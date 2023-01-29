@@ -2,6 +2,7 @@ package fcmb.com.good.serviceImpl;
 
 import fcmb.com.good.model.entity.file.FileData;
 import fcmb.com.good.model.entity.file.ImageData;
+import fcmb.com.good.model.entity.settings.enums.Identification;
 import fcmb.com.good.repo.file.FileDataRepo;
 import fcmb.com.good.repo.file.FileRepo;
 import fcmb.com.good.services.StorageService;

@@ -26,6 +26,9 @@ public class Rooms extends BaseEntity {
     private Boolean isAvailable;
     private String available_rooms;
     private String state;
+
+    @OneToMany(mappedBy = "roomId")
+    private List<RoomFacility> roomFacilityId;
     private String current_customer;
 
     @OneToMany(mappedBy = "rooms")

@@ -23,7 +23,10 @@ public class RoomFacilityServiceImpl implements RoomFacilityService{
 
     @Override
     public ResponseEntity addRoomFacility(RoomFacilityrequest payload) {
-       RoomFacility roomFacility = Mapper.convertObject(payload,RoomFacility.class);
+       RoomFacility roomFacility = new RoomFacility();
+       roomFacility.setRoomName(payload.getRoomName());
+       roomFacility.setDescription(payload.getDescription());
+       roomFacility.setFileName(payload.getFileName());
        roomFacilityRepo.save(roomFacility);
        return ResponseEntity.ok(new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                roomFacility));

@@ -11,7 +11,6 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 
 @Data
 public class RoomFacilityrequest {
-    private Rooms roomId; // (Foreign key to Room)
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
@@ -19,7 +18,7 @@ public class RoomFacilityrequest {
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    private File fileName;
+    private String fileName;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)

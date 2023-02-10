@@ -74,7 +74,7 @@ public class RoomServiceImpl implements RoomService {
      * Create the room definition and save
      * @return success message* *
      * * */
-    public ApiResponse<String> addRoom(@RequestBody RoomRequest request) {
+    public ApiResponse<String> addRoom(RoomRequest request) {
 
         validateDuplicationRooms(request.getServiceNumber());
 

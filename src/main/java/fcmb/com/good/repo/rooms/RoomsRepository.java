@@ -25,5 +25,4 @@ public interface RoomsRepository extends JpaRepository<Rooms, Long> {
             "ON r.id = s.id ")
     List<Rooms> findSub_ServiceByRoomId(Integer serviceNumber);
 
-
 }

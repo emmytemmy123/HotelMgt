@@ -19,7 +19,7 @@ public class RoomRequest  {
 
       @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
-      private Integer roomNumber;
+      private Integer serviceNumber;
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
@@ -27,7 +27,15 @@ public class RoomRequest  {
 
       @NotNull(message = INVALID_NAME)
       @NotEmpty(message = INVALID_NAME)
-      private String category;
+      private String serviceType;
+
+      @NotNull(message = INVALID_NAME)
+//      @NotEmpty(message = INVALID_NAME)
+      private Integer rate;
+
+      @NotNull(message = INVALID_NAME)
+//      @NotEmpty(message = INVALID_NAME)
+      private Integer maxNoOccupant;
 
       @NotNull(message = INVALID_NAME)
       @Min(value=50, message = INVALID_NAME)
@@ -37,17 +45,11 @@ public class RoomRequest  {
       @NotEmpty(message = INVALID_NAME)
       private String status;
 
-//      @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
-//      private String availableRooms;
-
-//      @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
-      private String photo;
-
       @NotNull(message = INVALID_NAME)
       private UUID createdBy;
 
-      private UUID uuid;
+      @NotNull(message = INVALID_NAME)
+      private UUID CurrentOccupantId;
+
 
 }

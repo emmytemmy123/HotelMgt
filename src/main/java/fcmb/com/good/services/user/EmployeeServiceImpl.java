@@ -8,10 +8,8 @@ import fcmb.com.good.model.dto.request.userRequest.EmployeeRequest;
 import fcmb.com.good.model.dto.request.userRequest.changeEmployeePasswordRequest;
 import fcmb.com.good.model.dto.request.userRequest.loginEmployeeRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.dto.response.userResponse.EmployeeResponse;
 import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.entity.user.Employee;
 import fcmb.com.good.repo.user.EmployeeRepository;
 import fcmb.com.good.repo.user.UserRepository;
@@ -98,7 +96,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         Employee employee = employeeOptional.get();
 
-        return new ApiResponse<EmployeeResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertObject(employee,EmployeeResponse.class));
 
     }
@@ -173,7 +171,7 @@ public class EmployeeServiceImpl implements EmployeeService {
             employ.setDesignation(employee.getDesignation());
             employ.setUsername(employee.getUsername());
 
-            employ = employeeRepository.save(employ);
+            employeeRepository.save(employ);
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Updated Successfully");
         }

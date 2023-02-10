@@ -6,9 +6,7 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.PaymentRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.PaymentResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.entity.transaction.Payment;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.transaction.PaymentRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,7 +38,9 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public ApiResponse<String> addPayment(@RequestBody PaymentRequest request) {
         Payment payment = Mapper.convertObject(request,Payment.class);
-        payment=paymentRepository.save(payment);
+
+        paymentRepository.save(payment);
+
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }
@@ -52,8 +51,11 @@ public class PaymentServiceImpl implements PaymentService {
 
         if(payment.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
         Payment cm = payment.get();
-        return new ApiResponse<PaymentResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(cm,PaymentResponse.class));
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(cm,PaymentResponse.class));
 
     }
 
@@ -73,7 +75,7 @@ public class PaymentServiceImpl implements PaymentService {
         payment.setPayment_status(request.getPayment_status());
         payment.setPayment_details(request.getPayment_details());
 
-        payment = paymentRepository.save(payment);
+        paymentRepository.save(payment);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated Successfully");
     }

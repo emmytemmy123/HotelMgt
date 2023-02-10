@@ -6,9 +6,7 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.MaintenanceRequestRequest;
 import fcmb.com.good.model.dto.response.transactionResponse.MaintenanceResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.entity.transaction.MaintenanceRequest;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.transaction.MaintenanceRequestRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,7 +39,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
     @Override
     public ApiResponse<String> addMaintenanceRequest(@RequestBody MaintenanceRequestRequest request) {
         MaintenanceRequest maintenanceRequest = Mapper.convertObject(request,MaintenanceRequest.class);
-        maintenanceRequest=maintenanceRequestRepository.save(maintenanceRequest);
+        maintenanceRequestRepository.save(maintenanceRequest);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }
@@ -53,8 +50,11 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
         if(maintenanceRequest.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
         MaintenanceRequest mr = maintenanceRequest.get();
-        return new ApiResponse<MaintenanceResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(mr,MaintenanceResponse.class));
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(mr,MaintenanceResponse.class));
 
     }
 
@@ -78,7 +78,7 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         maintenanceRequest.setRequested_by(request.getRequested_by());
         maintenanceRequest.setMaintained_by(request.getMaintained_by());
 
-        maintenanceRequest = maintenanceRequestRepository.save(maintenanceRequest);
+        maintenanceRequestRepository.save(maintenanceRequest);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated Successfully");
     }

@@ -6,9 +6,7 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.ExpenseRequest;
 import fcmb.com.good.model.dto.response.transactionResponse.ExpenseResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.entity.transaction.Expenses;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.transaction.ExpensesRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,7 +38,7 @@ public class ExpenseServiceImpl implements ExpenseService {
     @Override
     public ApiResponse<String> addExpense(@RequestBody ExpenseRequest request) {
         Expenses expenses = Mapper.convertObject(request,Expenses.class);
-        expenses=expensesRepository.save(expenses);
+        expensesRepository.save(expenses);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }
@@ -53,7 +50,8 @@ public class ExpenseServiceImpl implements ExpenseService {
         if(expenses.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         Expenses cm = expenses.get();
-        return new ApiResponse<ExpenseResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(cm,ExpenseResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(cm,ExpenseResponse.class));
 
     }
 
@@ -70,7 +68,7 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenses.setExpense_type(request.getExpense_type());
         expenses.setDescription(request.getDescription());
 
-        expenses = expensesRepository.save(expenses);
+        expensesRepository.save(expenses);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated Successfully");
     }

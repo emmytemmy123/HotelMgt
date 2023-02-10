@@ -11,12 +11,13 @@ import fcmb.com.good.model.dto.response.userResponse.changeUserPasswordResponse;
 import fcmb.com.good.model.dto.response.userResponse.forgotUserPasswordResponse;
 
 import javax.mail.MessagingException;
+import java.util.List;
 import java.util.UUID;
 
 
 public interface UserService {
 
-    ApiResponse<UserResponse> getListOfUsers(int page, int size);
+    ApiResponse<List<UserResponse>> getListOfUsers(int page, int size);
 
     ApiResponse<String> addUsers(UserRequest request);
 

@@ -7,7 +7,6 @@ import fcmb.com.good.model.dto.request.assetsRequest.DamagedAssetsRequest;
 import fcmb.com.good.model.dto.response.assetsResponse.DamagedAssetsResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.entity.assets.DamagedAssets;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.assets.DamagedAssetsRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;

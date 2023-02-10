@@ -1,13 +1,11 @@
 package fcmb.com.good.mapper;
 
-import fcmb.com.good.model.entity.products.Product;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  *

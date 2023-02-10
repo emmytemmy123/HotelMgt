@@ -10,6 +10,7 @@ import fcmb.com.good.model.entity.rooms.RoomCategory;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.services.ServiceRequest;
 import fcmb.com.good.model.entity.services.Services;
+import fcmb.com.good.model.entity.services.SubService;
 import fcmb.com.good.model.entity.transaction.*;
 import fcmb.com.good.model.entity.user.*;
 import org.springframework.stereotype.Component;
@@ -22,6 +23,7 @@ public class BaseListener {
 
     @PrePersist
     private void beforeCreate(Object data) {
+
         if(data instanceof Rooms){
             Rooms rooms = (Rooms) data;
             rooms.setUuid(UUID.randomUUID());
@@ -135,6 +137,11 @@ public class BaseListener {
         else if(data instanceof ProductCategory){
             ProductCategory productCategory = (ProductCategory) data;
             productCategory.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof SubService){
+            SubService subService = (SubService) data;
+            subService.setUuid(UUID.randomUUID());
         }
 
     }

@@ -15,14 +15,13 @@ import javax.persistence.*;
 @Table(name = "productPurchase")
 public class ProductPurchase extends BaseEntity {
 
-    private Long product_id;
     private String description;
     private String company_name;
     private String quantity;
     private Double price;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_Id", insertable = false, updatable = false)
+    @JoinColumn(name = "product_Id", insertable = true)
     private Product product;
 
     public ProductPurchase(){}

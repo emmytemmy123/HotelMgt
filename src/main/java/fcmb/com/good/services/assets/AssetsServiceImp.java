@@ -11,7 +11,6 @@ import fcmb.com.good.model.entity.assets.Assets;
 import fcmb.com.good.model.entity.assets.AssetsCategory;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.assets.AssetsCategoryRepository;
 import fcmb.com.good.repo.assets.AssetsRepository;
 import fcmb.com.good.repo.rooms.RoomsRepository;
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;

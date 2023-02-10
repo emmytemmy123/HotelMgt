@@ -22,10 +22,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
-import java.io.File;
 import java.io.IOException;
 import java.util.*;
 
@@ -97,7 +95,7 @@ public class CustomerServiceImpl implements CustomerService  {
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
             Customer customer = customerOptional.get();
-            return new ApiResponse<CustomerResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+            return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     Mapper.convertObject(customer,CustomerResponse.class));
         }
 //        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
@@ -174,7 +172,7 @@ public class CustomerServiceImpl implements CustomerService  {
             customer.setPhoto(cst.getPhoto());
             customer.setUsername(cst.getUsername());
 
-            customer = customerRepository.save(customer);
+            customerRepository.save(customer);
             return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Updated Successfully");
         }

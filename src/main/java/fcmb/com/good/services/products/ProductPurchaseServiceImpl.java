@@ -6,20 +6,16 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.productsRequest.ProductPurchaseRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductPurchaseResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.entity.products.ProductPurchase;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.products.ProductPurchaseRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -69,13 +65,13 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
         public ApiResponse<String> updateProductPurchase(@RequestParam UUID productPurchaseId,
                                                                           @RequestBody ProductPurchaseRequest request) {
         ProductPurchase productPurchase = validateProductPurchase(productPurchaseId);
-        productPurchase.setProduct_id(request.getProduct_id());
+
         productPurchase.setDescription(request.getDescription());
         productPurchase.setCompany_name(request.getCompany_name());
         productPurchase.setQuantity(request.getQuantity());
         productPurchase.setPrice(request.getPrice());
 
-        productPurchase = productPurchaseRepository.save(productPurchase);
+        productPurchaseRepository.save(productPurchase);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated Successfully");
     }

@@ -19,7 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -76,7 +75,7 @@ public class BookingServiceImpl implements BookingService {
         booking.setNight(request.getNight());
         booking.setAmount(booking.getPrice()*booking.getNight());
         booking.setCheck_in_date(request.getCheck_in_date());
-        booking.setCheck_out_date(booking.getCheck_in_date());
+        booking.setCheck_out_date(booking.getCheck_out_date());
 
         bookingRepository.save(booking);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
@@ -98,7 +97,8 @@ public class BookingServiceImpl implements BookingService {
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
         Booking book = bookingOptional.get();
-        return new ApiResponse<BookingResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertObject(book,BookingResponse.class));
 
     }
@@ -131,7 +131,8 @@ public class BookingServiceImpl implements BookingService {
         booking.setCheck_out_date(request.getCheck_out_date());
         booking.setNight(request.getNight());
 
-        booking = bookingRepository.save(booking);
+        bookingRepository.save(booking);
+
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated Successfully");
     }

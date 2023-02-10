@@ -6,6 +6,7 @@ import fcmb.com.good.model.dto.request.roomsRequest.RoomTypeRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomTypeResponse;
+import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
 import fcmb.com.good.services.rooms.RoomService;
 import fcmb.com.good.services.rooms.RoomCategoryService;
 import io.swagger.annotations.ApiOperation;
@@ -101,6 +102,17 @@ public class RoomController {
     @ApiOperation(value = "Endpoint for deleting roomType by id from database", response = String.class)
     public ApiResponse<String> deleteRoomType(@PathVariable(value = "id") UUID roomType_id) {
         return roomTypeService.deleteRoomType(roomType_id);
+    }
+
+
+                                        //FIND_SUB_SERVICE_BY_ROOM_ID
+
+    @GetMapping(SEARCH_SUB_SERVICE_BY_ROOM_ID)
+    @ApiOperation(value = "Endpoint for retrieving lists of SUB_SERVICE by RoomId", response = SubServiceResponse.class, responseContainer = "List")
+    public ApiResponse<List<RoomResponse>> searchListOfSubServiceByRoomId(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                          @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+                                                                          @RequestParam Integer serviceNumber ) {
+        return roomService.searchSubServiceByRoomId(serviceNumber);
     }
 
 

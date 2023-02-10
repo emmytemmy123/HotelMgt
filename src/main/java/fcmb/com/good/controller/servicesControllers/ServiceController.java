@@ -3,11 +3,14 @@ package fcmb.com.good.controller.servicesControllers;
 
 import fcmb.com.good.model.dto.request.servicesRequest.ServiceRequestRequest;
 import fcmb.com.good.model.dto.request.servicesRequest.ServicesRequest;
+import fcmb.com.good.model.dto.request.servicesRequest.SubServiceRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.ServiceRequestResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.ServiceResponse;
+import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
 import fcmb.com.good.services.serviceRender.ServiceRequestService;
 import fcmb.com.good.services.serviceRender.ServiceService;
+import fcmb.com.good.services.serviceRender.SubServiceService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +30,7 @@ public class ServiceController {
 
     private final ServiceRequestService serviceRequestService;
     private final ServiceService serviceService;
+    private final SubServiceService subServiceService;
 
 
                                     //FIND_LISTS_OF_SERVICES
@@ -44,6 +48,13 @@ public class ServiceController {
         return serviceService.getListOfService(page,size);
     }
 
+    @GetMapping(FIND_SUB_SERVICE)
+    @ApiOperation(value = "Endpoint for retrieving lists of subService", response = SubServiceResponse.class, responseContainer = "List")
+    public ApiResponse<List<SubServiceResponse>> getListOfSubService(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                               @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
+        return subServiceService.getListOfSubService(page,size);
+    }
+
 
                                     //ADD_SERVICES
     @PostMapping(ADD_SERVICE_REQUEST)
@@ -58,6 +69,12 @@ public class ServiceController {
         return serviceService.addService(request);
     }
 
+    @PostMapping(ADD_SUB_SERVICE)
+    @ApiOperation(value = "Endpoint for adding new subService to database", response = String.class)
+    public ApiResponse<String> addSubService(@RequestBody SubServiceRequest request) {
+        return subServiceService.addSubService(request);
+    }
+
 
                                                 //FIND_SERVICES_ID
     @GetMapping(FIND_SERVICE_REQUEST_BY_ID)
@@ -70,7 +87,16 @@ public class ServiceController {
     @ApiOperation(value = "Endpoint for fetching service by id from database", response = ServiceResponse.class)
     public ApiResponse<ServiceResponse> getServiceById(@PathVariable(value = "id") UUID service_id) {
         return serviceService.getServiceById(service_id);
+
     }
+
+    @GetMapping(FIND_SUB_SERVICE_BY_ID)
+    @ApiOperation(value = "Endpoint for fetching subService by id from database", response = SubServiceResponse.class)
+    public ApiResponse<SubServiceResponse> getSubServiceById(@PathVariable(value = "id") UUID subService_id) {
+        return subServiceService.getSubServiceById(subService_id);
+
+    }
+
 
 
                                                 //UPDATE_SERVICE
@@ -88,6 +114,13 @@ public class ServiceController {
         return serviceService.updateService(service_id, request);
     }
 
+    @PutMapping(UPDATE_SUB_SERVICE)
+    @ApiOperation(value = "Endpoint for updating subService by id from database", response = String.class)
+    public ApiResponse<String> updateSubService(@PathVariable(value = "id") UUID subService_id,
+                                             @RequestBody SubServiceRequest request) {
+        return subServiceService.updateSubService(subService_id, request);
+    }
+
 
                                             //DELETE SERVICES
     @DeleteMapping(DELETE_SERVICE_REQUEST)
@@ -101,6 +134,26 @@ public class ServiceController {
     public ApiResponse<String> deleteService(@PathVariable(value = "id") UUID service_id) {
         return serviceService.deleteService(service_id);
     }
+
+    @DeleteMapping(DELETE_SUB_SERVICE)
+    @ApiOperation(value = "Endpoint for deleting subService by id from database", response = String.class)
+    public ApiResponse<String> deleteSubService(@PathVariable(value = "id") UUID subService_id) {
+        return subServiceService.deleteSubService(subService_id);
+    }
+
+
+                                        //FIND_SUB_SERVICE_BY_NAME
+
+    @GetMapping(SEARCH_SUB_SERVICE_BY_NAME)
+    @ApiOperation(value = "Endpoint for retrieving lists of SUB_SERVICE by Name", response = SubServiceResponse.class, responseContainer = "List")
+    public ApiResponse<List<SubServiceResponse>> searchListOfSubServiceByName(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                              @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+                                                                              @RequestParam String serviceName ) {
+        return subServiceService.searchSubServiceByName(serviceName);
+    }
+
+
+
 
 
 

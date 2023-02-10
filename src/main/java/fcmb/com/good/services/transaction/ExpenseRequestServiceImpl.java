@@ -6,9 +6,7 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.ExpenseRequestRequest;
 import fcmb.com.good.model.dto.response.transactionResponse.ExpenseRequestResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.entity.transaction.ExpenseRequest;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.transaction.ExpenseRequestRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,7 +38,7 @@ public class ExpenseRequestServiceImpl implements ExpenseRequestService {
     @Override
     public ApiResponse<String> addExpenseRequest(@RequestBody ExpenseRequestRequest request) {
         ExpenseRequest expenseRequest = Mapper.convertObject(request,ExpenseRequest.class);
-        expenseRequest=expenseRequestRepository.save(expenseRequest);
+        expenseRequestRepository.save(expenseRequest);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }
@@ -52,8 +49,10 @@ public class ExpenseRequestServiceImpl implements ExpenseRequestService {
 
         if(expenseRequest.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
         ExpenseRequest er = expenseRequest.get();
-        return new ApiResponse<ExpenseRequestResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(er,ExpenseRequestResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(er,ExpenseRequestResponse.class));
 
     }
 
@@ -75,7 +74,7 @@ public class ExpenseRequestServiceImpl implements ExpenseRequestService {
         expenseRequest.setAccount_no(request.getAccount_no());
         expenseRequest.setStatus(request.getStatus());
 
-        expenseRequest = expenseRequestRepository.save(expenseRequest);
+        expenseRequestRepository.save(expenseRequest);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Update Successfully");
     }

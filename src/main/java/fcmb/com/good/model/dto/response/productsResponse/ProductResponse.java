@@ -15,14 +15,6 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @Data
 public class ProductResponse extends BaseDto {
 
-//     private String name;
-//     private String description;
-//     private String quantity;
-//     private Double price;
-//     private String category;
-//     private String code;
-//     private String location;
-
 
      private String name;
 

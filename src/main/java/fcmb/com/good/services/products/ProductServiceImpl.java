@@ -6,6 +6,7 @@ import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.productsRequest.ProductRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
+import fcmb.com.good.model.dto.response.productsResponse.ProductCategoryResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductResponse;
 import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.products.ProductCategory;
@@ -48,8 +49,8 @@ public class ProductServiceImpl implements ProductService {
             if(productList.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-            return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    Mapper.convertList(productList, ProductResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertList(productList, ProductResponse.class));
 
 //        }
 //        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
@@ -63,13 +64,15 @@ public class ProductServiceImpl implements ProductService {
      * @Validate if the List of products is empty otherwise return record not found*
      * @return the list of products by name* *
      * * */
-    public List<Product> searchProductsByName(String name) {
+    public ApiResponse<List<ProductResponse>> searchProductsByName(String name) {
         List<Product> searchProductsByName = productRepository.searchProductsByName(name);
 
         if(searchProductsByName.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        return searchProductsByName;
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertList(searchProductsByName, ProductResponse.class));
+
     }
 
     @Override
@@ -78,13 +81,14 @@ public class ProductServiceImpl implements ProductService {
      * @Validate if the List of productCategory is empty otherwise return record not found*
      * @return the list of products by categoryName* *
      * * */
-    public List<Product> searchProductsByProductCategory(String productCategory) {
+    public ApiResponse<List<ProductResponse>> searchProductsByProductCategory(String productCategory) {
         List<Product> searchProductsByProductCategory = productRepository.searchProductsByProductCategory(productCategory);
 
         if(searchProductsByProductCategory.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        return searchProductsByProductCategory;
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertList(searchProductsByProductCategory, ProductResponse.class));
 
     }
 
@@ -96,14 +100,16 @@ public class ProductServiceImpl implements ProductService {
      * Create the product definition and get the product Optional by uuid
      * @return the list of products and a Success Message* *
      * * */
-    public ApiResponse<ProductResponse> getProductById(@RequestParam("id") UUID productId) {
+    public ApiResponse<ProductResponse> getProductById(UUID productId) {
 //        if(jwtFilter.isAdmin()){
 
         Optional<Product> productOptional = productRepository.findByUuid(productId);
+
         if(productOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
         Product product = productOptional.get();
+
         return new ApiResponse<ProductResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertObject(product,ProductResponse.class));
     }
@@ -155,11 +161,11 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(request.getPrice());
         product.setCode(request.getCode());
         product.setLocation(request.getLocation());
-        product.setProductCategory(existingProductCategory);
         product.setStatus(request.getStatus());
+        product.setProfit(product.getPurchasedPrice()-request.getPrice());
+        product.setProductCategory(existingProductCategory);
         product.setCreatedBy(existingUser);
         product.setPurchasedPrice(request.getPurchasedPrice());
-        product.setProfit(product.getPurchasedPrice()-request.getPrice());
         product.setProductsCategory(request.getProductsCategory());
 
         productRepository.save(product);

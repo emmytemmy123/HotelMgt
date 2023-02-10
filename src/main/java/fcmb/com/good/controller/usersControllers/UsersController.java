@@ -8,7 +8,6 @@ import fcmb.com.good.services.user.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.mail.MessagingException;
 import javax.validation.Valid;
@@ -59,8 +58,8 @@ public class UsersController  {
 
     @GetMapping(FIND_USER)
     @ApiOperation(value = "Endpoint for retrieving lists of user", response = UserResponse.class, responseContainer = "List")
-    public ApiResponse<UserResponse> getListOfUsers(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                    @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
+    public ApiResponse<List<UserResponse>> getListOfUsers(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                          @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
         return userService.getListOfUsers(page,size);
     }
 

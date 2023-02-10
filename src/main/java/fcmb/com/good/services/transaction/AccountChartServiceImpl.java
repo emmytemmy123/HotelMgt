@@ -6,9 +6,7 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.AccountChartRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.AccountChartResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.entity.transaction.AccountChart;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.transaction.AccountChartRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -42,7 +39,7 @@ public class AccountChartServiceImpl implements AccountChartService {
     @Override
     public ApiResponse<String> addAccountChart(@RequestBody AccountChartRequest request) {
         AccountChart accountChart = Mapper.convertObject(request,AccountChart.class);
-        accountChart=accountChartRepository.save(accountChart);
+        accountChartRepository.save(accountChart);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }
@@ -54,7 +51,8 @@ public class AccountChartServiceImpl implements AccountChartService {
         if(accountChart.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         AccountChart cm = accountChart.get();
-        return new ApiResponse<AccountChartResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(cm,AccountChartResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(cm,AccountChartResponse.class));
 
     }
 

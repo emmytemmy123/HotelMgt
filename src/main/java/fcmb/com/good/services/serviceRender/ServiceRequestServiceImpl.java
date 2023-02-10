@@ -38,7 +38,7 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
     @Override
     public ApiResponse<String> addServiceRequest(@RequestBody ServiceRequestRequest request) {
         ServiceRequest serviceRequest = Mapper.convertObject(request,ServiceRequest.class);
-        serviceRequest=serviceRequestRepository.save(serviceRequest);
+        serviceRequestRepository.save(serviceRequest);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }
@@ -50,7 +50,8 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
         if(serviceRequest.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         ServiceRequest sr = serviceRequest.get();
-        return new ApiResponse<ServiceRequestResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(sr,ServiceRequestResponse.class));
+        return new ApiResponse<ServiceRequestResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(sr,ServiceRequestResponse.class));
 
     }
 
@@ -70,7 +71,7 @@ public class ServiceRequestServiceImpl implements ServiceRequestService {
         serviceRequest.setService_type(request.getService_type());
         serviceRequest.setServiced_by(request.getServiced_by());
 
-        serviceRequest = serviceRequestRepository.save(serviceRequest);
+        serviceRequestRepository.save(serviceRequest);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated Successfully");
     }

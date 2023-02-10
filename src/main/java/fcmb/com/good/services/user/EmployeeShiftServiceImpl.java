@@ -5,9 +5,7 @@ import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.userRequest.EmployeeShiftRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.dto.response.userResponse.EmployeeShiftResponse;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.entity.user.EmployeeShift;
 import fcmb.com.good.repo.user.EmployeeShiftRepository;
 import fcmb.com.good.utills.MessageUtil;
@@ -36,8 +34,7 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
         if(employeeShiftList.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        return new ApiResponse<>(AppStatus.SUCCESS.label,
-                HttpStatus.OK.value(),
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertList(employeeShiftList, EmployeeShiftResponse.class));
 
     }
@@ -46,7 +43,7 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
     @Override
     public ApiResponse<String> addEmployeeShift(@RequestBody EmployeeShiftRequest request) {
         EmployeeShift employeeShift = Mapper.convertObject(request,EmployeeShift.class);
-        employeeShift = employeeShiftRepository.save(employeeShift);
+        employeeShiftRepository.save(employeeShift);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }
@@ -54,12 +51,15 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
 
     @Override
     public  ApiResponse<EmployeeShiftResponse> getEmployeeShiftById(@RequestParam("id") UUID employeeShiftId) {
-        Optional<EmployeeShift> employeeShift = employeeShiftRepository.findByUuid(employeeShiftId);
+        Optional<EmployeeShift> employeeShiftOptional = employeeShiftRepository.findByUuid(employeeShiftId);
 
-        if(employeeShift.isEmpty())
+        if(employeeShiftOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        EmployeeShift es = employeeShift.get();
-        return new ApiResponse<EmployeeShiftResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(es,EmployeeShiftResponse.class));
+
+        EmployeeShift employeeShift = employeeShiftOptional.get();
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(employeeShift,EmployeeShiftResponse.class));
 
     }
 
@@ -69,6 +69,7 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
 
         if(employeeShift.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
         return employeeShift.get();
     }
 
@@ -79,7 +80,8 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
         employeeShifty.setShift(request.getShift());
         employeeShifty.setPeriod(request.getPeriod());
 
-        employeeShifty = employeeShiftRepository.save(employeeShifty);
+        employeeShiftRepository.save(employeeShifty);
+
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Update Successfully");
     }

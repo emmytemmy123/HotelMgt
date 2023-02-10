@@ -19,6 +19,8 @@ public class RoomEndPoints {
     public static final String FIND_ROOM_TYPE_BY_ID= ROOM_TYPE+"/{id}";
     public static final String UPDATE_ROOM_TYPE= ROOM_TYPE+"/update/{id}";
     public static final String DELETE_ROOM_TYPE= ROOM_TYPE+"/delete/{id}";
+    public static final String SEARCH_SUB_SERVICE_BY_ROOM_ID= ROOM_TYPE+"/searchSub_serviceListByRoomId";
+
 
 
 

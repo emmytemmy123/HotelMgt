@@ -3,6 +3,7 @@ package fcmb.com.good.model.entity.rooms;
 
 import fcmb.com.good.model.entity.BaseEntity;
 import fcmb.com.good.model.entity.others.Document;
+import fcmb.com.good.model.entity.services.SubService;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
@@ -19,13 +20,17 @@ import java.util.List;
 @Table(name = "rooms")
 public class Rooms extends BaseEntity {
 
-    private String category;
-    private Integer roomNumber;
+    private String serviceType;
+    private Integer serviceNumber;
     private String description;
     private Double price;
     private String status;
-    //private boolean isAvailable;
-    private String photo;
+    private Integer rate;
+    private Integer maxNoOccupant;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "currentOccupantId", insertable = true, updatable = true)
+    private Customer currentOccupant;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdBy_id", updatable = true)
@@ -33,6 +38,9 @@ public class Rooms extends BaseEntity {
 
     @OneToMany(mappedBy = "rooms")
     private List<Document> documentList;
+
+    @OneToMany(mappedBy = "rooms")
+    private List<SubService> subServiceList;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "room_type_id", updatable = true)

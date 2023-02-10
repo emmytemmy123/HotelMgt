@@ -4,17 +4,14 @@ package fcmb.com.good.controller.productsControllers;
 import fcmb.com.good.model.dto.request.productsRequest.*;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.*;
-import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.services.products.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static fcmb.com.good.utills.EndPoints.ProductEndPoints.*;
@@ -61,7 +58,7 @@ public class ProductController {
     @GetMapping(FIND_PRODUCT)
     @ApiOperation(value = "Endpoint for retrieving lists of product", response = ProductResponse.class, responseContainer = "List")
     public ApiResponse<List<ProductResponse>> getListOfProduct(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                               @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
+                                                         @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
         return productService.getListOfProduct(page,size);
     }
 
@@ -148,20 +145,20 @@ public class ProductController {
 
     @GetMapping(SEARCH_PRODUCT_BY_CATEGORY)
     @ApiOperation(value = "Endpoint for searching products by Category", response = ProductResponse.class, responseContainer = "List")
-    public ResponseEntity<List<Product>> searchProductsByCategory(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                   @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
-                                                                   @RequestParam String category ) {
-        return ResponseEntity.ok(productService.searchProductsByProductCategory(category));
+    public ApiResponse<List<ProductResponse>> searchProductsByCategory(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                       @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+                                                                       @RequestParam String category ) {
+        return productService.searchProductsByProductCategory(category);
     }
 
                                             //FIND_PRODUCTS_BY_NAME
 
     @GetMapping(SEARCH_PRODUCT_BY_NAME)
     @ApiOperation(value = "Endpoint for retrieving lists of product by Name", response = ProductResponse.class, responseContainer = "List")
-    public ResponseEntity<List<Product>> searchListOfProductByName(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                   @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
-                                                                   @RequestParam String name ) {
-        return ResponseEntity.ok(productService.searchProductsByName(name));
+    public ApiResponse<List<ProductResponse>> searchListOfProductByName(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                        @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+                                                                        @RequestParam String name ) {
+        return productService.searchProductsByName(name);
     }
 
                                                 //UPDATE_PRODUCTS

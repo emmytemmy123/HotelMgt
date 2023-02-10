@@ -6,7 +6,6 @@ import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.userRequest.UserTypeRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.userResponse.RoleResponse;
 import fcmb.com.good.model.dto.response.userResponse.UserTypeResponse;
 import fcmb.com.good.model.entity.user.UserType;
 import fcmb.com.good.repo.user.UserTypeRepository;
@@ -35,8 +34,7 @@ public class UserTypeServiceImpl implements UserTypeService {
         if(typeList.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        return new ApiResponse<>(AppStatus.SUCCESS.label,
-                HttpStatus.OK.value(),
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertList(typeList, UserTypeResponse.class));
 
     }
@@ -45,7 +43,8 @@ public class UserTypeServiceImpl implements UserTypeService {
     public ApiResponse<String> addUserType(UserTypeRequest request) {
         if(jwtFilter.isAdmin()){
             UserType type = Mapper.convertObject(request,UserType.class);
-            type=userTypeRepository.save(type);
+            userTypeRepository.save(type);
+
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Added Successfully");
         }
@@ -77,9 +76,11 @@ public class UserTypeServiceImpl implements UserTypeService {
     public ApiResponse<String> updateUserType(UUID userTypeId, UserTypeRequest request) {
         UserType userType = validateUserType(userTypeId);
         userType.setType(request.getType());
-        userType = userTypeRepository.save(userType);
+
+        userTypeRepository.save(userType);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                "Record Updated Successfully");    }
+                "Record Updated Successfully");
+    }
 
     @Override
     public ApiResponse<String> deleteUserType(UUID usertypeId) {

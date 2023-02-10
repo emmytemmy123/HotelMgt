@@ -11,8 +11,6 @@ import fcmb.com.good.model.dto.request.userRequest.changeUserPasswordRequest;
 import fcmb.com.good.model.dto.request.userRequest.loginUserRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.userResponse.UserResponse;
-import fcmb.com.good.model.dto.response.userResponse.changeUserPasswordResponse;
-import fcmb.com.good.model.dto.response.userResponse.forgotUserPasswordResponse;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.EmailUtils;
@@ -69,7 +67,7 @@ public class UserServiceImpl  implements UserService {
      * @Validate if the List of users is empty otherwise return record not found
      * @return the list of users and a Success Message*
      * * */
-    public ApiResponse<UserResponse> getListOfUsers(int page, int size) {
+    public ApiResponse<List<UserResponse>> getListOfUsers(int page, int size) {
 //        if (jwtFilter.isAdmin() || jwtFilter.isEmployee()) {
             List<AppUser> userList = userRepository.findAll(PageRequest.of(page, size)).toList();
             if (userList.isEmpty())

@@ -6,9 +6,7 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.BookingReminderRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.BookingReminderResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.entity.transaction.BookingReminder;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.transaction.BookingReminderRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -41,7 +38,7 @@ public class BookingReminderServiceImpl implements BookingReminderService {
     @Override
     public ApiResponse<String> addBookingReminder(@RequestBody BookingReminderRequest request) {
         BookingReminder bookingReminder = Mapper.convertObject(request,BookingReminder.class);
-        bookingReminder=bookingReminderRepository.save(bookingReminder);
+        bookingReminderRepository.save(bookingReminder);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }
@@ -52,8 +49,11 @@ public class BookingReminderServiceImpl implements BookingReminderService {
 
         if(bookingReminder.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
         BookingReminder  bk = bookingReminder.get();
-        return new ApiResponse<BookingReminderResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(bk,BookingReminderResponse.class));
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(bk,BookingReminderResponse.class));
 
     }
 
@@ -73,7 +73,7 @@ public class BookingReminderServiceImpl implements BookingReminderService {
         bookingReminder.setReminder_details(request.getReminder_details());
         bookingReminder.setStatus(request.getStatus());
 
-        bookingReminder = bookingReminderRepository.save(bookingReminder);
+        bookingReminderRepository.save(bookingReminder);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated Successfully");
     }

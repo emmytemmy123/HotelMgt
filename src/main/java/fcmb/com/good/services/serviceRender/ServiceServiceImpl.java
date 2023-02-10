@@ -38,7 +38,7 @@ public class ServiceServiceImpl implements ServiceService {
     @Override
     public ApiResponse<String> addService(@RequestBody ServicesRequest request) {
         Services services = Mapper.convertObject(request,Services.class);
-        services=servicesRepository.save(services);
+        servicesRepository.save(services);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }

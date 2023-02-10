@@ -3,7 +3,6 @@ package fcmb.com.good.services.rooms;
 import fcmb.com.good.model.dto.request.roomsRequest.RoomRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomResponse;
-import fcmb.com.good.model.entity.rooms.Rooms;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +19,9 @@ public interface RoomService {
     ApiResponse<String> updateRoom( UUID roomId, RoomRequest request);
 
     ApiResponse<String> deleteRoom(UUID roomId);
+
+    ApiResponse<List<RoomResponse>> searchSubServiceByRoomId(Integer serviceNumber);
+
 
 
 

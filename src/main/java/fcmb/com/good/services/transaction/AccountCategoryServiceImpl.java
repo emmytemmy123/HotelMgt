@@ -7,7 +7,6 @@ import fcmb.com.good.model.dto.request.transactionRequest.AccountCategoryRequest
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.AccountCategoryResponse;
 import fcmb.com.good.model.entity.transaction.AccountCategory;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.transaction.AccountCategoryRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +38,7 @@ public class AccountCategoryServiceImpl implements AccountCategoryService {
     @Override
     public ApiResponse<String> addAccountCategory(@RequestBody AccountCategoryRequest request) {
         AccountCategory accountCategory = Mapper.convertObject(request,AccountCategory.class);
-        accountCategory=accountCategoryRepository.save(accountCategory);
+        accountCategoryRepository.save(accountCategory);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }
@@ -50,8 +49,9 @@ public class AccountCategoryServiceImpl implements AccountCategoryService {
 
         if(accountCategory.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        AccountCategory ac = accountCategory.get();
-        return new ApiResponse<AccountCategoryResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(ac,AccountCategoryResponse.class));
+        AccountCategory accountCategory1 = accountCategory.get();
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(accountCategory1,AccountCategoryResponse.class));
 
     }
 
@@ -69,7 +69,7 @@ public class AccountCategoryServiceImpl implements AccountCategoryService {
         accountCategory.setCode(request.getCode());
         accountCategory.setCurrency(request.getCurrency());
 
-        accountCategory = accountCategoryRepository.save(accountCategory);
+        accountCategoryRepository.save(accountCategory);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record updated Successfully");
     }

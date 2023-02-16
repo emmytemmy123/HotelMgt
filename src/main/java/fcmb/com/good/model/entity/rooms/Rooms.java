@@ -33,7 +33,7 @@ public class Rooms extends BaseEntity {
     private Customer currentOccupant;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "createdBy_id", updatable = true)
+    @JoinColumn(name = "createdById", updatable = true)
     private AppUser createdBy;
 
     @OneToMany(mappedBy = "rooms")
@@ -45,6 +45,9 @@ public class Rooms extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "room_type_id", updatable = true)
     private RoomCategory roomCategory;
+
+    @OneToMany(mappedBy = "existingRoom")
+    private List<RoomFacility> roomFacility;
 
 
     public Rooms() {

@@ -4,6 +4,8 @@ package fcmb.com.good.model.dto.response.productsResponse;
 import fcmb.com.good.model.dto.BaseDto;
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 @Data
 public class ProductPurchaseResponse extends BaseDto {
 
@@ -12,6 +14,8 @@ public class ProductPurchaseResponse extends BaseDto {
      private String company_name;
      private String quantity;
      private Double price;
+     private LocalDateTime dateCreated;
+     private LocalDateTime lastModified;
 
 
 }

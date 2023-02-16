@@ -18,8 +18,10 @@ public class ServiceEndPoints {
     public static final String FIND_SUB_SERVICE_BY_ID=SUB_SERVICE+"/{id}";
     public static final String UPDATE_SUB_SERVICE= SUB_SERVICE+"/update/{id}";
     public static final String DELETE_SUB_SERVICE= SUB_SERVICE+"/delete/{id}";
+    public static final String SEARCH_SUB_SERVICE_BY_ROOM= SUB_SERVICE+"/searchSubServiceListByRoom";
     public static final String SEARCH_SUB_SERVICE_BY_NAME= SUB_SERVICE+"/searchSubServiceListByName";
-    public static final String SEARCH_SUB_SERVICE_BY_SERVICE_NAME= SUB_SERVICE+"/searchSub_serviceListById";
+    public static final String SEARCH_SUB_SERVICE_BY_CUSTOMER_AND_ROOM= SUB_SERVICE+"/searchSubServiceListByCustomerAndRoom";
+
 
 
     public static final String SERVICE_REQUEST="/serviceRequest";

@@ -177,6 +177,19 @@ public class SubServiceImpl implements SubServiceService {
      * @Validate if the List of subService is empty otherwise return record not found*
      * @return the list of subService by name
      * * */
+    public ApiResponse<List<SubServiceResponse>> searchSubServiceByRoom(UUID roomUuid) {
+
+        List<SubService> searchSubServiceByRoom = subServiceRepository.findByRooms(roomUuid);
+
+        if(searchSubServiceByRoom.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertList(searchSubServiceByRoom, SubServiceResponse.class));
+
+    }
+
+    @Override
     public ApiResponse<List<SubServiceResponse>> searchSubServiceByName(String serviceName) {
 
         List<SubService> searchSubServiceByName = subServiceRepository.searchSubServiceByName(serviceName);
@@ -189,7 +202,18 @@ public class SubServiceImpl implements SubServiceService {
 
     }
 
+    @Override
+    public ApiResponse<List<SubServiceResponse>> findSubServiceByCustomerAndRoom(UUID customerUuid, UUID roomUuid) {
 
+        List<SubService> findSubServiceByCustomerAndRoom = subServiceRepository.findSubServiceByCustomerAndRoom(customerUuid, roomUuid);
+
+        if(findSubServiceByCustomerAndRoom.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertList(findSubServiceByCustomerAndRoom, SubServiceResponse.class));
+
+    }
 
 
 }

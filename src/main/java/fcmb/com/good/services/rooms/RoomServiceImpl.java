@@ -5,12 +5,12 @@ import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.roomsRequest.RoomRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.productsResponse.ProductCategoryResponse;
-import fcmb.com.good.model.dto.response.productsResponse.ProductResponse;
+import fcmb.com.good.model.dto.response.roomsResponse.RoomFacilityResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomResponse;
-import fcmb.com.good.model.entity.products.Product;
+import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
 import fcmb.com.good.model.entity.rooms.RoomCategory;
 import fcmb.com.good.model.entity.rooms.Rooms;
+import fcmb.com.good.model.entity.services.SubService;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.rooms.RoomCategoryRepository;
@@ -22,8 +22,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,12 +36,13 @@ public class RoomServiceImpl implements RoomService {
     private final CustomerRepository customerRepository;
 
 
+
+    @Override
     /**
      * @Finding the list of rooms
      * @Validate the List of rooms is empty otherwise return record not found*
      * @return the list of rooms and a Success Message* *
      * * */
-    @Override
     public ApiResponse<List<RoomResponse>> getListOfRoom(int page, int size) {
         List<Rooms> roomsList = roomsRepository.findAll(PageRequest.of(page,size)).toList();
         if(roomsList.isEmpty())
@@ -111,7 +110,7 @@ public class RoomServiceImpl implements RoomService {
      * Create the room definition and get the room Optional by uuid
      * @return the list of rooms and a Success Message* *
      * * */
-    public ApiResponse<RoomResponse> getRoomById(@RequestParam("id") UUID roomId) {
+    public ApiResponse<RoomResponse> getRoomById(UUID roomId) {
         Optional<Rooms> roomsOptional = roomsRepository.findByUuid(roomId);
 
         if(roomsOptional.isEmpty())
@@ -176,9 +175,9 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public ApiResponse<List<RoomResponse>> searchSubServiceByRoomId(Integer serviceNumber) {
+    public ApiResponse<List<RoomResponse>> searchSubServiceByServiceNumber(Integer serviceNumber) {
 
-        List<Rooms> roomOptional = roomsRepository.findSub_ServiceByRoomId(serviceNumber);
+        List<Rooms> roomOptional = roomsRepository.findSubServiceByRoomId(serviceNumber);
 
         if(roomOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
@@ -186,6 +185,18 @@ public class RoomServiceImpl implements RoomService {
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertList(roomOptional,RoomResponse.class));
 
+    }
+
+    @Override
+    public ApiResponse<List<RoomResponse>> searchRoomFacilityByServiceNumber(Integer serviceNumber) {
+
+        List<Rooms> roomOptional = roomsRepository.findRoomFacilityByRoomId(serviceNumber);
+
+        if(roomOptional.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertList(roomOptional,RoomResponse.class));
     }
 
 

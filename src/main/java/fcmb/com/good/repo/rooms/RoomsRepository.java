@@ -1,6 +1,8 @@
 package fcmb.com.good.repo.rooms;
 
+import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
 import fcmb.com.good.model.entity.rooms.Rooms;
+import fcmb.com.good.model.entity.services.SubService;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -21,8 +23,14 @@ public interface RoomsRepository extends JpaRepository<Rooms, Long> {
 
     Optional<Rooms> findByServiceNumber(Integer serviceNumber);
 
-    @Query("select r.serviceNumber, r.price, s.serviceName, s.unitCost from Rooms r INNER JOIN SubService s " +
-            "ON r.id = s.id ")
-    List<Rooms> findSub_ServiceByRoomId(Integer serviceNumber);
+    @Query("SELECT r.serviceNumber, r.price, f.name, f.fileName, f.description FROM Rooms r JOIN RoomFacility f " +
+            "ON r.id = f.id ")
+    List<Rooms> findRoomFacilityByRoomId(Integer serviceNumber);
+
+    @Query("SELECT r.serviceNumber, r.price, s.serviceName, s.unitCost FROM Rooms r JOIN SubService s " +
+            "ON r.id=s.id")
+    List<Rooms> findSubServiceByRoomId(Integer serviceNumber);
+
+
 
 }

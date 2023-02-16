@@ -20,9 +20,10 @@ public interface SubServiceService {
 
     ApiResponse<String> deleteSubService(UUID subServiceId);
 
-    ApiResponse<List<SubServiceResponse>> searchSubServiceByName(String name);
+    ApiResponse<List<SubServiceResponse>> searchSubServiceByRoom(UUID roomUuid);
 
+    ApiResponse<List<SubServiceResponse>> searchSubServiceByName(String serviceName);
 
-
+    ApiResponse<List<SubServiceResponse>> findSubServiceByCustomerAndRoom(UUID customerUuid, UUID roomUuid);
 
 }

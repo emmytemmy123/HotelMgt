@@ -1,12 +1,15 @@
 package fcmb.com.good.controller.roomsControllers;
 
 
+import fcmb.com.good.model.dto.request.roomsRequest.RoomFacilityRequest;
 import fcmb.com.good.model.dto.request.roomsRequest.RoomRequest;
 import fcmb.com.good.model.dto.request.roomsRequest.RoomTypeRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
+import fcmb.com.good.model.dto.response.roomsResponse.RoomFacilityResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomTypeResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
+import fcmb.com.good.services.rooms.RoomFacilityService;
 import fcmb.com.good.services.rooms.RoomService;
 import fcmb.com.good.services.rooms.RoomCategoryService;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +33,7 @@ public class RoomController {
 
     private final RoomService roomService;
     private final RoomCategoryService roomTypeService;
-
+    private final RoomFacilityService roomFacilityService;
 
                                     //FIND_LISTS_OF_ROOMS
     @GetMapping(FIND_ROOM)
@@ -47,6 +50,13 @@ public class RoomController {
         return roomTypeService.getListOfRoomType(page,size);
     }
 
+    @GetMapping(FIND_ROOM_FACILITY)
+    @ApiOperation(value = "Endpoint for retrieving lists of roomFacility", response = RoomFacilityResponse.class, responseContainer = "List")
+    public ApiResponse<List<RoomFacilityResponse>> getListOfRoomFacility(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                         @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
+        return roomFacilityService.getListOfRoomFacility(page,size);
+    }
+
 
                                      //ADD_ROOMS
     @PostMapping(ADD_ROOM)
@@ -61,6 +71,12 @@ public class RoomController {
         return roomTypeService.addRoomType(request);
     }
 
+    @PostMapping(ADD_ROOM_FACILITY)
+    @ApiOperation(value = "Endpoint for adding new roomFacility to database", response = String.class)
+    public ApiResponse<String> addRoomFacility(@Valid @RequestBody RoomFacilityRequest request) {
+        return roomFacilityService.addRoomFacility(request);
+    }
+
 
                                         //FIND_ROOM_BY_ID
     @GetMapping(FIND_ROOM_BY_ID)
@@ -73,6 +89,12 @@ public class RoomController {
     @ApiOperation(value = "Endpoint for fetching roomType by id from database", response = RoomTypeResponse.class)
     public ApiResponse<RoomTypeResponse> getRoomTypeById(@PathVariable(value = "id") UUID room_type_id) {
         return roomTypeService.getRoomTypeById(room_type_id);
+    }
+
+    @GetMapping(FIND_ROOM_FACILITY_BY_ID)
+    @ApiOperation(value = "Endpoint for fetching roomFacility by id from database", response = RoomFacilityResponse.class)
+    public ApiResponse<RoomFacilityResponse> getRoomFacilityById(@PathVariable(value = "id") UUID roomFacilityId) {
+        return roomFacilityService.getRoomFacilityById(roomFacilityId);
     }
 
 
@@ -90,6 +112,13 @@ public class RoomController {
         return roomTypeService.updateRoomType(roomType_id, request);
     }
 
+    @PutMapping(UPDATE_ROOM_FACILITY)
+    @ApiOperation(value = "Endpoint for updating roomFacility by id from database", response = String.class)
+    public ApiResponse<String> updateRoomFacility(@PathVariable(value = "id") UUID roomFacilityId,
+                                              @RequestBody RoomFacilityRequest request) {
+        return roomFacilityService.updateRoomFacility(roomFacilityId, request);
+    }
+
 
                                         //DELETE ROOM
     @DeleteMapping(DELETE_ROOM)
@@ -104,6 +133,12 @@ public class RoomController {
         return roomTypeService.deleteRoomType(roomType_id);
     }
 
+    @DeleteMapping(DELETE_ROOM_FACILITY)
+    @ApiOperation(value = "Endpoint for deleting roomFacility by id from database", response = String.class)
+    public ApiResponse<String> deleteRoomFacility(@PathVariable(value = "id") UUID roomFacilityId) {
+        return roomFacilityService.deleteRoomFacility(roomFacilityId);
+    }
+
 
                                         //FIND_SUB_SERVICE_BY_ROOM_ID
 
@@ -112,9 +147,30 @@ public class RoomController {
     public ApiResponse<List<RoomResponse>> searchListOfSubServiceByRoomId(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
                                                                           @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
                                                                           @RequestParam Integer serviceNumber ) {
-        return roomService.searchSubServiceByRoomId(serviceNumber);
+        return roomService.searchSubServiceByServiceNumber(serviceNumber);
     }
 
+
+                                //FIND_ROOM_FACILITY_BY_ROOM_NUMBER_AND_CUSTOMER
+
+    @GetMapping(SEARCH_ROOM_FACILITY_BY_ROOM_NUMBER_AND_CUSTOMER)
+    @ApiOperation(value = "Endpoint for retrieving lists of roomFacility by RoomNumberAndCustomer", response = RoomFacilityResponse.class, responseContainer = "List")
+    public ApiResponse<List<RoomFacilityResponse>> searchListOfRoomFacilityByRoomNumber(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                            @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+                                                                            @RequestParam UUID roomUuid, @RequestParam UUID customerUuid ) {
+        return roomFacilityService.getRoomFacilityByRoomNumberAndCustomer(roomUuid, customerUuid);
+    }
+
+
+                            //FIND_ROOM_FACILITY_BY_NAME
+
+    @GetMapping(SEARCH_ROOM_FACILITY_BY_NAME)
+    @ApiOperation(value = "Endpoint for retrieving lists of roomFacility by name", response = RoomFacilityResponse.class, responseContainer = "List")
+    public ApiResponse<List<RoomFacilityResponse>> searchListOfRoomFacilityByName(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                                        @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+                                                                                        @RequestParam String name) {
+        return roomFacilityService.searchRoomFacilityByName(name);
+    }
 
 
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -160,6 +161,25 @@ public class ProductController {
                                                                         @RequestParam String name ) {
         return productService.searchProductsByName(name);
     }
+
+    @GetMapping(SEARCH_PRODUCT_PURCHASE_BY_NAME)
+    @ApiOperation(value = "Endpoint for retrieving lists of productPurchase by Name", response = ProductPurchaseResponse.class, responseContainer = "List")
+    public ApiResponse<List<ProductPurchaseResponse>> searchListOfProductPurchaseByName(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                        @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+                                                                        @RequestParam String name ) {
+        return productPurchaseService.searchProductPurchaseByName(name);
+    }
+
+    @GetMapping(SEARCH_PRODUCT_PURCHASE_BY_DATE_RANGE)
+    @ApiOperation(value = "Endpoint for retrieving lists of productPurchase by dateRange", response = ProductPurchaseResponse.class, responseContainer = "List")
+    public ApiResponse<List<ProductPurchaseResponse>> searchListOfProductPurchaseByDateRange
+            (@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+             @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+             @RequestParam LocalDateTime dateCreated,
+             @RequestParam LocalDateTime lastModified) {
+        return productPurchaseService.findByDateCreatedBetween(dateCreated, lastModified);
+    }
+
 
                                                 //UPDATE_PRODUCTS
     @PutMapping(UPDATE_PRODUCT_ORDER_ITEMS)

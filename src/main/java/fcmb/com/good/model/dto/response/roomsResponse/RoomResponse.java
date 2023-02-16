@@ -17,7 +17,7 @@ public class RoomResponse extends BaseDto {
 
     // private UUID roomCategory;
 
-     private Integer roomNumber;
+     private Integer serviceNumber;
 
      private String description;
 
@@ -32,6 +32,17 @@ public class RoomResponse extends BaseDto {
      private String photo;
 
      //private UUID createdBy;
+
+     private String serviceName;
+
+     private Double unitCost;
+
+     private String name;
+
+     private String fileName;
+
+
+
 
 
 

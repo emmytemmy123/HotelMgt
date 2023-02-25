@@ -3,6 +3,9 @@ package fcmb.com.good.model.listener;
 import fcmb.com.good.model.entity.assets.Assets;
 import fcmb.com.good.model.entity.assets.AssetsCategory;
 import fcmb.com.good.model.entity.assets.DamagedAssets;
+import fcmb.com.good.model.entity.kitchen.Kitchen;
+import fcmb.com.good.model.entity.kitchen.KitchenCategory;
+import fcmb.com.good.model.entity.kitchen.KitchenOrder;
 import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.model.entity.others.Hotel;
 import fcmb.com.good.model.entity.products.*;
@@ -101,8 +104,8 @@ public class BaseListener {
             Expenses expenses = (Expenses) data;
             expenses.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof MaintenanceRequest){
-            MaintenanceRequest maintenanceRequest = (MaintenanceRequest) data;
+        else if(data instanceof Maintenance){
+            Maintenance maintenanceRequest = (Maintenance) data;
             maintenanceRequest.setUuid(UUID.randomUUID());
         }
         else if(data instanceof Payment){
@@ -149,6 +152,38 @@ public class BaseListener {
             RoomFacility roomFacility = (RoomFacility) data;
             roomFacility.setUuid(UUID.randomUUID());
         }
+
+        else if(data instanceof Kitchen){
+            Kitchen kitchen = (Kitchen) data;
+            kitchen.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof KitchenCategory){
+            KitchenCategory kitchenCategory = (KitchenCategory) data;
+            kitchenCategory.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof KitchenOrder){
+            KitchenOrder kitchenRequest = (KitchenOrder) data;
+            kitchenRequest.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof ExpenseCategory){
+            ExpenseCategory expenseCategory = (ExpenseCategory) data;
+            expenseCategory.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof MaintenanceCategory){
+            MaintenanceCategory maintenanceCategory = (MaintenanceCategory) data;
+            maintenanceCategory.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof PaymentCategory){
+            PaymentCategory paymentCategory = (PaymentCategory) data;
+            paymentCategory.setUuid(UUID.randomUUID());
+        }
+
+
 
     }
 

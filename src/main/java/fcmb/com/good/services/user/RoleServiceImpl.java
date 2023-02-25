@@ -25,6 +25,11 @@ public class RoleServiceImpl implements RoleService {
     private final RoleRepository roleRepository;
 
     @Override
+    /**
+     * @Finding the list of Role
+     * @Validate if the List of Role is empty otherwise return record not found
+     * @return the list of Role and a Success Message*
+     * * */
     public ApiResponse<List<RoleResponse>> getListOfRoles(int page, int size) {
         List<Role> roleList = roleRepository.findAll(PageRequest.of(page,size)).toList();
         if(roleList.isEmpty())
@@ -35,7 +40,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public ApiResponse<String> addRole(@RequestBody RoleRequest request) {
+    /**
+     * @Validate that no duplicate role is allowed*
+     * @Validate that role exists otherwise return record not found*
+     * Create role definition and save
+     * @return success message
+     * * */
+    public ApiResponse<String> addRole(RoleRequest request) {
         Role role = Mapper.convertObject(request,Role.class);
         roleRepository.save(role);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
@@ -43,7 +54,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public ApiResponse<RoleResponse> getRolesById(@RequestParam("id") UUID roleId) {
+    /**
+     * @Finding the list of RoleOptional by uuid*
+     * @Validate if the List of RoleOptional is empty otherwise return record not found
+     * Create the Role definition and get the customer
+     * @return the list of Role and a Success Message
+     * * */
+    public ApiResponse<RoleResponse> getRolesById( UUID roleId) {
         Optional<Role> roleOptional = roleRepository.findByUuid(roleId);
         if(roleOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
@@ -54,6 +71,12 @@ public class RoleServiceImpl implements RoleService {
                 Mapper.convertObject(role,RoleResponse.class));
     }
 
+
+    /**
+     * @validating RoleOptional by uuid
+     * @Validate if the List of Role is empty otherwise return record not found
+     * @return RoleOptional
+     * * */
     private Role validateRole(UUID uuid){
         Optional<Role> role = roleRepository.findByUuid(uuid);
         if(role.isEmpty())
@@ -62,7 +85,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public ApiResponse<String> updateRole(UUID roleId, @RequestBody RoleRequest request) {
+    /**
+     * @validating roleOptional by uuid
+     * @Validate if the List of role is empty otherwise return record not found
+     * Create the role definition and update
+     * @return a Success Message
+     * * */
+    public ApiResponse<String> updateRole(UUID roleId, RoleRequest request) {
         Role role = validateRole(roleId);
         role.setDepartment(request.getDepartment());
 
@@ -73,7 +102,13 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public ApiResponse<String> deleteRole(@RequestParam("id") UUID roleId) {
+    /**
+     * @validating role by uuid
+     * @Validate if role is empty otherwise return record not found
+     * @Delete role
+     * @return a Success Message
+     * * */
+    public ApiResponse<String> deleteRole(UUID roleId) {
       Role role = validateRole(roleId);
       roleRepository.delete(role);
       return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),

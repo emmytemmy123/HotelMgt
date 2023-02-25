@@ -19,6 +19,7 @@ public interface ServiceRequestService {
 
     ApiResponse<String> deleteServiceRequest(UUID serviceRequestId);
 
+    ApiResponse<List<ServiceRequestResponse>> searchServiceRequestByName(String serviceName);
 
 
 }

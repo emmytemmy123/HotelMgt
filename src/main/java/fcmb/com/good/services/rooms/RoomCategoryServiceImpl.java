@@ -50,7 +50,7 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
      * Create the room definition and save
      * @return success message
      * * */
-    public ApiResponse<String> addRoomType(@RequestBody RoomTypeRequest request) {
+    public ApiResponse<String> addRoomType( RoomTypeRequest request) {
 
         Optional<RoomCategory> roomCategoryOptional = validateDuplicateRoomType(request.getCategory());
 
@@ -111,7 +111,7 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
      * Create the roomCategory definition and get the roomCategoryOptional by uuid
      * @return the list of roomCategory and a Success Message
      * * */
-    public ApiResponse<RoomTypeResponse> getRoomTypeById(@RequestParam("id") UUID roomTypeId) {
+    public ApiResponse<RoomTypeResponse> getRoomTypeById( UUID roomTypeId) {
         Optional<RoomCategory> roomCategoryOptional = roomCategoryRepository.findByUuid(roomTypeId);
 
         if(roomCategoryOptional.isEmpty())
@@ -142,7 +142,7 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
      * Create the roomCategory definition and update
      * @return a Success Message
      * * */
-    public ApiResponse<String> updateRoomType(UUID roomTypeId, @RequestBody RoomTypeRequest request) {
+    public ApiResponse<String> updateRoomType(UUID roomTypeId, RoomTypeRequest request) {
 
         RoomCategory roomCategory = validateRoomType(roomTypeId);
 

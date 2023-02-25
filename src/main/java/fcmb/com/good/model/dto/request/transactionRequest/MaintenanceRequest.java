@@ -1,46 +1,58 @@
 package fcmb.com.good.model.dto.request.transactionRequest;
 
-import fcmb.com.good.model.dto.BaseDto;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import java.util.Date;
+import java.util.UUID;
+
 import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 
 @Data
-public class MaintenanceRequestRequest  {
+public class MaintenanceRequest {
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       private String maintenance_category;
+       private String category;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       private Long asset_id;
+       private String name;
+
+       @NotNull(message = INVALID_NAME)
+       @NotEmpty(message = INVALID_NAME)
+       private String description;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
        private String comment;
 
        @NotNull(message = INVALID_NAME)
-       @NotEmpty(message = INVALID_NAME)
-       private String quantity;
+//       @NotEmpty(message = INVALID_NAME)
+       private Integer quantity;
 
        @NotNull(message = INVALID_NAME)
-       @NotEmpty(message = INVALID_NAME)
+//       @NotEmpty(message = INVALID_NAME)
        private Double cost;
+
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
        private String status;
 
        @NotNull(message = INVALID_NAME)
-       @NotEmpty(message = INVALID_NAME)
-       private String requested_by;
+       private UUID createdById;
 
        @NotNull(message = INVALID_NAME)
-       @NotEmpty(message = INVALID_NAME)
-       private String maintained_by;
+       private UUID currentEmployeeId;
+
+       @NotNull(message = INVALID_NAME)
+       private UUID currentMaintenanceCategoryId;
+
+       @NotNull(message = INVALID_NAME)
+//       @NotEmpty(message = INVALID_NAME)
+       private Date dateMaintained;
 
 }

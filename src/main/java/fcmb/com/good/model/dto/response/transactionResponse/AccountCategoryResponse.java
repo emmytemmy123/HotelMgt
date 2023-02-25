@@ -9,5 +9,7 @@ public class AccountCategoryResponse extends BaseDto {
 
      private String code;
      private String currency;
+     private String accountType;
+     private String postedBy;
 
 }

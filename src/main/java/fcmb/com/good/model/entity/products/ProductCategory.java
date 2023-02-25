@@ -20,9 +20,6 @@ public class ProductCategory extends BaseEntity {
 
     private String name;
 
-//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "products_id", insertable = false, updatable = false)
-//    private Products products;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdBy_id", updatable = true)

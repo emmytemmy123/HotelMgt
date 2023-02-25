@@ -5,11 +5,13 @@ import fcmb.com.good.model.dto.request.transactionRequest.*;
 import fcmb.com.good.model.dto.request.transactionRequest.ExpenseRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.*;
+import fcmb.com.good.model.entity.transaction.PaymentCategory;
 import fcmb.com.good.services.transaction.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import java.util.List;
@@ -27,12 +29,14 @@ public class TransactionController {
 
     private final AccountCategoryService accountCategoryService;
     private final AccountChartService accountChartService;
-    private final BookingReminderService bookingReminderService;
     private final BookingService bookingService;
-    private final ExpenseRequestService expenseRequestService;
+//    private final ExpenseRequestService expenseRequestService;
     private final ExpenseService expenseService;
     private final MaintenanceService maintenanceService;
     private final PaymentService paymentService;
+    private final ExpenseCategoryService expenseCategoryService;
+    private final MaintenanceCategoryService maintenanceCategoryService;
+    private final PaymentCategoryService paymentCategoryService;
 
 
                                             //FIND_LISTS_OF_TRANSACTIONS
@@ -50,11 +54,11 @@ public class TransactionController {
         return accountChartService.getListOfAccountChart(page, size);
     }
 
-    @GetMapping(FIND_BOOKING_REMINDER)
-    @ApiOperation(value = "Endpoint for retrieving lists of bookingReminder", response = BookingReminderResponse.class, responseContainer = "List")
-    public ApiResponse<List<BookingReminderResponse>> getListOfBookingReminder(@RequestParam(value = PAGE, defaultValue = PAGE_DEFAULT) int page,
+    @GetMapping(FIND_EXPENSE_CATEGORY)
+    @ApiOperation(value = "Endpoint for retrieving lists of expenseCategory", response = ExpenseCategoryResponse.class, responseContainer = "List")
+    public ApiResponse<List<ExpenseCategoryResponse>> getListOfExpenseCategory(@RequestParam(value = PAGE, defaultValue = PAGE_DEFAULT) int page,
                                                                                @RequestParam(value = SIZE, defaultValue = SIZE_DEFAULT) int size) {
-        return bookingReminderService.getListOfBookingReminder(page, size);
+        return expenseCategoryService.getListOfExpenseCategory(page, size);
     }
 
     @GetMapping(FIND_BOOKING)
@@ -64,11 +68,11 @@ public class TransactionController {
         return bookingService.getListOfBooking(page, size);
     }
 
-    @GetMapping(FIND_EXPENSE_REQUEST)
-    @ApiOperation(value = "Endpoint for retrieving lists of expenseRequest", response = ExpenseRequestResponse.class, responseContainer = "List")
-    public ApiResponse<List<ExpenseRequestResponse>> getListOfExpenseRequest(@RequestParam(value = PAGE, defaultValue = PAGE_DEFAULT) int page,
+    @GetMapping(FIND_MAINTENANCE_CATEGORY)
+    @ApiOperation(value = "Endpoint for retrieving lists of maintenanceCategory", response = MaintenanceCategoryResponse.class, responseContainer = "List")
+    public ApiResponse<List<MaintenanceCategoryResponse>> getListOfExpenseRequest(@RequestParam(value = PAGE, defaultValue = PAGE_DEFAULT) int page,
                                                                              @RequestParam(value = SIZE, defaultValue = SIZE_DEFAULT) int size) {
-        return expenseRequestService.getListOfExpenseRequest(page, size);
+        return maintenanceCategoryService.getListOfMaintenanceCategory(page, size);
     }
 
     @GetMapping(FIND_EXPENSES)
@@ -78,11 +82,11 @@ public class TransactionController {
         return expenseService.getListOfExpense(page, size);
     }
 
-    @GetMapping(FIND_MAINTENANCE_REQUEST)
+    @GetMapping(FIND_MAINTENANCE)
     @ApiOperation(value = "Endpoint for retrieving lists of maintenanceRequest", response = MaintenanceResponse.class, responseContainer = "List")
     public ApiResponse<List<MaintenanceResponse>> getListOfMaintenanceRequest(@RequestParam(value = PAGE, defaultValue = PAGE_DEFAULT) int page,
                                                                               @RequestParam(value = SIZE, defaultValue = SIZE_DEFAULT) int size) {
-        return maintenanceService.getListOfMaintenanceRequest(page, size);
+        return maintenanceService.getListOfMaintenance(page, size);
     }
 
     @GetMapping(FIND_PAYMENT)
@@ -91,6 +95,14 @@ public class TransactionController {
                                                                @RequestParam(value = SIZE, defaultValue = SIZE_DEFAULT) int size) {
         return paymentService.getListOfPayment(page, size);
     }
+
+    @GetMapping(FIND_PAYMENT_CATEGORY)
+    @ApiOperation(value = "Endpoint for retrieving lists of paymentCategory", response = PaymentCategoryResponse.class, responseContainer = "List")
+    public ApiResponse<List<PaymentCategoryResponse>> getListOfPaymentCategory(@RequestParam(value = PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                               @RequestParam(value = SIZE, defaultValue = SIZE_DEFAULT) int size) {
+        return paymentCategoryService.getListOfPaymentCategory(page, size);
+    }
+
 
 
                                              //ADD_TRANSACTIONS
@@ -106,22 +118,22 @@ public class TransactionController {
         return accountChartService.addAccountChart(request);
     }
 
-    @PostMapping(ADD_BOOKING_REMINDER)
-    @ApiOperation(value = "Endpoint for adding new bookingReminder to database", response = String.class)
-    public ApiResponse<String> addBookingReminder(@Valid @RequestBody BookingReminderRequest request) {
-        return bookingReminderService.addBookingReminder(request);
+    @PostMapping(ADD_EXPENSE_CATEGORY)
+    @ApiOperation(value = "Endpoint for adding new ExpenseCategory to database", response = String.class)
+    public ApiResponse<String> addExpenseCategory(@Valid @RequestBody ExpenseCategoryRequest request) {
+        return expenseCategoryService.addExpenseCategory(request);
     }
 
     @PostMapping(ADD_BOOKING)
     @ApiOperation(value = "Endpoint for adding new booking to database", response = String.class)
-    public ApiResponse<String> addBooking(@Valid @RequestBody BookingRequest request) {
+    public ApiResponse<String> addBooking(@Valid @RequestBody BookingRequest request) throws MessagingException {
         return bookingService.addBooking(request);
     }
 
-    @PostMapping(ADD_EXPENSE_REQUEST)
-    @ApiOperation(value = "Endpoint for adding new expenseRequest to database", response = String.class)
-    public ApiResponse<String> addExpenseRequest(@Valid @RequestBody ExpenseRequestRequest request) {
-        return expenseRequestService.addExpenseRequest(request);
+    @PostMapping(ADD_MAINTENANCE_CATEGORY)
+    @ApiOperation(value = "Endpoint for adding new maintenanceCategory to database", response = String.class)
+    public ApiResponse<String> addMaintenanceCategory(@Valid @RequestBody MaintenanceCategoryRequest request) {
+        return maintenanceCategoryService.addMaintenanceCategory(request);
     }
 
     @PostMapping(ADD_EXPENSES)
@@ -130,16 +142,22 @@ public class TransactionController {
         return expenseService.addExpense(request);
     }
 
-    @PostMapping(ADD_MAINTENANCE_REQUEST)
+    @PostMapping(ADD_MAINTENANCE)
     @ApiOperation(value = "Endpoint for adding new maintenanceRequest to database", response = String.class)
-    public ApiResponse<String> addMaintenanceRequest(@Valid @RequestBody MaintenanceRequestRequest request) {
-        return maintenanceService.addMaintenanceRequest(request);
+    public ApiResponse<String> addMaintenanceRequest(@Valid @RequestBody MaintenanceRequest request) {
+        return maintenanceService.addMaintenance(request);
     }
 
     @PostMapping(ADD_PAYMENT)
     @ApiOperation(value = "Endpoint for adding new payment to database", response = String.class)
     public ApiResponse<String> addPayment(@Valid @RequestBody PaymentRequest request) {
         return paymentService.addPayment(request);
+    }
+
+    @PostMapping(ADD_PAYMENT_CATEGORY)
+    @ApiOperation(value = "Endpoint for adding new paymentCategory to database", response = String.class)
+    public ApiResponse<String> addPaymentCategory(@Valid @RequestBody PaymentCategoryRequest request) {
+        return paymentCategoryService.addPaymentCategory(request);
     }
 
 
@@ -157,10 +175,10 @@ public class TransactionController {
         return accountChartService.getAccountChartById(accountChart_id);
     }
 
-    @GetMapping(FIND_BOOKING_REMINDER_BY_ID)
-    @ApiOperation(value = "Endpoint for fetching bookingReminder by id from database", response = BookingReminderResponse.class)
-    public ApiResponse<BookingReminderResponse> getBookingReminderById(@PathVariable(value = "id") UUID bookingReminder_id) {
-        return bookingReminderService.getBookingReminderById(bookingReminder_id);
+    @GetMapping(FIND_EXPENSE_CATEGORY_BY_ID)
+    @ApiOperation(value = "Endpoint for fetching ExpenseCategory by id from database", response = ExpenseCategoryResponse.class)
+    public ApiResponse<ExpenseCategoryResponse> getExpenseCategoryById(@PathVariable(value = "id") UUID expenseCategoryId) {
+        return expenseCategoryService.getExpenseCategoryById(expenseCategoryId);
     }
 
     @GetMapping(FIND_BOOKING_BY_ID)
@@ -169,10 +187,10 @@ public class TransactionController {
         return bookingService.getBookingById(booking_id);
     }
 
-    @GetMapping(FIND_EXPENSE_REQUEST_BY_ID)
-    @ApiOperation(value = "Endpoint for fetching expenseRequest by id from database", response = ExpenseRequestResponse.class)
-    public ApiResponse<ExpenseRequestResponse> getExpenseRequestById(@PathVariable(value = "id") UUID expenseRequest_id) {
-        return expenseRequestService.getExpenseRequestById(expenseRequest_id);
+    @GetMapping(FIND_MAINTENANCE_CATEGORY_BY_ID)
+    @ApiOperation(value = "Endpoint for fetching maintenanceCategory by id from database", response = MaintenanceCategoryResponse.class)
+    public ApiResponse<MaintenanceCategoryResponse> getMaintenanceCategoryById(@PathVariable(value = "id") UUID maintenanceCategoryId) {
+        return maintenanceCategoryService.getMaintenanceCategoryById(maintenanceCategoryId);
     }
 
     @GetMapping(FIND_EXPENSES_BY_ID)
@@ -181,10 +199,10 @@ public class TransactionController {
         return expenseService.getExpenseById(expense_id);
     }
 
-    @GetMapping(FIND_MAINTENANCE_REQUEST_BY_ID)
+    @GetMapping(FIND_MAINTENANCE_BY_ID)
     @ApiOperation(value = "Endpoint for fetching maintenanceRequest by id from database", response = MaintenanceResponse.class)
     public ApiResponse<MaintenanceResponse> getMaintenanceRequestById(@PathVariable(value = "id") UUID maintenance_id) {
-        return maintenanceService.getMaintenanceRequestById(maintenance_id);
+        return maintenanceService.getMaintenanceById(maintenance_id);
     }
 
     @GetMapping(FIND_PAYMENT_BY_ID)
@@ -193,6 +211,11 @@ public class TransactionController {
         return paymentService.getPaymentById(payment_id);
     }
 
+    @GetMapping(FIND_PAYMENT_CATEGORY_BY_ID)
+    @ApiOperation(value = "Endpoint for fetching paymentCategory by id from database", response = PaymentCategoryResponse.class)
+    public ApiResponse<PaymentCategoryResponse> getPaymentCategoryById(@PathVariable(value = "id") UUID paymentCategory_id) {
+        return paymentCategoryService.getPaymentCategoryById(paymentCategory_id);
+    }
 
 
                                             //UPDATE_USERS
@@ -210,11 +233,11 @@ public class TransactionController {
         return accountChartService.updateAccountChart(accountChart_id, request);
     }
 
-    @PutMapping(UPDATE_BOOKING_REMINDER)
-    @ApiOperation(value = "Endpoint for updating bookingReminder by id from database", response = String.class)
-    public ApiResponse<String> updateBookingReminder(@PathVariable(value = "id") UUID bookingReminder_id,
-                                                     @RequestBody BookingReminderRequest request) {
-        return bookingReminderService.updateBookingReminder(bookingReminder_id, request);
+    @PutMapping(UPDATE_EXPENSE_CATEGORY)
+    @ApiOperation(value = "Endpoint for updating ExpenseCategory by id from database", response = String.class)
+    public ApiResponse<String> updateExpenseCategory(@PathVariable(value = "id") UUID expenseCategoryId,
+                                                     @RequestBody ExpenseCategoryRequest request) {
+        return expenseCategoryService.updateExpenseCategory(expenseCategoryId, request);
     }
 
     @PutMapping(UPDATE_BOOKING)
@@ -224,11 +247,11 @@ public class TransactionController {
         return bookingService.updateBooking(booking_id, request);
     }
 
-    @PutMapping(UPDATE_EXPENSE_REQUEST)
-    @ApiOperation(value = "Endpoint for updating expenseRequest by id from database", response = String.class)
-    public ApiResponse<String> updateExpenseRequest(@PathVariable(value = "id") UUID expenseRequest_id,
-                                                    @RequestBody ExpenseRequestRequest request) {
-        return expenseRequestService.updateExpenseRequest(expenseRequest_id, request);
+    @PutMapping(UPDATE_MAINTENANCE_CATEGORY)
+    @ApiOperation(value = "Endpoint for updating maintenanceCategory by id from database", response = String.class)
+    public ApiResponse<String> updateMaintenanceCategory(@PathVariable(value = "id") UUID maintenanceCategoryId,
+                                                    @RequestBody MaintenanceCategoryRequest request) {
+        return maintenanceCategoryService.updateMaintenanceCategory(maintenanceCategoryId, request);
     }
 
     @PutMapping(UPDATE_EXPENSES)
@@ -238,11 +261,11 @@ public class TransactionController {
         return expenseService.updateExpense(expenses_id, request);
     }
 
-    @PutMapping(UPDATE_MAINTENANCE_REQUEST)
+    @PutMapping(UPDATE_MAINTENANCE)
     @ApiOperation(value = "Endpoint for updating maintenanceRequest by id from database", response = String.class)
     public ApiResponse<String> updateMaintenanceRequest(@PathVariable(value = "id") UUID maintenanceRequest_id,
-                                                        @RequestBody MaintenanceRequestRequest request) {
-        return maintenanceService.updateMaintenanceRequest(maintenanceRequest_id, request);
+                                                        @RequestBody MaintenanceRequest request) {
+        return maintenanceService.updateMaintenance(maintenanceRequest_id, request);
     }
 
     @PutMapping(UPDATE_PAYMENT)
@@ -250,6 +273,13 @@ public class TransactionController {
     public ApiResponse<String> updatePayment(@PathVariable(value = "id") UUID payment_id,
                                              @RequestBody PaymentRequest request) {
         return paymentService.updatePayment(payment_id, request);
+    }
+
+    @PutMapping(UPDATE_PAYMENT_CATEGORY)
+    @ApiOperation(value = "Endpoint for updating paymentCategory by id from database", response = String.class)
+    public ApiResponse<String> updatePaymentCategory(@PathVariable(value = "id") UUID paymentCategory_id,
+                                             @RequestBody PaymentCategoryRequest request) {
+        return paymentCategoryService.updatePaymentCategory(paymentCategory_id, request);
     }
 
 
@@ -267,10 +297,10 @@ public class TransactionController {
         return accountChartService.deleteAccountChart(accountChart_id);
     }
 
-    @DeleteMapping(DELETE_BOOKING_REMINDER)
-    @ApiOperation(value = "Endpoint for deleting bookingReminder by id from database", response = String.class)
-    public ApiResponse<String> deleteBookingReminder(@PathVariable(value = "id") UUID bookingReminder_id) {
-        return bookingReminderService.deleteBookingReminder(bookingReminder_id);
+    @DeleteMapping(DELETE_EXPENSE_CATEGORY)
+    @ApiOperation(value = "Endpoint for deleting ExpenseCategory by id from database", response = String.class)
+    public ApiResponse<String> deleteExpenseCategory(@PathVariable(value = "id") UUID expenseCategoryId) {
+        return expenseCategoryService.deleteExpenseCategory(expenseCategoryId);
     }
 
     @DeleteMapping(DELETE_BOOKING)
@@ -279,10 +309,10 @@ public class TransactionController {
         return bookingService.deleteBooking(booking_id);
     }
 
-    @DeleteMapping(DELETE_EXPENSE_REQUEST)
-    @ApiOperation(value = "Endpoint for deleting expenseRequest by id from database", response = String.class)
-    public ApiResponse<String> deleteExpenseRequest(@PathVariable(value = "id") UUID expenseRequest_id) {
-        return expenseRequestService.deleteExpenseRequest(expenseRequest_id);
+    @DeleteMapping(DELETE_MAINTENANCE_CATEGORY)
+    @ApiOperation(value = "Endpoint for deleting maintenanceCategory by id from database", response = String.class)
+    public ApiResponse<String> deleteMaintenanceCategory(@PathVariable(value = "id") UUID maintenanceCategoryId) {
+        return maintenanceCategoryService.deleteMaintenanceCategory(maintenanceCategoryId);
     }
 
     @DeleteMapping(DELETE_EXPENSES)
@@ -291,10 +321,10 @@ public class TransactionController {
         return expenseService.deleteExpense(expense_id);
     }
 
-    @DeleteMapping(DELETE_MAINTENANCE_REQUEST)
+    @DeleteMapping(DELETE_MAINTENANCE)
     @ApiOperation(value = "Endpoint for deleting maintenanceRequest by id from database", response = String.class)
     public ApiResponse<String> deleteUser(@PathVariable(value = "id") UUID maintenance_id) {
-        return maintenanceService.deleteMaintenanceRequest(maintenance_id);
+        return maintenanceService.deleteMaintenance(maintenance_id);
     }
 
     @DeleteMapping(DELETE_PAYMENT)
@@ -302,6 +332,24 @@ public class TransactionController {
     public ApiResponse<String> deletePayment(@PathVariable(value = "id") UUID payment_id) {
         return paymentService.deletePayment(payment_id);
     }
+
+    @DeleteMapping(DELETE_PAYMENT_CATEGORY)
+    @ApiOperation(value = "Endpoint for deleting paymentCategory by id from database", response = String.class)
+    public ApiResponse<String> deletePaymentCategory(@PathVariable(value = "id") UUID paymentCategory_id) {
+        return paymentCategoryService.deletePaymentCategory(paymentCategory_id);
+    }
+
+
+                                    //FIND_LISTS_OF_EXPENSES_BY_NAME
+    @GetMapping(FIND_EXPENSES_BY_NAME_AND_CATEGORY)
+    @ApiOperation(value = "Endpoint for retrieving lists of expenses by name and category", response = ExpenseResponse.class, responseContainer = "List")
+    public ApiResponse<List<ExpenseResponse>> getListOfExpense(@RequestParam(value = PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                               @RequestParam(value = SIZE, defaultValue = SIZE_DEFAULT) int size,
+                                                               @RequestParam String name) {
+        return expenseService.searchExpenseByNameAndCategory(name);
+    }
+
+
 
 
 

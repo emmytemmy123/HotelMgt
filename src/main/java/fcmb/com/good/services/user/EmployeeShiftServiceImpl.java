@@ -28,6 +28,11 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
 
 
     @Override
+    /**
+     * @Finding the list of EmployeeShift
+     * @Validate if the List of EmployeeShift is empty otherwise return record not found
+     * @return the list of EmployeeShift and a Success Message*
+     * * */
     public ApiResponse<List<EmployeeShiftResponse>> getListOfEmployeeShift(int page, int size) {
         List<EmployeeShift> employeeShiftList = employeeShiftRepository.findAll(PageRequest.of(page,size)).toList();
 
@@ -41,6 +46,12 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
 
 
     @Override
+    /**
+     * @Validate that no duplicate EmployeeShift is allowed*
+     * @Validate that EmployeeShift exists otherwise return record not found*
+     * Create EmployeeShift definition and save
+     * @return success message
+     * * */
     public ApiResponse<String> addEmployeeShift(@RequestBody EmployeeShiftRequest request) {
         EmployeeShift employeeShift = Mapper.convertObject(request,EmployeeShift.class);
         employeeShiftRepository.save(employeeShift);
@@ -50,6 +61,12 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
 
 
     @Override
+    /**
+     * @Finding the list of EmployeeShiftOptional by uuid*
+     * @Validate if the List of EmployeeShiftOptional is empty otherwise return record not found
+     * Create the EmployeeShift definition and get the customer
+     * @return the list of EmployeeShift and a Success Message
+     * * */
     public  ApiResponse<EmployeeShiftResponse> getEmployeeShiftById(@RequestParam("id") UUID employeeShiftId) {
         Optional<EmployeeShift> employeeShiftOptional = employeeShiftRepository.findByUuid(employeeShiftId);
 
@@ -64,6 +81,11 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
     }
 
 
+    /**
+     * @validating EmployeeShiftOptional by uuid
+     * @Validate if the List of EmployeeShift is empty otherwise return record not found
+     * @return EmployeeShiftOptional
+     * * */
     private EmployeeShift validateEmployeeShift(UUID uuid){
         Optional<EmployeeShift> employeeShift = employeeShiftRepository.findByUuid(uuid);
 
@@ -74,6 +96,12 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
     }
 
     @Override
+    /**
+     * @validating EmployeeShiftOptional by uuid
+     * @Validate if the List of EmployeeShift is empty otherwise return record not found
+     * Create the EmployeeShift definition and update
+     * @return a Success Message
+     * * */
     public ApiResponse<String> updateEmployeeShift(UUID employeeShiftId, @RequestBody EmployeeShiftRequest request) {
         EmployeeShift employeeShifty = validateEmployeeShift(employeeShiftId);
         employeeShifty.setDesignation(request.getDesignation());
@@ -88,6 +116,12 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
 
 
     @Override
+    /**
+     * @validating EmployeeShift by uuid
+     * @Validate if EmployeeShift is empty otherwise return record not found
+     * @Delete EmployeeShift
+     * @return a Success Message
+     * * */
     public  ApiResponse<String> deleteEmployeeShift(UUID employeeShiftId) {
         EmployeeShift employeeShift = validateEmployeeShift(employeeShiftId);
         employeeShiftRepository.delete(employeeShift);

@@ -20,11 +20,15 @@ import java.util.Date;
 @Table(name = "booking")
 public class Booking extends BaseEntity {
 
+    private String category;
+    private String roomNo;
     private Double price;
-    private Date check_in_date;
-    private Date check_out_date;
+    private Integer bookedNo;
+    private Date checkInDate;
+    private Date checkOutDate;
     private Integer night;
-    private Double amount;
+    private Double totalAmount;
+    private String bookedBy;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "customerId", insertable = true )

@@ -23,13 +23,6 @@ public interface RoomsRepository extends JpaRepository<Rooms, Long> {
 
     Optional<Rooms> findByServiceNumber(Integer serviceNumber);
 
-    @Query("SELECT r.serviceNumber, r.price, f.name, f.fileName, f.description FROM Rooms r JOIN RoomFacility f " +
-            "ON r.id = f.id ")
-    List<Rooms> findRoomFacilityByRoomId(Integer serviceNumber);
-
-    @Query("SELECT r.serviceNumber, r.price, s.serviceName, s.unitCost FROM Rooms r JOIN SubService s " +
-            "ON r.id=s.id")
-    List<Rooms> findSubServiceByRoomId(Integer serviceNumber);
 
 
 

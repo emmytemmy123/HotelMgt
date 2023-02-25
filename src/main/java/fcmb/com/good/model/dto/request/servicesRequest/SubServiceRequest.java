@@ -20,13 +20,6 @@ public class SubServiceRequest {
 //    @NotEmpty(message = INVALID_NAME)
     private Double unitCost;
 
-    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-    private Double amount;
-
-    @NotNull(message = INVALID_NAME)
-    @NotEmpty(message = INVALID_NAME)
-    private String paymentStatus;
 
     @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)

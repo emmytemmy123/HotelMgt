@@ -23,7 +23,9 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class ProductOrderItemsServiceImpl implements ProductOrderItemsService {
+
     private  final ProductOrderItemsRepository productOrderItemsRepository;
+
 
     @Override
     public ApiResponse<List<ProductOrderItemsResponse>> getListOfProductOrderItems(int page, int size) {
@@ -66,9 +68,7 @@ public class ProductOrderItemsServiceImpl implements ProductOrderItemsService {
                                                                           @RequestBody ProductOrderItemsRequest request) {
         Optional<ProductOrderItems> productOrderItems = productOrderItemsRepository.findByUuid(productOderItemsId);
         ProductOrderItems productOrderItems1 = validateProductOrderItems(productOderItemsId);
-        productOrderItems1.setProduct_id(request.getProduct_id());
-        productOrderItems1.setProduct_order_id(request.getProduct_order_id());
-        productOrderItems1.setProduct_name(request.getProduct_name());
+        productOrderItems1.setProductName(request.getProduct_name());
         productOrderItems1.setQuantity(request.getQuantity());
         productOrderItems1.setPrice(request.getPrice());
 

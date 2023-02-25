@@ -23,7 +23,10 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
+
     private  final DocumentRepository documentRepository;
+
+
 
     @Override
     public ApiResponse<List<DocumentResponse>> getListOfDocument(int page, int size) {
@@ -36,7 +39,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public ApiResponse<String> addDocument(@RequestBody DocumentRequest request) {
+    public ApiResponse<String> addDocument(DocumentRequest request) {
         Document document = Mapper.convertObject(request,Document.class);
         document=documentRepository.save(document);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
@@ -44,7 +47,7 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public ApiResponse<DocumentResponse> getDocumentById(@RequestParam("id") UUID documentId) {
+    public ApiResponse<DocumentResponse> getDocumentById(UUID documentId) {
         Optional<Document> document = documentRepository.findByUuid(documentId);
 
         if(document.isEmpty())

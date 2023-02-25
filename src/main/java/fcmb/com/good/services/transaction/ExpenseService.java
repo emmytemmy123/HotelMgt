@@ -4,6 +4,7 @@ import fcmb.com.good.model.dto.request.transactionRequest.ExpenseRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.ExpenseResponse;
 import fcmb.com.good.model.entity.transaction.Expenses;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,6 +22,7 @@ public interface ExpenseService {
 
     ApiResponse<String>deleteExpense(UUID expenseId);
 
+    ApiResponse<List<ExpenseResponse>> searchExpenseByNameAndCategory(String query);
 
 
 

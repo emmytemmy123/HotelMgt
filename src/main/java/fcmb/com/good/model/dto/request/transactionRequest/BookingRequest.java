@@ -15,34 +15,34 @@ public class BookingRequest  {
 
       @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
-      private UUID customer_id;
+      private UUID customerId;
 
       @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
-      private UUID room_id;
+      private UUID roomId;
 
       @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
       private UUID roomCategoryId;
 
-      @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
-      private Double price;
+//      @NotNull(message = INVALID_NAME)
+////      @NotEmpty(message = INVALID_NAME)
+//      private Double price;
 
       @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
-      private Date check_in_date;
+      private Date checkInDate;
 
       @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
-      private Date check_out_date;
+      private Date checkOutDate;
 
       @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
       private Integer night;
 
-//      @NotNull(message = INVALID_NAME)
+      @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
-//      private Double amount;
+      private Integer bookedNo;
 
 }

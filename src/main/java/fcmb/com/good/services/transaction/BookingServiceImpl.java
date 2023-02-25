@@ -14,6 +14,7 @@ import fcmb.com.good.repo.rooms.RoomCategoryRepository;
 import fcmb.com.good.repo.rooms.RoomsRepository;
 import fcmb.com.good.repo.transaction.BookingRepository;
 import fcmb.com.good.repo.user.CustomerRepository;
+import fcmb.com.good.utills.EmailUtils;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.mail.MessagingException;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -28,10 +30,12 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class BookingServiceImpl implements BookingService {
+
     private  final BookingRepository bookingRepository;
     private final CustomerRepository customerRepository;
     private final RoomsRepository roomsRepository;
     private final RoomCategoryRepository roomCategoryRepository;
+    private final EmailUtils emailUtils;
 
     @Override
     /**
@@ -41,6 +45,7 @@ public class BookingServiceImpl implements BookingService {
      * * */
     public ApiResponse<List<BookingResponse>> getListOfBooking(int page, int size) {
         List<Booking> bookingList = bookingRepository.findAll(PageRequest.of(page,size)).toList();
+
         if(bookingList.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
@@ -56,28 +61,36 @@ public class BookingServiceImpl implements BookingService {
      * Create the booking definition and save
      * @return success message
      * * */
-    public ApiResponse<String> addBooking(BookingRequest request) {
+    public ApiResponse<String> addBooking(BookingRequest request) throws MessagingException {
 
-        Customer existingCustomer  = customerRepository.findByUuid(request.getCustomer_id())
+        Customer existingCustomer  = customerRepository.findByUuid(request.getCustomerId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Rooms existingRoom  = roomsRepository.findByUuid(request.getRoom_id())
+        Rooms existingRoom  = roomsRepository.findByUuid(request.getRoomId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         RoomCategory existingRoomCategory = roomCategoryRepository.findByUuid(request.getRoomCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Booking booking = new Booking();
+        booking.setCategory(existingRoomCategory.getCategory());
+        booking.setPrice(existingRoom.getPrice());
+        booking.setRoomNo(String.valueOf(existingRoom.getServiceNumber()));
+        booking.setNight(request.getNight());
+        booking.setBookedNo(request.getBookedNo());
+        booking.setBookedBy(existingCustomer.getName());
+        booking.setTotalAmount((existingRoom.getPrice())*(request.getNight()));
+        booking.setCheckInDate(request.getCheckInDate());
+        booking.setCheckOutDate(request.getCheckOutDate());
         booking.setCustomer(existingCustomer);
         booking.setRooms(existingRoom);
         booking.setRoomCategory(existingRoomCategory);
-        booking.setPrice(request.getPrice());
-        booking.setNight(request.getNight());
-        booking.setAmount(booking.getPrice()*booking.getNight());
-        booking.setCheck_in_date(request.getCheck_in_date());
-        booking.setCheck_out_date(booking.getCheck_out_date());
 
         bookingRepository.save(booking);
+
+        emailUtils.sendBookingReminder(booking.getBookedBy(), "Your Booking Credentials by Hotel Management System",
+                String.valueOf(booking.getCheckInDate()));
+
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record added Successfully");
     }
@@ -126,10 +139,9 @@ public class BookingServiceImpl implements BookingService {
 
         Booking booking = validateBooking(bookingId);
 
-        booking.setPrice(request.getPrice());
-        booking.setCheck_in_date(request.getCheck_in_date());
-        booking.setCheck_out_date(request.getCheck_out_date());
         booking.setNight(request.getNight());
+        booking.setCheckInDate(request.getCheckInDate());
+        booking.setCheckOutDate(request.getCheckOutDate());
 
         bookingRepository.save(booking);
 

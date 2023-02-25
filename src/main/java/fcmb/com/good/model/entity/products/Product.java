@@ -9,7 +9,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 
-//@Data
+
 @AllArgsConstructor
 @EntityListeners(BaseListener.class)
 @Entity

@@ -6,7 +6,6 @@ import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.productsRequest.ProductRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.productsResponse.ProductCategoryResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductResponse;
 import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.products.ProductCategory;
@@ -20,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -148,7 +146,7 @@ public class ProductServiceImpl implements ProductService {
     public ApiResponse<String> addProducts(ProductRequest request) {
         validateDuplicationProduct(request.getName());
 
-        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategory())
+        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedBy())
@@ -162,7 +160,7 @@ public class ProductServiceImpl implements ProductService {
         product.setCode(request.getCode());
         product.setLocation(request.getLocation());
         product.setStatus(request.getStatus());
-        product.setProfit(product.getPurchasedPrice()-request.getPrice());
+        product.setProfit(product.getPrice() - request.getPurchasedPrice() );
         product.setProductCategory(existingProductCategory);
         product.setCreatedBy(existingUser);
         product.setPurchasedPrice(request.getPurchasedPrice());
@@ -184,7 +182,7 @@ public class ProductServiceImpl implements ProductService {
     public ApiResponse<String> updateProduct(UUID productId, ProductRequest request) {
 //        if(jwtFilter.isAdmin()){
 
-        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategory())
+        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
             Product product = validateProducts(productId);

@@ -41,7 +41,7 @@ public class ProductPurchaseRequest  {
 
      @NotNull(message = INVALID_NAME)
 //   @NotEmpty(message = INVALID_NAME)
-     private UUID productCategory;
+     private UUID productCategoryId;
 
      @NotNull(message = INVALID_NAME)
 //     @NotEmpty(message = INVALID_NAME)
@@ -49,7 +49,7 @@ public class ProductPurchaseRequest  {
 
      @NotNull(message = INVALID_NAME)
 //     @NotEmpty(message = INVALID_NAME)
-     private UUID product;
+     private UUID productId;
 
      @NotNull(message = INVALID_NAME)
 //     @NotEmpty(message = INVALID_NAME)

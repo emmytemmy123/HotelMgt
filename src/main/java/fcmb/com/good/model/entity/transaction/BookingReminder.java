@@ -16,17 +16,15 @@ import javax.persistence.*;
 @Table(name = "bookingReminder")
 public class BookingReminder extends BaseEntity {
 
-    private Long customer_id;
-    private Long booking_id;
-    private String reminder_details;
+    private String reminderDetails;
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+    @JoinColumn(name = "customerId", insertable = true, updatable = true)
     private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "booking_id", insertable = false, updatable = false)
+    @JoinColumn(name = "bookingId", insertable = true, updatable = true)
     private Booking booking;
 
 

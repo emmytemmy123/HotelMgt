@@ -9,6 +9,7 @@ import fcmb.com.good.model.dto.response.assetsResponse.AssetsCategoryResponse;
 import fcmb.com.good.model.dto.response.assetsResponse.AssetsResponse;
 import fcmb.com.good.model.dto.response.assetsResponse.DamagedAssetsResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
+import fcmb.com.good.model.dto.response.roomsResponse.RoomFacilityResponse;
 import fcmb.com.good.model.entity.assets.DamagedAssets;
 import fcmb.com.good.services.assets.AssetsCategoryService;
 import fcmb.com.good.services.assets.AssetsService;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import static fcmb.com.good.utills.EndPoints.AssetsEndPoints.*;
+import static fcmb.com.good.utills.EndPoints.RoomEndPoints.SEARCH_ROOM_FACILITY_BY_ROOM_NUMBER_AND_CUSTOMER;
 import static fcmb.com.good.utills.EndpointParam.*;
 
 
@@ -34,7 +36,7 @@ public class AssetsController {
 
 
                                         //FIND_LISTS_OF_ASSETS
-    @GetMapping(FIND_ASSETSCATEGORY)
+    @GetMapping(FIND_ASSETS_CATEGORY)
     @ApiOperation(value = "Endpoint for retrieving lists of assetsCategory", response = AssetsCategoryResponse.class, responseContainer = "List")
     public ApiResponse<List<AssetsCategoryResponse>> getListOfAssetsCategory(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
                                                                              @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
@@ -56,7 +58,7 @@ public class AssetsController {
     }
 
                                             //ADD_ASSETS
-    @PostMapping(ADD_ASSETSCATEGORY)
+    @PostMapping(ADD_ASSETS_CATEGORY)
     @ApiOperation(value = "Endpoint for adding new assetsCategory to database", response = String.class)
     public ApiResponse<String> addAssetsCategory(@Valid @RequestBody AssetsCategoryRequest request) {
         return assetsCategoryService.addAssetsCategory(request);
@@ -76,7 +78,7 @@ public class AssetsController {
 
 
                                             //FIND_ASSETS_BY_ID
-    @GetMapping(FIND_ASSETSCATEGORY_BY_ID)
+    @GetMapping(FIND_ASSETS_CATEGORY_BY_ID)
     @ApiOperation(value = "Endpoint for fetching assetCategory by id from database", response = AssetsCategoryResponse.class)
     public ApiResponse<AssetsCategoryResponse> getAssetsCategoryById(@PathVariable(value = "id") UUID assetCategory_id) {
         return assetsCategoryService.getAssetsCategoryById(assetCategory_id);
@@ -96,7 +98,7 @@ public class AssetsController {
 
 
                                             //UPDATE_ASSETS
-    @PutMapping(UPDATE_ASSETSCATEGORY)
+    @PutMapping(UPDATE_ASSETS_CATEGORY)
     @ApiOperation(value = "Endpoint for updating assetCategory by id from database", response = String.class)
     public ApiResponse<String> updateAssetsCategory(@PathVariable(value = "id") UUID assetCategory_id,
                                                                     @RequestBody AssetsCategoryRequest request) {
@@ -119,7 +121,7 @@ public class AssetsController {
 
 
                                              //DELETE_ASSETS
-    @DeleteMapping(DELETE_ASSETSCATEGORY)
+    @DeleteMapping(DELETE_ASSETS_CATEGORY)
     @ApiOperation(value = "Endpoint for deleting assetsCategory by id from database", response = String.class)
     public ApiResponse<String> deleteAssetsCategory(@PathVariable(value = "id") UUID assetsCategory_id) {
         return assetsCategoryService.deleteAssetsCategory(assetsCategory_id);
@@ -138,6 +140,26 @@ public class AssetsController {
     }
 
 
+                            //FIND_DAMAGED_ASSETS_BY_ROOM_NUMBER_AND_CATEGORY
+
+    @GetMapping(FIND_DAMAGED_ASSETS_BY_ROOM_NUMBER_AND_CATEGORY)
+    @ApiOperation(value = "Endpoint for retrieving lists of DamagedAssets by RoomNumberAndCategory", response = DamagedAssetsResponse.class, responseContainer = "List")
+    public ApiResponse<List<DamagedAssetsResponse>> searchListOfDamagedAssetsByRoomNumberAndCategory(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                                        @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+                                                                                        @RequestParam UUID roomUuid, @RequestParam UUID categoryUuid, @RequestParam UUID assetUuid ) {
+        return damagedAssetsService.findDamageAssetsByRoomAndCategory(roomUuid, categoryUuid, assetUuid);
+    }
+
+
+                        //FIND_DAMAGED_ASSETS_BY_NAME
+
+    @GetMapping(FIND_DAMAGED_ASSETS_BY_NAME)
+    @ApiOperation(value = "Endpoint for retrieving lists of DamagedAssets by name", response = DamagedAssetsResponse.class, responseContainer = "List")
+    public ApiResponse<List<DamagedAssetsResponse>> searchListOfDamagedAssetsByName(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                                                     @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+                                                                                                     @RequestParam String name ) {
+        return damagedAssetsService.searchDamagedAssetByName(name);
+    }
 
 
 }

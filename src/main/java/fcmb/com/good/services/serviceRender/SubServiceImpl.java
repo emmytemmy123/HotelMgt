@@ -76,8 +76,6 @@ public class SubServiceImpl implements SubServiceService {
         SubService subService = new SubService();
         subService.setServiceName(request.getServiceName());
         subService.setUnitCost(request.getUnitCost());
-        subService.setAmount(request.getAmount());
-        subService.setPaymentStatus(request.getPaymentStatus());
         subService.setNoOfOccupant(request.getNoOfOccupant());
         subService.setCreatedBy(existingUser);
         subService.setRooms(existingRooms);
@@ -145,8 +143,6 @@ public class SubServiceImpl implements SubServiceService {
         SubService subService = validateSubService(subServiceId);
         subService.setServiceName(request.getServiceName());
         subService.setUnitCost(request.getUnitCost());
-        subService.setAmount(request.getAmount());
-        subService.setPaymentStatus(request.getPaymentStatus());
         subService.setNoOfOccupant(request.getNoOfOccupant());
 
         subServiceRepository.save(subService);

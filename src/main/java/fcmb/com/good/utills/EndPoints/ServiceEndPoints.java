@@ -30,6 +30,8 @@ public class ServiceEndPoints {
     public static final String FIND_SERVICE_REQUEST_BY_ID= SERVICE_REQUEST+"/{id}";
     public static final String UPDATE_SERVICE_REQUEST= SERVICE_REQUEST+"/update/{id}";
     public static final String DELETE_SERVICE_REQUEST= SERVICE_REQUEST+"/delete/{id}";
+    public static final String SEARCH_SERVICE_REQUEST_BY_NAME= SERVICE_REQUEST+"/searchServiceRequestListByName";
+
 
 
 

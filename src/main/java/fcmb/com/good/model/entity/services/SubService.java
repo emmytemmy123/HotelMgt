@@ -20,8 +20,6 @@ public class SubService extends BaseEntity {
 
     private String serviceName;
     private Double unitCost;
-    private Double amount;
-    private String paymentStatus;
     private Integer noOfOccupant;
 
 

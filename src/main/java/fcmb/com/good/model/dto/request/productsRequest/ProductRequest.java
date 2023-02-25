@@ -32,7 +32,7 @@ public class ProductRequest  {
      private Double price;
 
      @NotNull(message = INVALID_NAME)
-     private UUID category;
+     private UUID categoryId;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)

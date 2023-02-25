@@ -16,19 +16,17 @@ import javax.persistence.*;
 @Table(name = "expenseRequest")
 public class ExpenseRequest extends BaseEntity {
 
-    private Long expense_id;
-    private Long employee_id;
     private String quantity;
     private Double amount;
-    private String account_no;
+    private String accountNo;
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_id", insertable = false, updatable = false)
+    @JoinColumn(name = "employeeId", insertable = true, updatable = true)
     private Employee employee;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "expenses_Id", insertable = false, updatable = false)
+    @JoinColumn(name = "expensesId", insertable = true, updatable = true)
     private Expenses expenses;
 
     public ExpenseRequest(){}

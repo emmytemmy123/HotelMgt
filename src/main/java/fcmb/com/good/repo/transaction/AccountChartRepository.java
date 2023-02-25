@@ -19,4 +19,7 @@ public interface AccountChartRepository extends JpaRepository<AccountChart, Long
     @Query("delete from AccountChart st where st.uuid=:recordId")
     Optional<AccountChart> deleteByUuid(@Param("recordId")UUID uuid);
 
+    Optional<AccountChart> findByAccountNo(Integer accountNo);
+
+
 }

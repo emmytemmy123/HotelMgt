@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+
 @Service
 @RequiredArgsConstructor
 public class ProductPurchaseServiceImpl implements ProductPurchaseService {
@@ -38,6 +39,11 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
 
 
     @Override
+    /**
+     * @Finding the list of all productPurchase
+     * @Validate if the List of productPurchase is empty otherwise return record not found*
+     * @return the list of productPurchase and a Success Message* *
+     * * */
     public ApiResponse<List<ProductPurchaseResponse>> getListOfProductPurchase(int page, int size) {
         List<ProductPurchase> productPurchaseList = productPurchaseRepository.findAll(PageRequest.of(page,size)).toList();
         if(productPurchaseList.isEmpty())
@@ -48,6 +54,11 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
     }
 
 
+    /**
+     * @validating productPurchase by uuid*
+     * @Validate if productPurchase is empty otherwise return record not found
+     * @return productPurchase
+     * * */
     private ProductPurchase validateProductPurchase(UUID uuid){
         Optional<ProductPurchase> productPurchase = productPurchaseRepository.findByUuid(uuid);
         if(productPurchase.isEmpty())
@@ -69,17 +80,24 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
 
 
     @Override
+    /**
+     * @Validate that no duplicate ProductPurchase allow*
+     * @Validate that ProductPurchase exists otherwise return record not found*
+     * @Validate that user creating the ProductPurchase exists, otherwise return user not found*
+     * Create the ProductPurchase definition and save
+     * @return success message* *
+     * * */
     public ApiResponse<String> addProductPurchase(@RequestBody ProductPurchaseRequest request) {
 
         validateDuplicationProductPurchase(request.getName());
 
-        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getProductCategory())
+        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getProductCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedBy())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Product existingProduct  = productRepository.findByUuid(request.getProduct())
+        Product existingProduct  = productRepository.findByUuid(request.getProductId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         ProductPurchase productPurchase = new ProductPurchase();
@@ -89,7 +107,8 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
         productPurchase.setCompany_name(request.getCompanyName());
         productPurchase.setPrice(request.getPrice());
         productPurchase.setProductPurchaseDate(request.getProductPurchaseDate());
-        productPurchase.setQuantity(request.getQuantity() + existingProduct.getQuantity());
+        productPurchase.setQuantity(String.valueOf(Integer.sum(existingProduct.getQuantity(), Integer.parseInt(request.getQuantity()))));
+        existingProduct.setQuantity(Integer.sum(existingProduct.getQuantity(), Integer.parseInt(request.getQuantity())));
         productPurchase.setCreatedBy(existingUser);
         productPurchase.setProduct(existingProduct);
         productPurchase.setProductCategory(existingProductCategory);
@@ -101,6 +120,12 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
 
 
     @Override
+    /**
+     * @Finding the list of all productPurchaseOptional by uuid*
+     * @Validate if the List of productPurchaseOptional is empty otherwise return record not found
+     * Create the productPurchase definition and get the product Optional by uuid
+     * @return the list of productPurchase and a Success Message* *
+     * * */
     public ApiResponse<ProductPurchaseResponse> getProductPurchaseById(@RequestParam("id") UUID productPurchaseId) {
         Optional<ProductPurchase> productPurchaseOptional = productPurchaseRepository.findByUuid(productPurchaseId);
 
@@ -116,9 +141,18 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
 
 
     @Override
-        public ApiResponse<String> updateProductPurchase(@RequestParam UUID productPurchaseId,
-                                                         @RequestBody ProductPurchaseRequest request) {
+    /**
+     * @Validating the list of existingProductPurchase by uuid*
+     * @Validate if the List of existingProductPurchase is empty otherwise return record not found
+     * Create the existingProductPurchase definition and save
+     * @return a Success Message* *
+     * * */
+        public ApiResponse<String> updateProductPurchase(@RequestParam UUID productPurchaseId, @RequestBody ProductPurchaseRequest request) {
+
         ProductPurchase productPurchase = validateProductPurchase(productPurchaseId);
+        Product existingProduct  = productRepository.findByUuid(request.getProductId())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
 
         productPurchase.setName(request.getName());
         productPurchase.setCategory(request.getCategory());
@@ -126,7 +160,8 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
         productPurchase.setCompany_name(request.getCompanyName());
         productPurchase.setPrice(request.getPrice());
         productPurchase.setProductPurchaseDate(request.getProductPurchaseDate());
-        productPurchase.setQuantity(productPurchase.getQuantity()+request.getQuantity());
+        productPurchase.setQuantity(String.valueOf(Integer.sum(existingProduct.getQuantity(), Integer.parseInt(request.getQuantity()))));
+        existingProduct.setQuantity(Integer.sum(existingProduct.getQuantity(), Integer.parseInt(request.getQuantity())));
 
         productPurchaseRepository.save(productPurchase);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
@@ -144,6 +179,12 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
     }
 
     @Override
+    /**
+     * @validating productPurchase by uuid*
+     * @Validate if productPurchase is empty otherwise return record not found
+     * @Delete productPurchase
+     * @return a Success Message* *
+     * * */
     public ApiResponse<List<ProductPurchaseResponse>> searchProductPurchaseByName(String name) {
 
         List<ProductPurchase> searchProductPurchaseByName = productPurchaseRepository.searchProductPurchaseByName(name);

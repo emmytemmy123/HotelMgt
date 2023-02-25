@@ -174,30 +174,8 @@ public class RoomServiceImpl implements RoomService {
                 "Record Deleted successfully");
     }
 
-    @Override
-    public ApiResponse<List<RoomResponse>> searchSubServiceByServiceNumber(Integer serviceNumber) {
 
-        List<Rooms> roomOptional = roomsRepository.findSubServiceByRoomId(serviceNumber);
 
-        if(roomOptional.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(roomOptional,RoomResponse.class));
-
-    }
-
-    @Override
-    public ApiResponse<List<RoomResponse>> searchRoomFacilityByServiceNumber(Integer serviceNumber) {
-
-        List<Rooms> roomOptional = roomsRepository.findRoomFacilityByRoomId(serviceNumber);
-
-        if(roomOptional.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(roomOptional,RoomResponse.class));
-    }
 
 
 }

@@ -163,6 +163,11 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
 
 
     @Override
+    /**
+     * @Search the list of all RoomFacilityResponse by roomNo and Customer
+     * @Validate if the List of RoomFacilityResponse is empty otherwise return record not found*
+     * @return the list of RoomFacilityResponse by roomNo and Customer
+     * * */
     public ApiResponse<List<RoomFacilityResponse>> getRoomFacilityByRoomNumberAndCustomer(UUID roomUuid, UUID customerUuid) {
 
     List<RoomFacility> getRoomFacilityByRoomNumber = roomFacilityRepository.findRoomFacilityByRoomNumberAndCustomer(roomUuid, customerUuid);
@@ -176,6 +181,11 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
     }
 
     @Override
+    /**
+     * @Search the list of all RoomFacilityResponse by name
+     * @Validate if the List of RoomFacilityResponse is empty otherwise return record not found*
+     * @return the list of RoomFacilityResponse by name
+     * * */
     public ApiResponse<List<RoomFacilityResponse>> searchRoomFacilityByName(String name) {
 
         List<RoomFacility> searchRoomFacilityByName = roomFacilityRepository.searchRoomFacilityByName(name);

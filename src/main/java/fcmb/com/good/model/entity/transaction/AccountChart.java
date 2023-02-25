@@ -2,6 +2,7 @@ package fcmb.com.good.model.entity.transaction;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
@@ -14,19 +15,26 @@ import javax.persistence.*;
 @EntityListeners(BaseListener.class)
 @Entity
 @Table(name = "accountChart")
+
 public class AccountChart extends BaseEntity {
 
-    private Long category_id;
+    private String category;
     private String code;
-    private String account_name;
+    private String accountName;
+    private Integer accountNo;
     private Double balance;
+    private String currentCustomer;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "customerId", insertable = true, updatable = true)
     private Customer customer;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "accountCategory_Id", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "createdById", updatable = true)
+    private AppUser createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "accountCategoryId", insertable = true, updatable = true)
     private AccountCategory accountCategory;
 
     public AccountChart(){

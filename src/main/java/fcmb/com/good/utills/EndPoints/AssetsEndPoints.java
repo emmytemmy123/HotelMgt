@@ -5,12 +5,12 @@ public class AssetsEndPoints {
 
     public static final String USERS="USERS";
 
-    public static final String ASSETSCATEGORY="/assetsCategory";
-    public static final String FIND_ASSETSCATEGORY=ASSETSCATEGORY+"/list";
-    public static final String ADD_ASSETSCATEGORY=ASSETSCATEGORY+"/add";
-    public static final String FIND_ASSETSCATEGORY_BY_ID=ASSETSCATEGORY+"/{id}";
-    public static final String UPDATE_ASSETSCATEGORY= ASSETSCATEGORY+"/update/{id}";
-    public static final String DELETE_ASSETSCATEGORY= ASSETSCATEGORY+"/customerDelete/{id}";
+    public static final String ASSETS_CATEGORY="/assetsCategory";
+    public static final String FIND_ASSETS_CATEGORY=ASSETS_CATEGORY+"/list";
+    public static final String ADD_ASSETS_CATEGORY=ASSETS_CATEGORY+"/add";
+    public static final String FIND_ASSETS_CATEGORY_BY_ID=ASSETS_CATEGORY+"/{id}";
+    public static final String UPDATE_ASSETS_CATEGORY= ASSETS_CATEGORY+"/update/{id}";
+    public static final String DELETE_ASSETS_CATEGORY= ASSETS_CATEGORY+"/customerDelete/{id}";
 
     public static final String ASSET="/assets";
     public static final String FIND_ASSET=ASSET+"/list";
@@ -26,5 +26,11 @@ public class AssetsEndPoints {
     public static final String FIND_DAMAGED_ASSET_BY_ID=DAMAGED_ASSET+"/{id}";
     public static final String UPDATE_DAMAGED_ASSET= DAMAGED_ASSET+"/update/{id}";
     public static final String DELETE_DAMAGED_ASSET= DAMAGED_ASSET+"/customerDelete/{id}";
+    public static final String FIND_DAMAGED_ASSETS_BY_ROOM_NUMBER_AND_CATEGORY = DAMAGED_ASSET+"/searchDamagedAssetsListByRoomNumberAndCategory";
+    public static final String FIND_DAMAGED_ASSETS_BY_NAME = DAMAGED_ASSET+"/searchDamagedAssetsListByName";
+
+
+
+
 
 }

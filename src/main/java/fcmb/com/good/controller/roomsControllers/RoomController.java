@@ -142,13 +142,7 @@ public class RoomController {
 
                                         //FIND_SUB_SERVICE_BY_ROOM_ID
 
-    @GetMapping(SEARCH_SUB_SERVICE_BY_ROOM_ID)
-    @ApiOperation(value = "Endpoint for retrieving lists of SUB_SERVICE by RoomId", response = SubServiceResponse.class, responseContainer = "List")
-    public ApiResponse<List<RoomResponse>> searchListOfSubServiceByRoomId(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                          @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
-                                                                          @RequestParam Integer serviceNumber ) {
-        return roomService.searchSubServiceByServiceNumber(serviceNumber);
-    }
+
 
 
                                 //FIND_ROOM_FACILITY_BY_ROOM_NUMBER_AND_CUSTOMER

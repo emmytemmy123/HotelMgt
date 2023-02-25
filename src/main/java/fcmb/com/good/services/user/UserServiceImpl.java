@@ -258,10 +258,11 @@ public class UserServiceImpl  implements UserService {
 
         AppUser users = userRepository.findByEmail(email);
 
-        emailUtils.forgotMail(users.getEmail(), "Credentials by Hotel Management System", users.getPassword());
+        emailUtils.forgotMail(users.getEmail(), "Your Booking Credentials by Hotel Management System", users.getPassword());
 
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Check your email for credentials");
+
     }
 
 

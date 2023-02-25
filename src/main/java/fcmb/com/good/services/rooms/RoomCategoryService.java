@@ -20,6 +20,4 @@ public interface RoomCategoryService {
     ApiResponse<String> deleteRoomType(UUID roomTypeId);
 
 
-
-
 }

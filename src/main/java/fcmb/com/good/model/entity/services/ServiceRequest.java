@@ -1,6 +1,8 @@
 package fcmb.com.good.model.entity.services;
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.rooms.Rooms;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.entity.user.Employee;
 import fcmb.com.good.model.listener.BaseListener;
@@ -16,22 +18,34 @@ import javax.persistence.*;
 @Table(name = "serviceRequest")
 public class ServiceRequest extends BaseEntity {
 
-    private Long service_id;
-    private Long customer_id;
-    private String service_type;
-    private String serviced_by;
+    private String serviceName;
+    private String serviceBy;
+    private  Integer serviceRequestNo;
+    private String currentCustomer;
+    private String serviceCategory;
+    private Double price;
+    private String paymentStatus;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "service_Id", insertable = false, updatable = false)
-    private Services services;
+    @JoinColumn(name = "subServiceId", insertable = true, updatable = true)
+    private SubService subService;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_id", insertable = false, updatable = false)
+    @JoinColumn(name = "employeeId", insertable = true, updatable = true)
     private Employee employee;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+    @JoinColumn(name = "customerId", insertable = true, updatable = true)
     private Customer customer;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "roomId", insertable = true, updatable = true)
+    private Rooms rooms;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "createdById", insertable = true, updatable = true)
+    private AppUser createdBy;
 
 
     public ServiceRequest(){}

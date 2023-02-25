@@ -9,7 +9,6 @@ import fcmb.com.good.model.dto.response.servicesResponse.ServiceRequestResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.ServiceResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
 import fcmb.com.good.services.serviceRender.ServiceRequestService;
-import fcmb.com.good.services.serviceRender.ServiceService;
 import fcmb.com.good.services.serviceRender.SubServiceService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,6 @@ import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 public class ServiceController {
 
     private final ServiceRequestService serviceRequestService;
-    private final ServiceService serviceService;
     private final SubServiceService subServiceService;
 
 
@@ -41,12 +39,6 @@ public class ServiceController {
         return serviceRequestService.getListOfServiceRequest(page,size);
     }
 
-    @GetMapping(FIND_SERVICE)
-    @ApiOperation(value = "Endpoint for retrieving lists of service", response = ServiceResponse.class, responseContainer = "List")
-    public ApiResponse<List<ServiceResponse>> getListOfService(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                               @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
-        return serviceService.getListOfService(page,size);
-    }
 
     @GetMapping(FIND_SUB_SERVICE)
     @ApiOperation(value = "Endpoint for retrieving lists of subService", response = SubServiceResponse.class, responseContainer = "List")
@@ -63,11 +55,6 @@ public class ServiceController {
         return serviceRequestService.addServiceRequest(request);
     }
 
-    @PostMapping(ADD_SERVICE)
-    @ApiOperation(value = "Endpoint for adding new service to database", response = String.class)
-    public ApiResponse<String> addService(@RequestBody ServicesRequest request) {
-        return serviceService.addService(request);
-    }
 
     @PostMapping(ADD_SUB_SERVICE)
     @ApiOperation(value = "Endpoint for adding new subService to database", response = String.class)
@@ -83,12 +70,6 @@ public class ServiceController {
         return serviceRequestService.getServiceRequestById(serviceRequest_id);
     }
 
-    @GetMapping(FIND_SERVICE_BY_ID)
-    @ApiOperation(value = "Endpoint for fetching service by id from database", response = ServiceResponse.class)
-    public ApiResponse<ServiceResponse> getServiceById(@PathVariable(value = "id") UUID service_id) {
-        return serviceService.getServiceById(service_id);
-
-    }
 
     @GetMapping(FIND_SUB_SERVICE_BY_ID)
     @ApiOperation(value = "Endpoint for fetching subService by id from database", response = SubServiceResponse.class)
@@ -107,12 +88,6 @@ public class ServiceController {
         return serviceRequestService.updateServiceRequest(serviceRequest_id, request);
     }
 
-    @PutMapping(UPDATE_SERVICE)
-    @ApiOperation(value = "Endpoint for updating service by id from database", response = String.class)
-    public ApiResponse<String> updateService(@PathVariable(value = "id") UUID service_id,
-                                             @RequestBody ServicesRequest request) {
-        return serviceService.updateService(service_id, request);
-    }
 
     @PutMapping(UPDATE_SUB_SERVICE)
     @ApiOperation(value = "Endpoint for updating subService by id from database", response = String.class)
@@ -129,11 +104,6 @@ public class ServiceController {
         return serviceRequestService.deleteServiceRequest(serviceRequest_id);
     }
 
-    @DeleteMapping(DELETE_SERVICE)
-    @ApiOperation(value = "Endpoint for deleting service by id from database", response = String.class)
-    public ApiResponse<String> deleteService(@PathVariable(value = "id") UUID service_id) {
-        return serviceService.deleteService(service_id);
-    }
 
     @DeleteMapping(DELETE_SUB_SERVICE)
     @ApiOperation(value = "Endpoint for deleting subService by id from database", response = String.class)
@@ -175,6 +145,16 @@ public class ServiceController {
         return subServiceService.findSubServiceByCustomerAndRoom(customerUuid, roomUuid);
     }
 
+
+                                            //FIND_SUB_SERVICE_BY_NAME
+
+    @GetMapping(SEARCH_SERVICE_REQUEST_BY_NAME)
+    @ApiOperation(value = "Endpoint for retrieving lists of ServiceRequest by serviceName", response = ServiceRequestResponse.class, responseContainer = "List")
+    public ApiResponse<List<ServiceRequestResponse>> searchListOfServiceRequestByName(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                              @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+                                                                              @RequestParam String serviceName) {
+        return serviceRequestService.searchServiceRequestByName(serviceName);
+    }
 
 
 

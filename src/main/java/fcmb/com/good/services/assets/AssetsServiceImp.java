@@ -29,6 +29,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AssetsServiceImp implements AssetsService {
+
     private final AssetsRepository assetsRepository;
     private final UserRepository userRepository;
     private final AssetsCategoryRepository assetsCategoryRepository;
@@ -145,15 +146,13 @@ public class AssetsServiceImp implements AssetsService {
      * * */
     public ApiResponse<String> updateAssets(UUID assetsId,AssetsRequest request) {
         Assets assets = validateAssets(assetsId);
+
         assets.setName(request.getName());
         assets.setPurchasePrice(request.getPurchasePrice());
         assets.setDescription(request.getDescription());
-        assets.setQuantity(request.getQuantity());
+        assets.setQuantity(request.getQuantity()+assets.getQuantity());
         assets.setStatus(request.getStatus());
         assets.setCode(request.getCode());
-//        assets.setRecordId(request.getRecordId());
-//        assets.setRecordType(request.getRecordType());
-//        assets.setLocation(request.getLocation());
 
         assetsRepository.save(assets);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),

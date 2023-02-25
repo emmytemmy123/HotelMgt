@@ -18,12 +18,12 @@ public class TransactionEndPoints {
     public static final String UPDATE_ACCOUNT_CHART= ACCOUNT_CHART+"/update/{id}";
     public static final String DELETE_ACCOUNT_CHART= ACCOUNT_CHART+"/delete/{id}";
 
-    public static final String BOOKING_REMINDER="/bookingReminder";
-    public static final String FIND_BOOKING_REMINDER=BOOKING_REMINDER+"/list";
-    public static final String ADD_BOOKING_REMINDER= BOOKING_REMINDER+"/add";
-    public static final String FIND_BOOKING_REMINDER_BY_ID= BOOKING_REMINDER+"/{id}";
-    public static final String UPDATE_BOOKING_REMINDER= BOOKING_REMINDER+"/update/{id}";
-    public static final String DELETE_BOOKING_REMINDER= BOOKING_REMINDER+"/delete/{id}";
+    public static final String EXPENSE_CATEGORY="/expenseCategory";
+    public static final String FIND_EXPENSE_CATEGORY=EXPENSE_CATEGORY+"/list";
+    public static final String ADD_EXPENSE_CATEGORY= EXPENSE_CATEGORY+"/add";
+    public static final String FIND_EXPENSE_CATEGORY_BY_ID= EXPENSE_CATEGORY+"/{id}";
+    public static final String UPDATE_EXPENSE_CATEGORY= EXPENSE_CATEGORY+"/update/{id}";
+    public static final String DELETE_EXPENSE_CATEGORY= EXPENSE_CATEGORY+"/delete/{id}";
 
     public static final String BOOKING="/booking";
     public static final String FIND_BOOKING=BOOKING+"/list";
@@ -32,12 +32,12 @@ public class TransactionEndPoints {
     public static final String UPDATE_BOOKING= BOOKING+"/update/{id}";
     public static final String DELETE_BOOKING= BOOKING+"/delete/{id}";
 
-    public static final String EXPENSE_REQUEST="/expenseRequest";
-    public static final String FIND_EXPENSE_REQUEST=EXPENSE_REQUEST+"/list";
-    public static final String ADD_EXPENSE_REQUEST= EXPENSE_REQUEST+"/add";
-    public static final String FIND_EXPENSE_REQUEST_BY_ID= EXPENSE_REQUEST+"/{id}";
-    public static final String UPDATE_EXPENSE_REQUEST= EXPENSE_REQUEST+"/update/{id}";
-    public static final String DELETE_EXPENSE_REQUEST= EXPENSE_REQUEST+"/delete/{id}";
+    public static final String MAINTENANCE_CATEGORY="/maintenanceCategory";
+    public static final String FIND_MAINTENANCE_CATEGORY=MAINTENANCE_CATEGORY+"/list";
+    public static final String ADD_MAINTENANCE_CATEGORY= MAINTENANCE_CATEGORY+"/add";
+    public static final String FIND_MAINTENANCE_CATEGORY_BY_ID= MAINTENANCE_CATEGORY+"/{id}";
+    public static final String UPDATE_MAINTENANCE_CATEGORY= MAINTENANCE_CATEGORY+"/update/{id}";
+    public static final String DELETE_MAINTENANCE_CATEGORY= MAINTENANCE_CATEGORY+"/delete/{id}";
 
     public static final String EXPENSES="/expenses";
     public static final String FIND_EXPENSES=EXPENSES+"/list";
@@ -45,13 +45,15 @@ public class TransactionEndPoints {
     public static final String FIND_EXPENSES_BY_ID= EXPENSES+"/{id}";
     public static final String UPDATE_EXPENSES= EXPENSES+"/update/{id}";
     public static final String DELETE_EXPENSES= EXPENSES+"/delete/{id}";
+    public static final String FIND_EXPENSES_BY_NAME_AND_CATEGORY= EXPENSES+"/searchExpenseByNameAndCategory";
 
-    public static final String MAINTENANCE_REQUEST="/maintenanceRequest";
-    public static final String FIND_MAINTENANCE_REQUEST=MAINTENANCE_REQUEST+"/list";
-    public static final String ADD_MAINTENANCE_REQUEST= MAINTENANCE_REQUEST+"/add";
-    public static final String FIND_MAINTENANCE_REQUEST_BY_ID= MAINTENANCE_REQUEST+"/{id}";
-    public static final String UPDATE_MAINTENANCE_REQUEST= MAINTENANCE_REQUEST+"/update/{id}";
-    public static final String DELETE_MAINTENANCE_REQUEST= MAINTENANCE_REQUEST+"/delete/{id}";
+
+    public static final String MAINTENANCE="/maintenanceRequest";
+    public static final String FIND_MAINTENANCE=MAINTENANCE+"/list";
+    public static final String ADD_MAINTENANCE= MAINTENANCE+"/add";
+    public static final String FIND_MAINTENANCE_BY_ID= MAINTENANCE+"/{id}";
+    public static final String UPDATE_MAINTENANCE= MAINTENANCE+"/update/{id}";
+    public static final String DELETE_MAINTENANCE= MAINTENANCE+"/delete/{id}";
 
     public static final String PAYMENT="/payment";
     public static final String FIND_PAYMENT=PAYMENT+"/list";
@@ -60,7 +62,12 @@ public class TransactionEndPoints {
     public static final String UPDATE_PAYMENT= PAYMENT+"/update/{id}";
     public static final String DELETE_PAYMENT= PAYMENT+"/delete/{id}";
 
-
+    public static final String PAYMENT_CATEGORY="/paymentCategory";
+    public static final String FIND_PAYMENT_CATEGORY=PAYMENT_CATEGORY+"/list";
+    public static final String ADD_PAYMENT_CATEGORY= PAYMENT_CATEGORY+"/add";
+    public static final String FIND_PAYMENT_CATEGORY_BY_ID= PAYMENT_CATEGORY+"/{id}";
+    public static final String UPDATE_PAYMENT_CATEGORY= PAYMENT_CATEGORY+"/update/{id}";
+    public static final String DELETE_PAYMENT_CATEGORY= PAYMENT_CATEGORY+"/delete/{id}";
 
 
 

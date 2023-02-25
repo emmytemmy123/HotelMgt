@@ -15,12 +15,12 @@ import javax.persistence.*;
 @Table(name = "services")
 public class Services extends BaseEntity {
 
-    private String service_type;
+    private String serviceType;
     private String description;
-    private String service_category;
+    private String serviceCategory;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
+    @JoinColumn(name = "customerId", insertable = true, updatable = true)
     private Customer customer;
 
     public Services(){}

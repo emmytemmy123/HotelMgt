@@ -24,6 +24,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AssetsCategoryServiceImpl implements AssetsCategoryService {
+
     private final AssetsCategoryRepository assetsCategoryRepository;
     private final UserRepository userRepository;
 

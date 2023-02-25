@@ -22,9 +22,8 @@ public interface RoomService {
 
     ApiResponse<String> deleteRoom(UUID roomId);
 
-    ApiResponse<List<RoomResponse>> searchSubServiceByServiceNumber(Integer serviceNumber);
+//    ApiResponse<List<RoomResponse>> searchSubServiceByServiceNumber(Integer serviceNumber);
 
-    ApiResponse<List<RoomResponse>> searchRoomFacilityByServiceNumber(Integer serviceNumber);
 
 
 

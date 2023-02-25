@@ -23,8 +23,8 @@ public interface RoomFacilityRepository extends JpaRepository<RoomFacility, Long
     @Query("delete from RoomFacility st where st.uuid=:recordId")
     Optional<RoomFacility> deleteByUuid(@Param("recordId")UUID uuid);
 
-    @Query("select st from RoomFacility st where st.existingRoom.uuid=:roomUuid and st.customer.uuid =:customerUuid")
-    List<RoomFacility> findRoomFacilityByRoomNumberAndCustomer(@Param("roomUuid")UUID roomUuid, @Param("customerUuid")UUID customerUuid);
+    @Query("select st from RoomFacility st where st.room.uuid=:roomUuid")
+    List<RoomFacility> findRoomFacilityByRoomNumberAndCustomer(@Param("roomUuid")UUID roomUuid);
 
     @Query("SELECT st FROM RoomFacility st WHERE " +
             "st.name LIKE CONCAT('%',:query, '%')" )

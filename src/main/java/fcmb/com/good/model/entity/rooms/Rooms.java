@@ -50,7 +50,7 @@ public class Rooms extends BaseEntity {
     @JoinColumn(name = "room_type_id", updatable = true)
     private RoomCategory roomCategory;
 
-    @OneToMany(mappedBy = "existingRoom")
+    @OneToMany(mappedBy = "room")
     private List<RoomFacility> roomFacility;
 
 

@@ -86,8 +86,8 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
         roomFacility.setFileName(request.getFileName());
         roomFacility.setDescription(request.getDescription());
         roomFacility.setCreatedBy(existingUser);
-        roomFacility.setExistingRoom(existingRoom);
-        roomFacility.setCustomer(existingCustomer);
+        roomFacility.setRoom(existingRoom);
+//        roomFacility.setCustomer(existingCustomer);
 
         roomFacilityRepository.save(roomFacility);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
@@ -170,7 +170,7 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
      * * */
     public ApiResponse<List<RoomFacilityResponse>> getRoomFacilityByRoomNumberAndCustomer(UUID roomUuid, UUID customerUuid) {
 
-    List<RoomFacility> getRoomFacilityByRoomNumber = roomFacilityRepository.findRoomFacilityByRoomNumberAndCustomer(roomUuid, customerUuid);
+    List<RoomFacility> getRoomFacilityByRoomNumber = roomFacilityRepository.findRoomFacilityByRoomNumberAndCustomer(roomUuid);
 
     if(getRoomFacilityByRoomNumber.isEmpty())
         throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);

@@ -12,5 +12,6 @@ public class RoomFacilityResponse extends BaseDto {
 
     private String description;
 
+    private RoomHelper room;
 
 }

@@ -3,7 +3,6 @@ package fcmb.com.good.model.entity.rooms;
 
 import fcmb.com.good.model.entity.BaseEntity;
 import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,15 +22,15 @@ public class RoomFacility extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "existingRoomId",insertable = true, updatable = true)
-    private Rooms existingRoom;
+    private Rooms room;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdById", insertable = true, updatable = true)
     private AppUser createdBy;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customerId", insertable = true, updatable = true)
-    private Customer customer;
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "customerId", insertable = true, updatable = true)
+//    private Customer customer;
 
 
     public RoomFacility(){}

@@ -203,7 +203,7 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @Return a Success Message if oldPassword is correct
      * @Return a Failed Message if oldPassword is Incorrect
      */
-    public ApiResponse<String> changeEmployeePassword(String email, changeEmployeePasswordRequest request) {
+    public ApiResponse<String> resetPassword(String email, changeEmployeePasswordRequest request) {
         Employee employee = employeeRepository.findByEmail(email);
 
         if(employee.getPassword().equals(request.getOldPassword())){

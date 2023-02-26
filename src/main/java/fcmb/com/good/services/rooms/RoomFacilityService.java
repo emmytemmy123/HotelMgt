@@ -12,7 +12,6 @@ import java.util.UUID;
 
 public interface RoomFacilityService {
 
-    ApiResponse<List<RoomFacilityResponse>> getListOfRoomFacility(int page, int size);
 
     ApiResponse<String> addRoomFacility(RoomFacilityRequest request);
 
@@ -22,9 +21,8 @@ public interface RoomFacilityService {
 
     ApiResponse<String> deleteRoomFacility(UUID roomFacilityId);
 
-    ApiResponse<List<RoomFacilityResponse>> getRoomFacilityByRoomNumberAndCustomer(UUID roomUuid, UUID customerUuid);
+    ApiResponse<List<RoomFacilityResponse>> getRoomFacilityByRoomNumber(UUID roomUuid);
 
-    ApiResponse<List<RoomFacilityResponse>> searchRoomFacilityByName(String name);
 
 
 }

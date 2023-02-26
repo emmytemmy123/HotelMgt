@@ -8,5 +8,5 @@ import lombok.Data;
 public class ProductCategoryResponse extends BaseDto {
 
     private String name;
-
+    private String description;
 }

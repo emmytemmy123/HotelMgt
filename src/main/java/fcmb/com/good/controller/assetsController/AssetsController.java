@@ -9,8 +9,6 @@ import fcmb.com.good.model.dto.response.assetsResponse.AssetsCategoryResponse;
 import fcmb.com.good.model.dto.response.assetsResponse.AssetsResponse;
 import fcmb.com.good.model.dto.response.assetsResponse.DamagedAssetsResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.roomsResponse.RoomFacilityResponse;
-import fcmb.com.good.model.entity.assets.DamagedAssets;
 import fcmb.com.good.services.assets.AssetsCategoryService;
 import fcmb.com.good.services.assets.AssetsService;
 import fcmb.com.good.services.assets.DamagedAssetsService;
@@ -21,12 +19,11 @@ import javax.validation.Valid;
 import java.util.List;
 import java.util.UUID;
 import static fcmb.com.good.utills.EndPoints.AssetsEndPoints.*;
-import static fcmb.com.good.utills.EndPoints.RoomEndPoints.SEARCH_ROOM_FACILITY_BY_ROOM_NUMBER_AND_CUSTOMER;
 import static fcmb.com.good.utills.EndpointParam.*;
 
 
 @RestController
-@RequestMapping(USERS)
+@RequestMapping(assets)
 @RequiredArgsConstructor
 public class AssetsController {
 

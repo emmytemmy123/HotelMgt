@@ -90,7 +90,6 @@ public class PaymentServiceImpl implements PaymentService {
 
         Payment payment = new Payment();
 
-        payment.setCategory(existingProduct.getProductsCategory());
         payment.setAmount((existingProduct.getPrice())*(request.getQuantity()));
         payment.setServiceName(existingProduct.getName());
         payment.setPrice(existingProduct.getPrice());

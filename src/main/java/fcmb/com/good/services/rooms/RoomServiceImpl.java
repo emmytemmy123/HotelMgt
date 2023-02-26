@@ -83,18 +83,13 @@ public class RoomServiceImpl implements RoomService {
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedBy())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Customer existingCustomer  = customerRepository.findByUuid(request.getCurrentOccupantId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Rooms rooms = new Rooms();
         rooms.setServiceType(request.getServiceType());
         rooms.setDescription(request.getDescription());
         rooms.setServiceNumber(request.getServiceNumber());
-        rooms.setPrice(request.getPrice());
         rooms.setStatus(request.getStatus());
-        rooms.setRate(request.getRate());
         rooms.setMaxNoOccupant(request.getMaxNoOccupant());
-        rooms.setCurrentOccupant(existingCustomer);
         rooms.setCreatedBy(existingUser);
         rooms.setRoomCategory(existingRoomCategory);
         roomsRepository.save(rooms);
@@ -149,9 +144,7 @@ public class RoomServiceImpl implements RoomService {
         rooms.setServiceType(request.getServiceType());
         rooms.setDescription(request.getDescription());
         rooms.setServiceNumber(request.getServiceNumber());
-        rooms.setPrice(request.getPrice());
         rooms.setStatus(request.getStatus());
-        rooms.setRate(request.getRate());
         rooms.setMaxNoOccupant(request.getMaxNoOccupant());
         rooms.setRoomCategory(existingRoomCategory);
 

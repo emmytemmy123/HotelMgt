@@ -14,36 +14,11 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @Data
 public class RoomResponse extends BaseDto {
 
-
-    // private UUID roomCategory;
-
+     private String serviceType;
      private Integer serviceNumber;
-
      private String description;
-
-     private String category;
-
-     private Double price;
-
      private String status;
-
-     //private String availableRooms;
-
-     private String photo;
-
-     //private UUID createdBy;
-
-     private String serviceName;
-
-     private Double unitCost;
-
-     private String name;
-
-     private String fileName;
-
-
-
-
+     private Integer maxNoOccupant;
 
 
 }

@@ -21,7 +21,7 @@ public interface ProductService {
 
     ApiResponse<List<ProductResponse>> searchProductsByName(String name);
 
-    ApiResponse<List<ProductResponse>> searchProductsByProductCategory(String productCategory);
+//    ApiResponse<List<ProductResponse>> searchProductsByProductCategory(String productCategory);
 
 
 

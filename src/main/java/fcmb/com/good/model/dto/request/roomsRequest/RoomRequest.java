@@ -29,9 +29,6 @@ public class RoomRequest  {
       @NotEmpty(message = INVALID_NAME)
       private String serviceType;
 
-      @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
-      private Integer rate;
 
       @NotNull(message = INVALID_NAME)
 //      @NotEmpty(message = INVALID_NAME)
@@ -48,8 +45,6 @@ public class RoomRequest  {
       @NotNull(message = INVALID_NAME)
       private UUID createdBy;
 
-      @NotNull(message = INVALID_NAME)
-      private UUID CurrentOccupantId;
 
 
 }

@@ -5,17 +5,19 @@ import fcmb.com.good.model.dto.BaseDto;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 public class ProductPurchaseResponse extends BaseDto {
 
-     private Long product_id;
+     private String name;
+     private String category;
      private String description;
-     private String company_name;
+     private String companyName;
+     private String brand;
      private String quantity;
      private Double price;
-     private LocalDateTime dateCreated;
-     private LocalDateTime lastModified;
+     private Date productPurchaseDate;
 
 
 }

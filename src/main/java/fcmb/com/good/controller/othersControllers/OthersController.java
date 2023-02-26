@@ -21,7 +21,7 @@ import static fcmb.com.good.utills.EndpointParam.*;
 import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 
 @RestController
-@RequestMapping(USERS)
+@RequestMapping(others)
 @RequiredArgsConstructor
 public class OthersController {
 

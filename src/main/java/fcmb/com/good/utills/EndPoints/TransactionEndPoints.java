@@ -2,7 +2,7 @@ package fcmb.com.good.utills.EndPoints;
 
 public class TransactionEndPoints {
 
-    public static final String USERS="USERS";
+    public static final String transaction="transaction";
 
     public static final String ACCOUNT_CATEGORY="/accountCategory";
     public static final String FIND_ACCOUNT_CATEGORY=ACCOUNT_CATEGORY+"/list";

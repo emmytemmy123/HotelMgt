@@ -19,6 +19,7 @@ import java.util.Set;
 public class ProductCategory extends BaseEntity {
 
     private String name;
+    private String description;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

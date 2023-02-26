@@ -25,7 +25,7 @@ public class AssetsCategoryRequest  {
 
     @NotNull(message = INVALID_TYPE)
     @NotEmpty(message = INVALID_TYPE)
-    private String type;
+    private String category;
 
     @NotNull(message = INVALID_DESCRIPTION)
     @NotEmpty(message = INVALID_DESCRIPTION)
@@ -33,7 +33,7 @@ public class AssetsCategoryRequest  {
 
     @NotNull(message = INVALID_ACCOUNT_NO)
 //    @NotEmpty(message = INVALID_ACCOUNT_NO)
-    private String account_no;
+    private String accountNo;
 
     @NotNull(message = INVALID_ACCOUNT_NO)
 //    @NotEmpty(message = INVALID_ACCOUNT_NO)

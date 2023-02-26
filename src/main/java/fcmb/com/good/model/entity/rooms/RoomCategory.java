@@ -18,7 +18,7 @@ public class RoomCategory extends BaseEntity {
 
     private String category;
     private String description;
-    private String cost;
+    private Double cost;
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

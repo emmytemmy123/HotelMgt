@@ -207,7 +207,7 @@ public class CustomerServiceImpl implements CustomerService  {
      * @Return a Success Message if oldPassword is correct
      * @Return a Failed Message if oldPassword is Incorrect
      */
-    public ApiResponse<String> changeCustomerPassword(String email, changeCustomerPasswordRequest request) {
+    public ApiResponse<String> resetPassword(String email, changeCustomerPasswordRequest request) {
         Customer customer = customerRepository.findByEmail(email);
 
         if(customer.getPassword().equals(request.getOldPassword())){

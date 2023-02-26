@@ -24,14 +24,11 @@ public class Rooms extends BaseEntity {
     private String serviceType;
     private Integer serviceNumber;
     private String description;
-    private Double price;
     private String status;
     private Integer rate;
     private Integer maxNoOccupant;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "currentOccupantId", insertable = true, updatable = true)
-    private Customer currentOccupant;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdById", updatable = true)

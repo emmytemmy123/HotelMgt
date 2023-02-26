@@ -20,11 +20,10 @@ import java.util.List;
 import java.util.UUID;
 
 import static fcmb.com.good.utills.EndPoints.KitchenEndPoints.*;
-import static fcmb.com.good.utills.EndPoints.ProductEndPoints.USERS;
 import static fcmb.com.good.utills.EndpointParam.*;
 
 @RestController
-@RequestMapping(USERS)
+@RequestMapping(kitchen)
 @RequiredArgsConstructor
 public class kitchenController {
 

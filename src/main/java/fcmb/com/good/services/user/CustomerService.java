@@ -25,7 +25,7 @@ public interface CustomerService {
 
     ApiResponse<String> deleteCustomer(UUID customerId);
 
-    ApiResponse<String> changeCustomerPassword(String email, changeCustomerPasswordRequest request);
+    ApiResponse<String> resetPassword(String email, changeCustomerPasswordRequest request);
 
     ApiResponse<String> forgotCustomerPassword(String email) throws MessagingException;
 

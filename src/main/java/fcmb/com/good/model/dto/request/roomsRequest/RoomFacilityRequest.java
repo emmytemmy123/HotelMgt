@@ -29,9 +29,8 @@ public class RoomFacilityRequest {
     private UUID createdById;
 
     @NotNull(message = INVALID_NAME)
-    private UUID existingRoomId;
+    private UUID roomId;
 
-    @NotNull(message = INVALID_NAME)
-    private UUID customerId;
+
 
 }

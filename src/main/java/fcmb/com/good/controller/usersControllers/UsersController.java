@@ -19,7 +19,7 @@ import static fcmb.com.good.utills.EndpointParam.*;
 import static fcmb.com.good.utills.EndPoints.UsersEndPoints.*;
 
 @CrossOrigin(origins = "http://localhost:4200")
-@RequestMapping(USERS)
+@RequestMapping(users)
 @RestController
 @RequiredArgsConstructor
 public class UsersController  {
@@ -49,7 +49,7 @@ public class UsersController  {
         return employeeService.getListOfEmployee(page,size);
     }
 
-    @GetMapping(FIND_EMPLOYEESHIFT)
+    @GetMapping(FIND_EMPLOYEE_SHIFT)
     @ApiOperation(value = "Endpoint for retrieving lists of employeeShift", response = EmployeeShiftResponse.class, responseContainer = "List")
     public ApiResponse<List<EmployeeShiftResponse>> getListOfEmployeeShift(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
                                                                            @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
@@ -92,7 +92,7 @@ public class UsersController  {
         return employeeService.addEmployee(request);
     }
 
-    @PostMapping(ADD_EMPLOYEESHIFT)
+    @PostMapping(ADD_EMPLOYEE_SHIFT)
     @ApiOperation(value = "Endpoint for adding new employeeShift to database", response = String.class)
     public ApiResponse<String> addEmployeeShift(@Valid @RequestBody EmployeeShiftRequest request) {
         return employeeShiftService.addEmployeeShift(request);
@@ -137,7 +137,7 @@ public class UsersController  {
         return employeeService.getEmployeeById(employee_id);
     }
 
-    @GetMapping(FIND_EMPLOYEESHIFT_BY_ID)
+    @GetMapping(FIND_EMPLOYEE_SHIFT_BY_ID)
     @ApiOperation(value = "Endpoint for fetching employeeShift by id from database", response = EmployeeShiftResponse.class)
     public ApiResponse<EmployeeShiftResponse> getEmployeeShiftById(@PathVariable(value = "id") UUID employeeShift_id) {
         return employeeShiftService.getEmployeeShiftById(employeeShift_id);
@@ -177,7 +177,7 @@ public class UsersController  {
         return employeeService.updateEmployee(employee_id, employee);
     }
 
-    @PutMapping(UPDATE_EMPLOYEESHIFT)
+    @PutMapping(UPDATE_EMPLOYEE_SHIFT)
     @ApiOperation(value = "Endpoint for updating employeeShift by id from database", response = String.class)
     public ApiResponse<String> updateEmployeeShift(@PathVariable(value = "id") UUID employeeShift_id,
                                                    @RequestBody EmployeeShiftRequest request) {
@@ -219,7 +219,7 @@ public class UsersController  {
         return employeeService.deleteEmployee(employee_id);
     }
 
-    @DeleteMapping(DELETE_EMPLOYEESHIFT)
+    @DeleteMapping(DELETE_EMPLOYEE_SHIFT)
     @ApiOperation(value = "Endpoint for deleting employeeShift by id from database", response = String.class)
     public ApiResponse<String> deleteEmployeeShift(@PathVariable(value = "id") UUID employeeShift_id) {
         return employeeShiftService.deleteEmployeeShift(employeeShift_id);
@@ -244,24 +244,23 @@ public class UsersController  {
     }
 
                                 //Change Password
-    @PutMapping(CHANGE_USER_PASSWORD)
-    @ApiOperation(value = "Endpoint for updating users password from database", response = String.class)
-    public ApiResponse<String> changeUserPassword(@RequestBody changeUserPasswordRequest request, String email) {
-        return userService.changeUserPassword(email, request);
+    @PutMapping(RESET_USER_PASSWORD)
+    @ApiOperation(value = "Endpoint for resetting users password from database", response = String.class)
+    public ApiResponse<String> resetPassword(@RequestBody changeUserPasswordRequest request, String email) {
+        return userService.resetPassword(email, request);
     }
 
-    @PutMapping(CHANGE_CUSTOMER_PASSWORD)
+    @PutMapping(RESET_PASSWORD)
     @ApiOperation(value = "Endpoint for updating customer password from database", response = String.class)
     public ApiResponse<String> changeCustomerPassword(@RequestBody changeCustomerPasswordRequest request, String email) {
-        return customerService.changeCustomerPassword(email, request);
+        return customerService.resetPassword(email, request);
     }
 
-    @PutMapping(CHANGE_EMPLOYEE_PASSWORD)
-    @ApiOperation(value = "Endpoint for updating employee password from database", response = String.class)
-    public ApiResponse<String> changeEmployeePassword(@RequestBody changeEmployeePasswordRequest request, String email) {
-        return employeeService.changeEmployeePassword(email, request);
+    @PutMapping(RESET_EMPLOYEE_PASSWORD)
+    @ApiOperation(value = "Endpoint for resetting employee password from database", response = String.class)
+    public ApiResponse<String> resetPassword(@RequestBody changeEmployeePasswordRequest request, String email) {
+        return employeeService.resetPassword(email, request);
     }
-
 
                                         //Forgot Password
     @GetMapping(FORGOT_USER_PASSWORD)
@@ -271,7 +270,7 @@ public class UsersController  {
     }
 
     @GetMapping(FORGOT_CUSTOMER_PASSWORD)
-    @ApiOperation(value = "Endpoint for getting forgotten customer password from database", response = String.class)
+    @ApiOperation(value = "Endpoint for resetting customer password from database", response = String.class)
     public ApiResponse<String> forgotCustomerPassword(String email) throws MessagingException {
         return customerService.forgotCustomerPassword(email);
     }

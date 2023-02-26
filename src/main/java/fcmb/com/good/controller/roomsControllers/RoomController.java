@@ -22,18 +22,18 @@ import java.util.List;
 import java.util.UUID;
 
 import static fcmb.com.good.utills.EndPoints.RoomEndPoints.*;
-import static fcmb.com.good.utills.EndPoints.RoomEndPoints.USERS;
 import static fcmb.com.good.utills.EndpointParam.*;
 import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 
 @RestController
-@RequestMapping(USERS)
+@RequestMapping(room)
 @RequiredArgsConstructor
 public class RoomController {
 
     private final RoomService roomService;
     private final RoomCategoryService roomTypeService;
     private final RoomFacilityService roomFacilityService;
+
 
                                     //FIND_LISTS_OF_ROOMS
     @GetMapping(FIND_ROOM)
@@ -50,12 +50,6 @@ public class RoomController {
         return roomTypeService.getListOfRoomType(page,size);
     }
 
-    @GetMapping(FIND_ROOM_FACILITY)
-    @ApiOperation(value = "Endpoint for retrieving lists of roomFacility", response = RoomFacilityResponse.class, responseContainer = "List")
-    public ApiResponse<List<RoomFacilityResponse>> getListOfRoomFacility(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                         @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
-        return roomFacilityService.getListOfRoomFacility(page,size);
-    }
 
 
                                      //ADD_ROOMS
@@ -85,11 +79,11 @@ public class RoomController {
         return roomService.getRoomById(room_id);
     }
 
-    @GetMapping(FIND_ROOM_TYPE_BY_ID)
-    @ApiOperation(value = "Endpoint for fetching roomType by id from database", response = RoomTypeResponse.class)
-    public ApiResponse<RoomTypeResponse> getRoomTypeById(@PathVariable(value = "id") UUID room_type_id) {
-        return roomTypeService.getRoomTypeById(room_type_id);
-    }
+//    @GetMapping(FIND_ROOM_TYPE_BY_ID)
+//    @ApiOperation(value = "Endpoint for fetching roomType by id from database", response = RoomTypeResponse.class)
+//    public ApiResponse<RoomTypeResponse> getRoomTypeById(@PathVariable(value = "id") UUID room_type_id) {
+//        return roomTypeService.getRoomTypeById(room_type_id);
+//    }
 
     @GetMapping(FIND_ROOM_FACILITY_BY_ID)
     @ApiOperation(value = "Endpoint for fetching roomFacility by id from database", response = RoomFacilityResponse.class)
@@ -140,31 +134,18 @@ public class RoomController {
     }
 
 
-                                        //FIND_SUB_SERVICE_BY_ROOM_ID
 
 
+                                //FIND_ROOM_FACILITY_BY_ROOM_NUMBER
 
-
-                                //FIND_ROOM_FACILITY_BY_ROOM_NUMBER_AND_CUSTOMER
-
-    @GetMapping(SEARCH_ROOM_FACILITY_BY_ROOM_NUMBER_AND_CUSTOMER)
-    @ApiOperation(value = "Endpoint for retrieving lists of roomFacility by RoomNumberAndCustomer", response = RoomFacilityResponse.class, responseContainer = "List")
-    public ApiResponse<List<RoomFacilityResponse>> searchListOfRoomFacilityByRoomNumber(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                            @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
-                                                                            @RequestParam UUID roomUuid, @RequestParam UUID customerUuid ) {
-        return roomFacilityService.getRoomFacilityByRoomNumberAndCustomer(roomUuid, customerUuid);
+    @GetMapping(SEARCH_ROOM_FACILITY_BY_ROOM_NUMBER)
+    @ApiOperation(value = "Endpoint for retrieving lists of roomFacility by RoomNumber", response = RoomFacilityResponse.class, responseContainer = "List")
+    public ApiResponse<List<RoomFacilityResponse>> searchListOfRoomFacilityByRoomNumber(@RequestParam UUID roomUuid ) {
+        return roomFacilityService.getRoomFacilityByRoomNumber(roomUuid);
     }
 
 
-                            //FIND_ROOM_FACILITY_BY_NAME
 
-    @GetMapping(SEARCH_ROOM_FACILITY_BY_NAME)
-    @ApiOperation(value = "Endpoint for retrieving lists of roomFacility by name", response = RoomFacilityResponse.class, responseContainer = "List")
-    public ApiResponse<List<RoomFacilityResponse>> searchListOfRoomFacilityByName(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                                        @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
-                                                                                        @RequestParam String name) {
-        return roomFacilityService.searchRoomFacilityByName(name);
-    }
 
 
 }

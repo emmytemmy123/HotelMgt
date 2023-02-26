@@ -29,6 +29,7 @@ import java.util.UUID;
 
 
 @Service
+
 @RequiredArgsConstructor
 public class ProductPurchaseServiceImpl implements ProductPurchaseService {
 
@@ -87,7 +88,7 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
      * Create the ProductPurchase definition and save
      * @return success message* *
      * * */
-    public ApiResponse<String> addProductPurchase(@RequestBody ProductPurchaseRequest request) {
+    public ApiResponse<String> addProductPurchase(ProductPurchaseRequest request) {
 
         validateDuplicationProductPurchase(request.getName());
 
@@ -104,7 +105,8 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
         productPurchase.setName(request.getName());
         productPurchase.setCategory(request.getCategory());
         productPurchase.setDescription(request.getDescription());
-        productPurchase.setCompany_name(request.getCompanyName());
+        productPurchase.setCompanyName(request.getCompanyName());
+        productPurchase.setBrand(request.getBrand());
         productPurchase.setPrice(request.getPrice());
         productPurchase.setProductPurchaseDate(request.getProductPurchaseDate());
         productPurchase.setQuantity(String.valueOf(Integer.sum(existingProduct.getQuantity(), Integer.parseInt(request.getQuantity()))));
@@ -126,7 +128,7 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
      * Create the productPurchase definition and get the product Optional by uuid
      * @return the list of productPurchase and a Success Message* *
      * * */
-    public ApiResponse<ProductPurchaseResponse> getProductPurchaseById(@RequestParam("id") UUID productPurchaseId) {
+    public ApiResponse<ProductPurchaseResponse> getProductPurchaseById( UUID productPurchaseId) {
         Optional<ProductPurchase> productPurchaseOptional = productPurchaseRepository.findByUuid(productPurchaseId);
 
         if(productPurchaseOptional.isEmpty())
@@ -147,7 +149,7 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
      * Create the existingProductPurchase definition and save
      * @return a Success Message* *
      * * */
-        public ApiResponse<String> updateProductPurchase(@RequestParam UUID productPurchaseId, @RequestBody ProductPurchaseRequest request) {
+        public ApiResponse<String> updateProductPurchase( UUID productPurchaseId, ProductPurchaseRequest request) {
 
         ProductPurchase productPurchase = validateProductPurchase(productPurchaseId);
         Product existingProduct  = productRepository.findByUuid(request.getProductId())
@@ -157,7 +159,9 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
         productPurchase.setName(request.getName());
         productPurchase.setCategory(request.getCategory());
         productPurchase.setDescription(request.getDescription());
-        productPurchase.setCompany_name(request.getCompanyName());
+        productPurchase.setCompanyName(request.getCompanyName());
+        productPurchase.setBrand(request.getBrand());
+
         productPurchase.setPrice(request.getPrice());
         productPurchase.setProductPurchaseDate(request.getProductPurchaseDate());
         productPurchase.setQuantity(String.valueOf(Integer.sum(existingProduct.getQuantity(), Integer.parseInt(request.getQuantity()))));

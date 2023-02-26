@@ -104,24 +104,25 @@ public class RoomCategoryServiceImpl implements RoomCategoryService {
     }
 
 
-    @Override
-    /**
-     * @Validating and Finding the list of roomCategoryOptional by uuid
-     * @Validate if the List of roomCategoryOptional is empty otherwise return record not found
-     * Create the roomCategory definition and get the roomCategoryOptional by uuid
-     * @return the list of roomCategory and a Success Message
-     * * */
-    public ApiResponse<RoomTypeResponse> getRoomTypeById( UUID roomTypeId) {
-        Optional<RoomCategory> roomCategoryOptional = roomCategoryRepository.findByUuid(roomTypeId);
+//    @Override
+//    /**
+//     * @Validating and Finding the list of roomCategoryOptional by uuid
+//     * @Validate if the List of roomCategoryOptional is empty otherwise return record not found
+//     * Create the roomCategory definition and get the roomCategoryOptional by uuid
+//     * @return the list of roomCategory and a Success Message
+//     * * */
+//    public ApiResponse<RoomTypeResponse> getRoomTypeById( UUID roomTypeId) {
+//        Optional<RoomCategory> roomCategoryOptional = roomCategoryRepository.findByUuid(roomTypeId);
+//
+//        if(roomCategoryOptional.isEmpty())
+//            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+//
+//        RoomCategory roomCategory = roomCategoryOptional.get();
+//        return new ApiResponse<RoomTypeResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+//                Mapper.convertObject(roomCategory,RoomTypeResponse.class));
+//
+//    }
 
-        if(roomCategoryOptional.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-
-        RoomCategory roomCategory = roomCategoryOptional.get();
-        return new ApiResponse<RoomTypeResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(roomCategory,RoomTypeResponse.class));
-
-    }
 
     /**
      * @validating roomCategoryOptional by uuid

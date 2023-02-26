@@ -2,14 +2,11 @@ package fcmb.com.good.utills.EndPoints;
 
 
 
-
 public class KitchenEndPoints {
 
-    public static final String USERS="USERS";
+    public static final String kitchen="kitchen";
 
-
-
-    public static final String KITCHEN="/kitchen";
+    public static final String KITCHEN="";
     public static final String FIND_KITCHEN=KITCHEN+"/list";
     public static final String ADD_KITCHEN= KITCHEN+"/add";
     public static final String FIND_KITCHEN_BY_ID= KITCHEN+"/{id}";
@@ -19,7 +16,7 @@ public class KitchenEndPoints {
     public static final String SEARCH_KITCHEN_BY_CATEGORY= KITCHEN+"/searchKitchenListByCategory";
 
 
-    public static final String KITCHEN_CATEGORY="/kitchenCategory";
+    public static final String KITCHEN_CATEGORY="/category";
     public static final String FIND_KITCHEN_CATEGORY=KITCHEN_CATEGORY+"/list";
     public static final String ADD_KITCHEN_CATEGORY= KITCHEN_CATEGORY+"/add";
     public static final String FIND_KITCHEN_CATEGORY_BY_ID= KITCHEN_CATEGORY+"/{id}";
@@ -29,7 +26,7 @@ public class KitchenEndPoints {
     public static final String SEARCH_KITCHEN_CATEGORY_BY_CATEGORY= KITCHEN_CATEGORY+"/searchKitchenListByCategory";
 
 
-    public static final String KITCHEN_ORDER="/kitchenOrder";
+    public static final String KITCHEN_ORDER="/order";
     public static final String FIND_KITCHEN_ORDER=KITCHEN_ORDER+"/list";
     public static final String ADD_KITCHEN_ORDER= KITCHEN_ORDER+"/add";
     public static final String FIND_KITCHEN_ORDER_BY_ID= KITCHEN_ORDER+"/{id}";

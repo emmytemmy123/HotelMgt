@@ -21,7 +21,7 @@ public interface EmployeeService {
 
     ApiResponse<String> deleteEmployee(UUID employeeId);
 
-    ApiResponse<String> changeEmployeePassword(String email, changeEmployeePasswordRequest request);
+    ApiResponse<String> resetPassword(String email, changeEmployeePasswordRequest request);
 
     ApiResponse<String> forgotEmployeePassword(String email) throws MessagingException;
 

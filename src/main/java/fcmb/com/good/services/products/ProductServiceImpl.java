@@ -73,22 +73,22 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-    @Override
-    /**
-     * @Search the list of all products by category*
-     * @Validate if the List of productCategory is empty otherwise return record not found*
-     * @return the list of products by categoryName* *
-     * * */
-    public ApiResponse<List<ProductResponse>> searchProductsByProductCategory(String productCategory) {
-        List<Product> searchProductsByProductCategory = productRepository.searchProductsByProductCategory(productCategory);
-
-        if(searchProductsByProductCategory.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(searchProductsByProductCategory, ProductResponse.class));
-
-    }
+//    @Override
+//    /**
+//     * @Search the list of all products by category*
+//     * @Validate if the List of productCategory is empty otherwise return record not found*
+//     * @return the list of products by categoryName* *
+//     * * */
+//    public ApiResponse<List<ProductResponse>> searchProductsByProductCategory(String productCategory) {
+//        List<Product> searchProductsByProductCategory = productRepository.searchProductsByProductCategory(productCategory);
+//
+//        if(searchProductsByProductCategory.isEmpty())
+//            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+//
+//        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+//                Mapper.convertList(searchProductsByProductCategory, ProductResponse.class));
+//
+//    }
 
 
     @Override
@@ -144,6 +144,7 @@ public class ProductServiceImpl implements ProductService {
      * @return success message* *
      * * */
     public ApiResponse<String> addProducts(ProductRequest request) {
+
         validateDuplicationProduct(request.getName());
 
         ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategoryId())
@@ -159,12 +160,8 @@ public class ProductServiceImpl implements ProductService {
         product.setPrice(request.getPrice());
         product.setCode(request.getCode());
         product.setLocation(request.getLocation());
-        product.setStatus(request.getStatus());
-        product.setProfit(product.getPrice() - request.getPurchasedPrice() );
         product.setProductCategory(existingProductCategory);
         product.setCreatedBy(existingUser);
-        product.setPurchasedPrice(request.getPurchasedPrice());
-        product.setProductsCategory(request.getProductsCategory());
 
         productRepository.save(product);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
@@ -192,14 +189,9 @@ public class ProductServiceImpl implements ProductService {
             product.setPrice(request.getPrice());
             product.setCode(request.getCode());
             product.setLocation(request.getLocation());
-            product.setPurchasedPrice(request.getPurchasedPrice());
-            product.setStatus(request.getStatus());
             product.setProductCategory(existingProductCategory);
-            product.setStatus(request.getStatus());
-            product.setPurchasedPrice(request.getPurchasedPrice());
-            product.setProductsCategory(request.getProductsCategory());
 
-            product = productRepository.save(product);
+            productRepository.save(product);
             return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record updated successfully");
         }

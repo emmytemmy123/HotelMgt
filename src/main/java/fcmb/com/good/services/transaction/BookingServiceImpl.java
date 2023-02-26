@@ -74,12 +74,12 @@ public class BookingServiceImpl implements BookingService {
 
         Booking booking = new Booking();
         booking.setCategory(existingRoomCategory.getCategory());
-        booking.setPrice(existingRoom.getPrice());
+        booking.setPrice(existingRoomCategory.getCost());
         booking.setRoomNo(String.valueOf(existingRoom.getServiceNumber()));
         booking.setNight(request.getNight());
         booking.setBookedNo(request.getBookedNo());
         booking.setBookedBy(existingCustomer.getName());
-        booking.setTotalAmount((existingRoom.getPrice())*(request.getNight()));
+        booking.setTotalAmount((existingRoomCategory.getCost())*(request.getNight()));
         booking.setCheckInDate(request.getCheckInDate());
         booking.setCheckOutDate(request.getCheckOutDate());
         booking.setCustomer(existingCustomer);

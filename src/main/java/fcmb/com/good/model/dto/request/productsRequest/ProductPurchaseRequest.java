@@ -33,6 +33,10 @@ public class ProductPurchaseRequest  {
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
+     private String brand;
+
+     @NotNull(message = INVALID_NAME)
+     @NotEmpty(message = INVALID_NAME)
      private String quantity;
 
      @NotNull(message = INVALID_NAME)
@@ -55,13 +59,7 @@ public class ProductPurchaseRequest  {
 //     @NotEmpty(message = INVALID_NAME)
      private Date productPurchaseDate;
 
-     @NotNull(message = INVALID_NAME)
-//     @NotEmpty(message = INVALID_NAME)
-     private LocalDateTime dateCreated;
 
-     @NotNull(message = INVALID_NAME)
-//     @NotEmpty(message = INVALID_NAME)
-     private LocalDateTime lastModified;
 
 
 }

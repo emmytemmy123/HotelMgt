@@ -27,7 +27,7 @@ public interface UserService {
 
     ApiResponse<String> deleteUser(UUID userId);
 
-    ApiResponse<String> changeUserPassword(String email, changeUserPasswordRequest request);
+    ApiResponse<String> resetPassword(String email, changeUserPasswordRequest request);
 
     ApiResponse<String> forgotUserPassword(String email) throws MessagingException;
 

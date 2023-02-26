@@ -28,9 +28,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
             "Or p.description LIKE CONCAT('%', :query, '%')")
     List<Product> searchProductsByName(String query);
 
-    @Query("SELECT p FROM Product p WHERE " +
-            "p.productsCategory LIKE CONCAT('%',:query, '%')" +
-            "Or p.description LIKE CONCAT('%', :query, '%')")
-    List<Product> searchProductsByProductCategory(String query);
+//    @Query("SELECT p FROM Product p WHERE " +
+//            "Or p.description LIKE CONCAT('%', :query, '%')")
+//    List<Product> searchProductsByProductCategory(String query);
 
 }

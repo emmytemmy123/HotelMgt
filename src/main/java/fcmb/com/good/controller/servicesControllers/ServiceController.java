@@ -2,11 +2,9 @@ package fcmb.com.good.controller.servicesControllers;
 
 
 import fcmb.com.good.model.dto.request.servicesRequest.ServiceRequestRequest;
-import fcmb.com.good.model.dto.request.servicesRequest.ServicesRequest;
 import fcmb.com.good.model.dto.request.servicesRequest.SubServiceRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.ServiceRequestResponse;
-import fcmb.com.good.model.dto.response.servicesResponse.ServiceResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
 import fcmb.com.good.services.serviceRender.ServiceRequestService;
 import fcmb.com.good.services.serviceRender.SubServiceService;
@@ -23,7 +21,7 @@ import static fcmb.com.good.utills.EndpointParam.*;
 import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 
 @RestController
-@RequestMapping(USERS)
+@RequestMapping(service)
 @RequiredArgsConstructor
 public class ServiceController {
 

@@ -18,12 +18,11 @@ import java.util.List;
 import java.util.UUID;
 
 import static fcmb.com.good.utills.EndPoints.TransactionEndPoints.*;
-import static fcmb.com.good.utills.EndPoints.TransactionEndPoints.USERS;
 import static fcmb.com.good.utills.EndpointParam.*;
 import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 
 @RestController
-@RequestMapping(USERS)
+@RequestMapping(transaction)
 @RequiredArgsConstructor
 public class TransactionController {
 

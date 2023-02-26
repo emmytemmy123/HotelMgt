@@ -33,20 +33,6 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
     private final RoomsRepository roomRepository;
     private final CustomerRepository customerRepository;
 
-    @Override
-    /**
-     * @Finding the list of roomFacility
-     * @Validate the List of roomFacility is empty otherwise return record not found
-     * @return the list of roomFacility and a Success Message
-     * * */
-    public ApiResponse<List<RoomFacilityResponse>> getListOfRoomFacility(int page, int size) {
-        List<RoomFacility> roomFacilityList= roomFacilityRepository.findAll(PageRequest.of(page,size)).toList();
-        if(roomFacilityList.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(roomFacilityList, RoomFacilityResponse.class));
-    }
 
 
     /**
@@ -75,10 +61,7 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Customer existingCustomer  = customerRepository.findByUuid(request.getCustomerId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
-        Rooms existingRoom  = roomRepository.findByUuid(request.getExistingRoomId())
+        Rooms existingRoom  = roomRepository.findByUuid(request.getRoomId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         RoomFacility roomFacility = new RoomFacility();
@@ -87,7 +70,6 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
         roomFacility.setDescription(request.getDescription());
         roomFacility.setCreatedBy(existingUser);
         roomFacility.setRoom(existingRoom);
-//        roomFacility.setCustomer(existingCustomer);
 
         roomFacilityRepository.save(roomFacility);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
@@ -159,16 +141,17 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
         RoomFacility roomFacility = validateRoomFacility(roomFacilityId);
         roomFacilityRepository.delete(roomFacility);
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                "Record Deleted successfully");    }
+                "Record Deleted successfully");
+    }
 
 
     @Override
     /**
-     * @Search the list of all RoomFacilityResponse by roomNo and Customer
+     * @Search the list of all RoomFacilityResponse by roomNo
      * @Validate if the List of RoomFacilityResponse is empty otherwise return record not found*
-     * @return the list of RoomFacilityResponse by roomNo and Customer
+     * @return the list of RoomFacilityResponse by roomNo
      * * */
-    public ApiResponse<List<RoomFacilityResponse>> getRoomFacilityByRoomNumberAndCustomer(UUID roomUuid, UUID customerUuid) {
+    public ApiResponse<List<RoomFacilityResponse>> getRoomFacilityByRoomNumber(UUID roomUuid) {
 
     List<RoomFacility> getRoomFacilityByRoomNumber = roomFacilityRepository.findRoomFacilityByRoomNumberAndCustomer(roomUuid);
 
@@ -180,22 +163,6 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
 
     }
 
-    @Override
-    /**
-     * @Search the list of all RoomFacilityResponse by name
-     * @Validate if the List of RoomFacilityResponse is empty otherwise return record not found*
-     * @return the list of RoomFacilityResponse by name
-     * * */
-    public ApiResponse<List<RoomFacilityResponse>> searchRoomFacilityByName(String name) {
-
-        List<RoomFacility> searchRoomFacilityByName = roomFacilityRepository.searchRoomFacilityByName(name);
-
-        if(searchRoomFacilityByName.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(searchRoomFacilityByName, RoomFacilityResponse.class));
-    }
 
 
 }

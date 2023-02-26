@@ -26,7 +26,7 @@ public interface ProductPurchaseRepository extends JpaRepository<ProductPurchase
 
     @Query("SELECT p FROM ProductPurchase p WHERE " +
             "p.name LIKE CONCAT('%',:query, '%')" +
-            "Or p.company_name LIKE CONCAT('%', :query, '%')" +
+            "Or p.companyName LIKE CONCAT('%', :query, '%')" +
             "Or p.category LIKE CONCAT('%', :query, '%')" +
             "Or p.productPurchaseDate LIKE CONCAT('%', :query, '%')")
     List<ProductPurchase> searchProductPurchaseByName(String query);

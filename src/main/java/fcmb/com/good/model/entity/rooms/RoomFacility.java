@@ -28,9 +28,7 @@ public class RoomFacility extends BaseEntity {
     @JoinColumn(name = "createdById", insertable = true, updatable = true)
     private AppUser createdBy;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "customerId", insertable = true, updatable = true)
-//    private Customer customer;
+
 
 
     public RoomFacility(){}

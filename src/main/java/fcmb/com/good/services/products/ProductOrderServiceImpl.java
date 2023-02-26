@@ -92,7 +92,6 @@ public class ProductOrderServiceImpl implements ProductOrderService {
         productOrder.setAccountNo(request.getAccountNo());
         productOrder.setQuantity(request.getQuantity());
         productOrder.setPrice(request.getPrice());
-        productOrder.setProfit((request.getPrice() - existingProduct.getPurchasedPrice()) * (request.getQuantity()) );
         productOrder.setSalesPerson(existingEmployee.getName());
         productOrder.setOrderState(request.getOrderState());
         productOrder.setEmployee(existingEmployee );

@@ -18,9 +18,9 @@ import java.util.List;
 public class AssetsCategory extends BaseEntity {
 
     private String name;
-    private String type;
+    private String category;
     private String description;
-    private String account_no;
+    private String accountNo;
 
     @OneToMany(mappedBy = "assetsCategory")
     private List<Assets> assets_list;

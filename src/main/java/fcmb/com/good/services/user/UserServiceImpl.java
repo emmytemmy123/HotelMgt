@@ -229,7 +229,7 @@ public class UserServiceImpl  implements UserService {
      * @Validate user password and change password
      * @Save the new password and return a Success Message
      */
-    public ApiResponse<String> changeUserPassword(String email, changeUserPasswordRequest request) {
+    public ApiResponse<String> resetPassword(String email, changeUserPasswordRequest request) {
 //        if (jwtFilter.isAdmin()) {
             AppUser users = userRepository.findByEmail(email);
 

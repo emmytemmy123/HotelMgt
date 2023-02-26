@@ -13,7 +13,7 @@ public interface RoomCategoryService {
 
     ApiResponse<String> addRoomType(RoomTypeRequest request);
 
-    ApiResponse<RoomTypeResponse> getRoomTypeById(UUID roomTypeId);
+//    ApiResponse<RoomTypeResponse> getRoomTypeById(UUID roomTypeId);
 
     ApiResponse<String> updateRoomType( UUID roomTypeId, RoomTypeRequest request);
 

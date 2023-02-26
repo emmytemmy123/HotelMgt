@@ -21,7 +21,8 @@ public class ProductPurchase extends BaseEntity {
     private String name;
     private String category;
     private String description;
-    private String company_name;
+    private String companyName;
+    private String brand;
     private String quantity;
     private Double price;
     private Date productPurchaseDate;

@@ -16,12 +16,11 @@ import java.util.List;
 import java.util.UUID;
 
 import static fcmb.com.good.utills.EndPoints.ProductEndPoints.*;
-import static fcmb.com.good.utills.EndPoints.ProductEndPoints.USERS;
 import static fcmb.com.good.utills.EndpointParam.*;
 import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 
 @RestController
-@RequestMapping(USERS)
+@RequestMapping(product)
 @RequiredArgsConstructor
 public class ProductController {
 
@@ -142,15 +141,15 @@ public class ProductController {
 
     }
 
-                                            //FIND_PRODUCTS_BY_CATEGORY
-
-    @GetMapping(SEARCH_PRODUCT_BY_CATEGORY)
-    @ApiOperation(value = "Endpoint for searching products by Category", response = ProductResponse.class, responseContainer = "List")
-    public ApiResponse<List<ProductResponse>> searchProductsByCategory(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                       @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
-                                                                       @RequestParam String category ) {
-        return productService.searchProductsByProductCategory(category);
-    }
+//                                            //FIND_PRODUCTS_BY_CATEGORY
+//
+//    @GetMapping(SEARCH_PRODUCT_BY_CATEGORY)
+//    @ApiOperation(value = "Endpoint for searching products by Category", response = ProductResponse.class, responseContainer = "List")
+//    public ApiResponse<List<ProductResponse>> searchProductsByCategory(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+//                                                                       @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
+//                                                                       @RequestParam String category ) {
+//        return productService.searchProductsByProductCategory(category);
+//    }
 
                                             //FIND_PRODUCTS_BY_NAME
 

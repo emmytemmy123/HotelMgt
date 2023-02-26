@@ -2,11 +2,14 @@ package fcmb.com.good.model.entity.assets;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.rooms.Rooms;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Data
@@ -16,12 +19,27 @@ import javax.persistence.*;
 @Table(name = "damagedAsset")
 public class DamagedAssets extends BaseEntity {
 
-    private Long asset_id;
-    private Long asset_category_id;
+    private String name;
     private String quantity;
     private String status;
     private String comment;
 
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "assetsId", insertable = true, updatable = true)
+    private Assets assets;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "assetsCategoryId", insertable = true, updatable = true)
+    private AssetsCategory assetsCategory;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "createdById", insertable = true, updatable = true)
+    private AppUser createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "existingRoomId", insertable = true, updatable = true)
+    private Rooms existingRoom;
 
     public DamagedAssets(){
 

@@ -13,11 +13,11 @@ public interface AccountChartService {
 
     ApiResponse<List<AccountChartResponse>> getListOfAccountChart(int page, int size);
 
-    ApiResponse<AccountChartResponse> addAccountChart(AccountChartRequest request);
+    ApiResponse<String> addAccountChart(AccountChartRequest request);
 
     ApiResponse<AccountChartResponse> getAccountChartById(UUID accountChartId);
 
-    ApiResponse<AccountChartResponse>updateAccountChart( UUID accountChartId, AccountChartRequest request);
+    ApiResponse<String>updateAccountChart( UUID accountChartId, AccountChartRequest request);
 
     ApiResponse<String> deleteAccountChart(UUID accountChartId);
 

@@ -13,11 +13,11 @@ public interface PaymentService {
 
     ApiResponse<List<PaymentResponse>> getListOfPayment(int page, int size);
 
-    ApiResponse<PaymentResponse> addPayment(PaymentRequest request);
+    ApiResponse<String> addPayment(PaymentRequest request);
 
     ApiResponse<PaymentResponse> getPaymentById(UUID paymentId);
 
-    ApiResponse<PaymentResponse> updatePayment( UUID paymentId, PaymentRequest request);
+    ApiResponse<String> updatePayment( UUID paymentId, PaymentRequest request);
 
     ApiResponse<String> deletePayment(UUID paymentId);
 

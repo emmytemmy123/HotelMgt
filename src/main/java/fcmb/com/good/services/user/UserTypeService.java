@@ -11,11 +11,11 @@ public interface UserTypeService {
 
     ApiResponse<List<UserTypeResponse>> getListOfUserType(int page, int size);
 
-    ApiResponse<UserTypeResponse> addUserType(UserTypeRequest request);
+    ApiResponse<String> addUserType(UserTypeRequest request);
 
     ApiResponse<UserTypeResponse> getUserTypeById(UUID userTypeId);
 
-    ApiResponse<UserTypeResponse> updateUserType(UUID userTypeId, UserTypeRequest request);
+    ApiResponse<String> updateUserType(UUID userTypeId, UserTypeRequest request);
 
     ApiResponse<String> deleteUserType(UUID usertypeId);
 

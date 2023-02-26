@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 public class DocumentResponse extends BaseDto {
 
-     String file_type;
-     String file_name;
-     String file_size;
-     String description;
-     String record_id;
+     private String file_type;
+     private String file_name;
+     private String file_size;
+     private String description;
+     private String record_id;
 
 }

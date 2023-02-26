@@ -7,11 +7,11 @@ import lombok.Data;
 @Data
 public class ExpenseRequestResponse extends BaseDto {
 
-     Long expense_id;
-     Long employee_id;
-     String quantity;
-     Double amount;
-     Long account_no;
-     String status;
+     private Long expense_id;
+     private Long employee_id;
+     private String quantity;
+     private Double amount;
+     private Long account_no;
+     private String status;
 
 }

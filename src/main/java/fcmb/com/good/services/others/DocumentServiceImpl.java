@@ -23,7 +23,10 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class DocumentServiceImpl implements DocumentService {
+
     private  final DocumentRepository documentRepository;
+
+
 
     @Override
     public ApiResponse<List<DocumentResponse>> getListOfDocument(int page, int size) {
@@ -36,15 +39,15 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public ApiResponse<DocumentResponse> addDocument(@RequestBody DocumentRequest request) {
+    public ApiResponse<String> addDocument(DocumentRequest request) {
         Document document = Mapper.convertObject(request,Document.class);
         document=documentRepository.save(document);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(document, DocumentResponse.class));
+                "Record added successfully");
     }
 
     @Override
-    public ApiResponse<DocumentResponse> getDocumentById(@RequestParam("id") UUID documentId) {
+    public ApiResponse<DocumentResponse> getDocumentById(UUID documentId) {
         Optional<Document> document = documentRepository.findByUuid(documentId);
 
         if(document.isEmpty())
@@ -62,17 +65,16 @@ public class DocumentServiceImpl implements DocumentService {
     }
 
     @Override
-    public ApiResponse<DocumentResponse> updateDocument(UUID documentId, DocumentRequest request) {
+    public ApiResponse<String> updateDocument(UUID documentId, DocumentRequest request) {
         Document document = validateDocument(documentId);
-        document.setFile_type(request.getFile_type());
-        document.setFile_name(request.getFile_name());
-        document.setFile_size(request.getFile_size());
-        document.setDescription(request.getDescription());
-        document.setRecord_id(request.getRecord_id());
+        document.setType(request.getType());
+        document.setName(request.getName());
+//        document.setSize(request.getSize());
+//        document.setDescription(request.getDescription());
 
         document = documentRepository.save(document);
-        return new ApiResponse<DocumentResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(document,DocumentResponse.class));
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record added Successfully");
     }
 
     @Override

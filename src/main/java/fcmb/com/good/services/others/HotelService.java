@@ -12,11 +12,11 @@ public interface HotelService {
 
     ApiResponse<List<HotelResponse>> getListOfHotel(int page, int size);
 
-    ApiResponse<HotelResponse> addHotel(HotelRequest request);
+    ApiResponse<String> addHotel(HotelRequest request);
 
     ApiResponse<HotelResponse> getHotelById(UUID hotelId);
 
-    ApiResponse<HotelResponse> updateHotel(UUID hotelId, HotelRequest request);
+    ApiResponse<String> updateHotel(UUID hotelId, HotelRequest request);
 
     ApiResponse<String> deleteHotel(UUID hotelId);
 

@@ -50,6 +50,20 @@ public class EmailUtils {
         emailSender.send(message);
     }
 
+    public void sendBookingReminder(String to, String subject, String password) throws MessagingException {
+        MimeMessage message = emailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        helper.setFrom("emmadexboy4real@gmail.com");
+        helper.setTo(to);
+        helper.setSubject(subject);
+        String htmlMsg = "<p> <b>You Booked for a Room in Hotel Management System</b><br> <b>Email: </b> "+to+" <br>" +
+                " <b>Password: </b> "+password+" <br> <a href=\"http://localhost:4200/\"> Click here to Login </a> </p>";
+        message.setContent(htmlMsg, "text/html");
+        emailSender.send(message);
+    }
+
+
+
 
 
 }

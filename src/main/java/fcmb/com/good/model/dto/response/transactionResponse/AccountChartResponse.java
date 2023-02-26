@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 public class AccountChartResponse extends BaseDto {
 
-     Long category_id;
-     String code;
-     String account_name;
-     Double balance;
+     private Long category_id;
+     private String code;
+     private String account_name;
+     private Double balance;
 
 }

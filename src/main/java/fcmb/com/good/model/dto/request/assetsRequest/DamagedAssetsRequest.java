@@ -6,6 +6,8 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 
 @Data
@@ -13,22 +15,31 @@ public class DamagedAssetsRequest  {
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     Long asset_id;
+     private String name;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     Long asset_category_id;
+     private String quantity;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String quantity;
+     private String status;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String status;
+     private String comment;
 
      @NotNull(message = INVALID_NAME)
-     @NotEmpty(message = INVALID_NAME)
-     String comment;
+//     @NotEmpty(message = INVALID_NAME)
+     private UUID createdById;
+
+     @NotNull(message = INVALID_NAME)
+     private UUID assetsCategoryId;
+
+     @NotNull(message = INVALID_NAME)
+     private UUID roomId;
+
+     @NotNull(message = INVALID_NAME)
+     private UUID assetId;
 
 }

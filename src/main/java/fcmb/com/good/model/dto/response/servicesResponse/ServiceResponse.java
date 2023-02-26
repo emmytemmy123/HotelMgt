@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class ServiceResponse extends BaseDto {
 
-     String service_type;
-     String description;
-     String service_category;
+     private String service_type;
+     private String description;
+     private String service_category;
 
 }

@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -18,5 +19,10 @@ public interface ServiceRequestRepository extends JpaRepository<ServiceRequest, 
 
     @Query("delete from ServiceRequest st where st.uuid=:recordId")
     Optional<ServiceRequest> deleteByUuid(@Param("recordId")UUID uuid);
+
+    @Query("SELECT p FROM ServiceRequest p WHERE " +
+            "p.serviceName LIKE CONCAT('%',:query, '%')")
+    List<ServiceRequest> searchServiceRequestByName(String query);
+
 
 }

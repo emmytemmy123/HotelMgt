@@ -13,6 +13,6 @@ import lombok.ToString;
 @ToString
 public class UserTypeResponse extends BaseDto {
 
-    String type;
+    private String type;
 
 }

@@ -11,18 +11,15 @@ import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.lang.reflect.Type;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.zip.Deflater;
+import java.util.zip.Inflater;
 
 public class Utils {
 
@@ -264,6 +261,42 @@ public class Utils {
         return new DecimalFormat("0.00").format(data);
     }
 
+    public static byte[] compressImage(byte[] data) {
+        Deflater deflater = new Deflater();
+        deflater.setLevel(Deflater.BEST_COMPRESSION);
+        deflater.setInput(data);
+        deflater.finish();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] tmp = new byte[4*1024];
+        while (!deflater.finished()) {
+            int size = deflater.deflate(tmp);
+            outputStream.write(tmp, 0, size);
+        }
+        try {
+            outputStream.close();
+        } catch (Exception ignored) {
+        }
+        return outputStream.toByteArray();
+    }
+
+
+
+    public static byte[] decompressImage(byte[] data) {
+        Inflater inflater = new Inflater();
+        inflater.setInput(data);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(data.length);
+        byte[] tmp = new byte[4*1024];
+        try {
+            while (!inflater.finished()) {
+                int count = inflater.inflate(tmp);
+                outputStream.write(tmp, 0, count);
+            }
+            outputStream.close();
+        } catch (Exception ignored) {
+        }
+        return outputStream.toByteArray();
+    }
 
 
 

@@ -3,6 +3,8 @@ package fcmb.com.good.model.dto.response.userResponse;
 import fcmb.com.good.model.dto.BaseDto;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class CustomerResponse extends BaseDto {
     private String name;
@@ -15,4 +17,5 @@ public class CustomerResponse extends BaseDto {
     private String gender;
     private String photo;
     private String username;
+    private UUID createdById;
 }

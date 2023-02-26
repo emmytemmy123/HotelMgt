@@ -11,11 +11,11 @@ public interface AssetsService {
 
     ApiResponse<List<AssetsResponse>> getListOfAssets(int page, int size);
 
-    ApiResponse<AssetsResponse> addAssets(AssetsRequest request);
+    ApiResponse<String> addAssets(AssetsRequest request);
 
     ApiResponse<AssetsResponse> getAssetsById(UUID assets_id);
 
-    ApiResponse<AssetsResponse> updateAssets(UUID assets_id, AssetsRequest request);
+    ApiResponse<String> updateAssets(UUID assets_id, AssetsRequest request);
 
     ApiResponse<String> deleteAssets(UUID assets_id);
 

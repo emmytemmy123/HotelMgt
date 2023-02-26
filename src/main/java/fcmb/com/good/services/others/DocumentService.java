@@ -13,11 +13,11 @@ public interface DocumentService {
 
     ApiResponse<List<DocumentResponse>> getListOfDocument(int page, int size);
 
-    ApiResponse<DocumentResponse> addDocument(DocumentRequest request);
+    ApiResponse<String> addDocument(DocumentRequest request);
 
     ApiResponse<DocumentResponse> getDocumentById(UUID documentId);
 
-    ApiResponse<DocumentResponse> updateDocument(UUID documentId, @RequestBody DocumentRequest request);
+    ApiResponse<String> updateDocument(UUID documentId, @RequestBody DocumentRequest request);
 
     ApiResponse<String> deleteDocument(UUID documentId);
 

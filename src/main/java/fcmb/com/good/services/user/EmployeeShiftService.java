@@ -13,13 +13,13 @@ public interface EmployeeShiftService {
 
     ApiResponse<List<EmployeeShiftResponse>> getListOfEmployeeShift(int page, int size);
 
-    ApiResponse<EmployeeShiftResponse> addEmployeeShift(EmployeeShiftRequest request);
+    ApiResponse<String> addEmployeeShift(EmployeeShiftRequest request);
 
     ApiResponse<EmployeeShiftResponse> getEmployeeShiftById(UUID employeeShiftId);
 
-    ApiResponse<EmployeeShiftResponse> updateEmployeeShift(UUID employeeShiftId, EmployeeShiftRequest request);
+    ApiResponse<String> updateEmployeeShift(UUID employeeShiftId, EmployeeShiftRequest request);
 
-    ApiResponse<EmployeeShiftResponse> deleteEmployeeShift(UUID employeeShiftId);
+    ApiResponse<String> deleteEmployeeShift(UUID employeeShiftId);
 
 
 

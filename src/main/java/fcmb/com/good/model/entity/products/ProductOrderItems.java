@@ -14,11 +14,17 @@ import javax.persistence.*;
 @Table(name = "productOrderItems")
 public class ProductOrderItems extends BaseEntity {
 
-    private Long product_id;
-    private Long product_order_id;
-    private String product_name;
+    private String productName;
     private String quantity;
     private Double price;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "productOrdersId", insertable = true, updatable = true)
+    private ProductOrder productOrder;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "productId", insertable = true, updatable = true)
+    private Product product;
 
     public ProductOrderItems(){}
 

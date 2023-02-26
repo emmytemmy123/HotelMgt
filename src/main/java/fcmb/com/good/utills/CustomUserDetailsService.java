@@ -2,7 +2,11 @@ package fcmb.com.good.utills;
 
 
 
-import fcmb.com.good.model.entity.user.User;
+import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.user.Customer;
+import fcmb.com.good.model.entity.user.Employee;
+import fcmb.com.good.repo.user.CustomerRepository;
+import fcmb.com.good.repo.user.EmployeeRepository;
 import fcmb.com.good.repo.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,11 +21,17 @@ import java.util.ArrayList;
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
+    private final EmployeeRepository employeeRepository;
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = (User) userRepository.findByUsername(username);
+
+        AppUser user = (AppUser) userRepository.findByUsername(username);
+        Customer customer = (Customer) customerRepository.findByUsername(username);
+        Employee employee = (Employee) employeeRepository.findByUsername(username);
+
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), new ArrayList<>());
     }
 

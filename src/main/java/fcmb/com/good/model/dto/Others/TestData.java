@@ -2,7 +2,7 @@ package fcmb.com.good.model.dto.Others;
 
 
 import fcmb.com.good.model.dto.request.userRequest.UserRequest;
-import fcmb.com.good.model.entity.user.User;
+import fcmb.com.good.model.entity.user.AppUser;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,25 +18,25 @@ public class TestData {
 
 
 
-    public static List<User> addUser() {
+    public static List<AppUser> addUser() {
         
         List list = new ArrayList<>();
 
-        User user = new User();
+        AppUser user = new AppUser();
 //        user.setName("Adeniyi");
 //        user.setEmail("emmy@gmail.com");
 //        user.setAddress("No 4 Adebola Street");
         user.setUsername("emmytemmy123");
         user.setPassword("emmytemmy");
 
-        user = new User();
+        user = new AppUser();
 //        user.setName("Emmanuel");
 //        user.setEmail("emmytemmy@gmail.com");
 //        user.setAddress("No 4 Adebola Street");
         user.setUsername("emmadex");
         user.setPassword("emmytemmy");
 
-        user = new User();
+        user = new AppUser();
 //        user.setName("John");
 //        user.setEmail("john@gmail.com");
 //        user.setAddress("No 4 Adebola Street");
@@ -49,8 +49,8 @@ public class TestData {
     }
 
 
-    public static List<User> getListOfUsers() {
-        User user = new User();
+    public static List<AppUser> getListOfUsers() {
+        AppUser user = new AppUser();
 
         user.setId(2L);
 //        user.setName("John");

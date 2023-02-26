@@ -16,7 +16,9 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_PASSWORD;
 @NoArgsConstructor
 @ToString
 public class forgotUserPasswordRequest {
+
     @NotNull(message = INVALID_PASSWORD)
     @NotEmpty(message = INVALID_PASSWORD)
-    String email;
+    private String email;
+
 }

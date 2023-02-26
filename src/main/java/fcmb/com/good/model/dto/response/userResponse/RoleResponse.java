@@ -13,6 +13,6 @@ import lombok.ToString;
 @ToString
 public class RoleResponse extends BaseDto {
 
-    String department;
+    private String department;
 
 }

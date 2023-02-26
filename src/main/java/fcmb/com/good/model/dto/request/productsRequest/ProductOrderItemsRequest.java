@@ -13,22 +13,22 @@ public class ProductOrderItemsRequest {
 
      @NotNull(message = PRODUCT_ID)
      @NotEmpty(message = PRODUCT_ID)
-     Long product_id;
+     private Long product_id;
 
      @NotNull(message = PRODUCT_ORDER_ID)
      @NotEmpty(message = PRODUCT_ORDER_ID)
-     Long product_order_id;
+     private Long product_order_id;
 
      @NotNull(message = PRODUCT_NAME)
      @NotEmpty(message = PRODUCT_NAME)
-     String product_name;
+     private String product_name;
 
      @NotNull(message = QUANTITY)
      @NotEmpty(message = QUANTITY)
-     String quantity;
+     private String quantity;
 
      @NotNull(message = PRICE)
      @NotEmpty(message = PRICE)
-     Double price;
+     private Double price;
 
 }

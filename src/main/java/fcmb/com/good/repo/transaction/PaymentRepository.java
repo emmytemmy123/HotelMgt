@@ -19,4 +19,6 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     @Query("delete from Payment st where st.uuid=:recordId")
     Optional<Payment> deleteByUuid(@Param("recordId")UUID uuid);
 
+//    Optional<Payment> findByName(String name);
+
 }

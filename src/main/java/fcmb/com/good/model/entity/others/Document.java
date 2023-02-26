@@ -1,8 +1,8 @@
 package fcmb.com.good.model.entity.others;
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.rooms.Rooms;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,21 +17,22 @@ import javax.persistence.*;
 @Table(name = "document")
 public class Document extends BaseEntity {
 
-    private String file_type;
-    private String file_name;
-    private String file_size;
+    private String type;
+    private String name;
+    private String size;
     private String description;
-    private Long record_id;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customer_id", insertable = false, updatable = false)
-    private Customer customer;
+    private String filePath;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "room_id")
     private Rooms rooms;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "product_Id", insertable = false, updatable = false)
+    private Product product;
+
     public Document(){}
+
 
 
 }

@@ -3,16 +3,18 @@ package fcmb.com.good.model.listener;
 import fcmb.com.good.model.entity.assets.Assets;
 import fcmb.com.good.model.entity.assets.AssetsCategory;
 import fcmb.com.good.model.entity.assets.DamagedAssets;
+import fcmb.com.good.model.entity.kitchen.Kitchen;
+import fcmb.com.good.model.entity.kitchen.KitchenCategory;
+import fcmb.com.good.model.entity.kitchen.KitchenOrder;
 import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.model.entity.others.Hotel;
-import fcmb.com.good.model.entity.products.ProductOrder;
-import fcmb.com.good.model.entity.products.ProductOrderItems;
-import fcmb.com.good.model.entity.products.ProductPurchase;
-import fcmb.com.good.model.entity.products.Products;
-import fcmb.com.good.model.entity.rooms.RoomType;
+import fcmb.com.good.model.entity.products.*;
+import fcmb.com.good.model.entity.rooms.RoomCategory;
+import fcmb.com.good.model.entity.rooms.RoomFacility;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.services.ServiceRequest;
 import fcmb.com.good.model.entity.services.Services;
+import fcmb.com.good.model.entity.services.SubService;
 import fcmb.com.good.model.entity.transaction.*;
 import fcmb.com.good.model.entity.user.*;
 import org.springframework.stereotype.Component;
@@ -25,6 +27,7 @@ public class BaseListener {
 
     @PrePersist
     private void beforeCreate(Object data) {
+
         if(data instanceof Rooms){
             Rooms rooms = (Rooms) data;
             rooms.setUuid(UUID.randomUUID());
@@ -61,12 +64,12 @@ public class BaseListener {
             ProductPurchase productPurchase = (ProductPurchase) data;
             productPurchase.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof Products){
-            Products products = (Products) data;
-            products.setUuid(UUID.randomUUID());
+        else if(data instanceof Product){
+            Product product = (Product) data;
+            product.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof RoomType){
-            RoomType roomType = (RoomType) data;
+        else if(data instanceof RoomCategory){
+            RoomCategory roomType = (RoomCategory) data;
             roomType.setUuid(UUID.randomUUID());
         }
         else if(data instanceof ServiceRequest){
@@ -101,8 +104,8 @@ public class BaseListener {
             Expenses expenses = (Expenses) data;
             expenses.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof MaintenanceRequest){
-            MaintenanceRequest maintenanceRequest = (MaintenanceRequest) data;
+        else if(data instanceof Maintenance){
+            Maintenance maintenanceRequest = (Maintenance) data;
             maintenanceRequest.setUuid(UUID.randomUUID());
         }
         else if(data instanceof Payment){
@@ -125,8 +128,8 @@ public class BaseListener {
             Role role = (Role) data;
             role.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof User){
-            User user = (User) data;
+        else if(data instanceof AppUser){
+            AppUser user = (AppUser) data;
             user.setUuid(UUID.randomUUID());
         }
 
@@ -134,6 +137,53 @@ public class BaseListener {
             UserType type = (UserType) data;
             type.setUuid(UUID.randomUUID());
         }
+
+        else if(data instanceof ProductCategory){
+            ProductCategory productCategory = (ProductCategory) data;
+            productCategory.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof SubService){
+            SubService subService = (SubService) data;
+            subService.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof RoomFacility){
+            RoomFacility roomFacility = (RoomFacility) data;
+            roomFacility.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof Kitchen){
+            Kitchen kitchen = (Kitchen) data;
+            kitchen.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof KitchenCategory){
+            KitchenCategory kitchenCategory = (KitchenCategory) data;
+            kitchenCategory.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof KitchenOrder){
+            KitchenOrder kitchenRequest = (KitchenOrder) data;
+            kitchenRequest.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof ExpenseCategory){
+            ExpenseCategory expenseCategory = (ExpenseCategory) data;
+            expenseCategory.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof MaintenanceCategory){
+            MaintenanceCategory maintenanceCategory = (MaintenanceCategory) data;
+            maintenanceCategory.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof PaymentCategory){
+            PaymentCategory paymentCategory = (PaymentCategory) data;
+            paymentCategory.setUuid(UUID.randomUUID());
+        }
+
+
 
     }
 

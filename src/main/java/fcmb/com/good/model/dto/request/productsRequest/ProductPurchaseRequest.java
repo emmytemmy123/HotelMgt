@@ -6,6 +6,10 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.UUID;
+
 import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 
 @Data
@@ -13,22 +17,49 @@ public class ProductPurchaseRequest  {
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     Long product_id;
+     private String name;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String description;
+     private String category;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String company_name;
+     private String description;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String quantity;
+     private String companyName;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     Double price;
+     private String brand;
+
+     @NotNull(message = INVALID_NAME)
+     @NotEmpty(message = INVALID_NAME)
+     private String quantity;
+
+     @NotNull(message = INVALID_NAME)
+//     @NotEmpty(message = INVALID_NAME)
+     private Double price;
+
+     @NotNull(message = INVALID_NAME)
+//   @NotEmpty(message = INVALID_NAME)
+     private UUID productCategoryId;
+
+     @NotNull(message = INVALID_NAME)
+//     @NotEmpty(message = INVALID_NAME)
+     private UUID createdBy;
+
+     @NotNull(message = INVALID_NAME)
+//     @NotEmpty(message = INVALID_NAME)
+     private UUID productId;
+
+     @NotNull(message = INVALID_NAME)
+//     @NotEmpty(message = INVALID_NAME)
+     private Date productPurchaseDate;
+
+
+
 
 }

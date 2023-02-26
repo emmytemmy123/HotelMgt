@@ -8,14 +8,18 @@ import fcmb.com.good.model.dto.request.assetsRequest.AssetsRequest;
 import fcmb.com.good.model.dto.response.assetsResponse.AssetsResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.entity.assets.Assets;
-import fcmb.com.good.model.entity.user.Customer;
+import fcmb.com.good.model.entity.assets.AssetsCategory;
+import fcmb.com.good.model.entity.rooms.Rooms;
+import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.repo.assets.AssetsCategoryRepository;
 import fcmb.com.good.repo.assets.AssetsRepository;
+import fcmb.com.good.repo.rooms.RoomsRepository;
+import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -25,9 +29,18 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AssetsServiceImp implements AssetsService {
+
     private final AssetsRepository assetsRepository;
+    private final UserRepository userRepository;
+    private final AssetsCategoryRepository assetsCategoryRepository;
+    private final RoomsRepository roomsRepository;
 
     @Override
+    /**
+     * @Validate and Find the list of all assets
+     * @Validate if the List of assets is empty otherwise return record not found
+     * @return the list of assets and a Success Message
+     * * */
     public ApiResponse<List<AssetsResponse>> getListOfAssets(int page, int size) {
         List<Assets> assetsList = assetsRepository.findAll(PageRequest.of(page,size)).toList();
         if(assetsList.isEmpty())
@@ -38,48 +51,121 @@ public class AssetsServiceImp implements AssetsService {
     }
 
     @Override
-    public ApiResponse<AssetsResponse> addAssets(@RequestBody AssetsRequest request) {
-        Assets assets = Mapper.convertObject(request,Assets.class);
-        assets=assetsRepository.save(assets);
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+    /**
+     * @Validate that no duplicate assets is allowed
+     * @Validate that asset exists otherwise return record not found
+     * @Validate that user exists otherwise return record not found
+     * @Validate that assetCategory exists otherwise return record not found
+     * Create the asset definition and save
+     * @return success message* *
+     * * */
+    public ApiResponse<String> addAssets(AssetsRequest request) {
+
+        Optional<Assets> assetsOptional = validateDuplicateAssets(request.getName());
+
+        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+        AssetsCategory existingAssetCategory  = assetsCategoryRepository.findByUuid(request.getAssetsCategoryId())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+        Rooms existingRoom = roomsRepository.findByUuid(request.getRoomId())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+
+        if (!assetsOptional.isEmpty()) {
+            return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
+                    "Duplicate Record");
+        }
+
+        Assets assets = new Assets();
+        assets.setName(request.getName());
+        assets.setPurchasePrice(request.getPurchasePrice());
+        assets.setDescription(request.getDescription());
+        assets.setQuantity(request.getQuantity());
+        assets.setStatus(request.getStatus());
+        assets.setCode(request.getCode());
+        assets.setCreatedBy(existingUser);
+        assets.setAssetsCategory(existingAssetCategory);
+        assets.setRooms(existingRoom);
+
+
+        assetsRepository.save(assets);
+
+        return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Added successfully");
+
+    }
+
+    /**
+     * @Validating existingAssetOptional by name
+     * @Validate if the List of existingAssetOptional is empty otherwise return Duplicate Record
+     * */
+    private Optional<Assets> validateDuplicateAssets(String name) {
+        Optional<Assets> existingAssetOptional = assetsRepository.findAssetByName(name);
+        return existingAssetOptional;
+    }
+
+
+    @Override
+    /**
+     * @Validating and Finding the list of assetsOptional by uuid
+     * @Validate if the List of assetsOptional is empty otherwise return record not found
+     * Create the asset definition and get the assetsOptional by uuid
+     * @return the list of assets and a Success Message
+     * * */
+    public ApiResponse<AssetsResponse> getAssetsById(@RequestParam UUID assets_id) {
+        Optional<Assets> assetsOptional = assetsRepository.findByUuid(assets_id);
+        if(assetsOptional.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+        Assets assets = assetsOptional.get();
+        return new ApiResponse<AssetsResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertObject(assets, AssetsResponse.class));
     }
 
-    @Override
-    public ApiResponse<AssetsResponse> getAssetsById(@RequestParam UUID assets_id) {
-        Optional<Assets> assets = assetsRepository.findByUuid(assets_id);
-        if(assets.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        Assets cm = assets.get();
-        return new ApiResponse<AssetsResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(cm, AssetsResponse.class));
-    }
-
+    /**
+     * @validating assetsOptional by uuid
+     * @Validate if the List of assetsOptional is empty otherwise return record not found
+     * @return assetsOptional
+     * * */
     private Assets validateAssets(UUID uuid){
-        Optional<Assets> assets = assetsRepository.findByUuid(uuid);
-        if(assets.isEmpty())
+        Optional<Assets> assetsOptional = assetsRepository.findByUuid(uuid);
+        if(assetsOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        return assets.get();
+        return assetsOptional.get();
     }
 
     @Override
-    public ApiResponse<AssetsResponse> updateAssets(UUID assets_id, @RequestBody AssetsRequest request) {
-        Assets assets = validateAssets(assets_id);
-        assets.setCategory_id(request.getCategory_id());
-        assets.setAsset_name(request.getAsset_name());
-        assets.setValue_cost(request.getValue_cost());
+    /**
+     * @validating assetOptional by uuid
+     * @Validate if the List of assetOptional is empty otherwise return record not found
+     * Create the asset definition and update
+     * @return a Success Message
+     * * */
+    public ApiResponse<String> updateAssets(UUID assetsId,AssetsRequest request) {
+        Assets assets = validateAssets(assetsId);
+
+        assets.setName(request.getName());
+        assets.setPurchasePrice(request.getPurchasePrice());
         assets.setDescription(request.getDescription());
-        assets.setRecord_id(request.getRecord_id());
-        assets.setRecord_type(request.getRecord_type());
+        assets.setQuantity(request.getQuantity()+assets.getQuantity());
+        assets.setStatus(request.getStatus());
         assets.setCode(request.getCode());
-        assets.setLocation(request.getLocation());
 
-        assets = assetsRepository.save(assets);
-        return new ApiResponse<AssetsResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(assets,AssetsResponse.class));
+        assetsRepository.save(assets);
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated Successfully");
     }
 
     @Override
+    /**
+     * @validate asset by uuid
+     * @Validate if asset is empty otherwise return record not found
+     * @Delete asset
+     * @return a Success Message
+     * * */
     public ApiResponse<String> deleteAssets(UUID assets_id) {
         Assets assets = validateAssets(assets_id);
         assetsRepository.delete(assets);

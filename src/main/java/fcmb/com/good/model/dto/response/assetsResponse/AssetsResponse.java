@@ -8,7 +8,7 @@ public class AssetsResponse extends BaseDto {
 
     private String category_id;
     private String asset_name;
-    private Long value_cost;
+    private Long price;
     private String description;
     private Long record_id;
     private String record_type;

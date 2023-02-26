@@ -12,11 +12,15 @@ import lombok.ToString;
 @ToString
 public class UserResponse extends BaseDto {
 
-     String name;
-     String email;
-     String address;
-     String username;
-     String password;
+     private String name;
+     private String email;
+     private String phone;
+     private String address;
+     private String city;
+     private String country;
+     private String gender;
+     private String photo;
+     private String username;
 
 
 }

@@ -5,9 +5,7 @@ import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.userRequest.EmployeeShiftRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.dto.response.userResponse.EmployeeShiftResponse;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.entity.user.EmployeeShift;
 import fcmb.com.good.repo.user.EmployeeShiftRepository;
 import fcmb.com.good.utills.MessageUtil;
@@ -30,63 +28,101 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
 
 
     @Override
+    /**
+     * @Finding the list of EmployeeShift
+     * @Validate if the List of EmployeeShift is empty otherwise return record not found
+     * @return the list of EmployeeShift and a Success Message*
+     * * */
     public ApiResponse<List<EmployeeShiftResponse>> getListOfEmployeeShift(int page, int size) {
         List<EmployeeShift> employeeShiftList = employeeShiftRepository.findAll(PageRequest.of(page,size)).toList();
 
         if(employeeShiftList.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        return new ApiResponse<>(AppStatus.SUCCESS.label,
-                HttpStatus.OK.value(),
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertList(employeeShiftList, EmployeeShiftResponse.class));
 
     }
 
 
     @Override
-    public ApiResponse<EmployeeShiftResponse> addEmployeeShift(@RequestBody EmployeeShiftRequest request) {
+    /**
+     * @Validate that no duplicate EmployeeShift is allowed*
+     * @Validate that EmployeeShift exists otherwise return record not found*
+     * Create EmployeeShift definition and save
+     * @return success message
+     * * */
+    public ApiResponse<String> addEmployeeShift(@RequestBody EmployeeShiftRequest request) {
         EmployeeShift employeeShift = Mapper.convertObject(request,EmployeeShift.class);
-        employeeShift = employeeShiftRepository.save(employeeShift);
+        employeeShiftRepository.save(employeeShift);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(employeeShift, EmployeeShiftResponse.class));
+                "Record added Successfully");
     }
 
 
     @Override
+    /**
+     * @Finding the list of EmployeeShiftOptional by uuid*
+     * @Validate if the List of EmployeeShiftOptional is empty otherwise return record not found
+     * Create the EmployeeShift definition and get the customer
+     * @return the list of EmployeeShift and a Success Message
+     * * */
     public  ApiResponse<EmployeeShiftResponse> getEmployeeShiftById(@RequestParam("id") UUID employeeShiftId) {
-        Optional<EmployeeShift> employeeShift = employeeShiftRepository.findByUuid(employeeShiftId);
+        Optional<EmployeeShift> employeeShiftOptional = employeeShiftRepository.findByUuid(employeeShiftId);
 
-        if(employeeShift.isEmpty())
+        if(employeeShiftOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        EmployeeShift es = employeeShift.get();
-        return new ApiResponse<EmployeeShiftResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(es,EmployeeShiftResponse.class));
+
+        EmployeeShift employeeShift = employeeShiftOptional.get();
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(employeeShift,EmployeeShiftResponse.class));
 
     }
 
 
+    /**
+     * @validating EmployeeShiftOptional by uuid
+     * @Validate if the List of EmployeeShift is empty otherwise return record not found
+     * @return EmployeeShiftOptional
+     * * */
     private EmployeeShift validateEmployeeShift(UUID uuid){
         Optional<EmployeeShift> employeeShift = employeeShiftRepository.findByUuid(uuid);
 
         if(employeeShift.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
         return employeeShift.get();
     }
 
     @Override
-    public ApiResponse<EmployeeShiftResponse> updateEmployeeShift(UUID employeeShiftId, @RequestBody EmployeeShiftRequest request) {
+    /**
+     * @validating EmployeeShiftOptional by uuid
+     * @Validate if the List of EmployeeShift is empty otherwise return record not found
+     * Create the EmployeeShift definition and update
+     * @return a Success Message
+     * * */
+    public ApiResponse<String> updateEmployeeShift(UUID employeeShiftId, @RequestBody EmployeeShiftRequest request) {
         EmployeeShift employeeShifty = validateEmployeeShift(employeeShiftId);
         employeeShifty.setDesignation(request.getDesignation());
         employeeShifty.setShift(request.getShift());
         employeeShifty.setPeriod(request.getPeriod());
 
-        employeeShifty = employeeShiftRepository.save(employeeShifty);
-        return new ApiResponse<EmployeeShiftResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(employeeShifty,EmployeeShiftResponse.class));
+        employeeShiftRepository.save(employeeShifty);
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Update Successfully");
     }
 
 
     @Override
-    public  ApiResponse<EmployeeShiftResponse> deleteEmployeeShift(UUID employeeShiftId) {
+    /**
+     * @validating EmployeeShift by uuid
+     * @Validate if EmployeeShift is empty otherwise return record not found
+     * @Delete EmployeeShift
+     * @return a Success Message
+     * * */
+    public  ApiResponse<String> deleteEmployeeShift(UUID employeeShiftId) {
         EmployeeShift employeeShift = validateEmployeeShift(employeeShiftId);
         employeeShiftRepository.delete(employeeShift);
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),

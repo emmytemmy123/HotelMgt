@@ -1,5 +1,6 @@
 package fcmb.com.good.repo.user;
 
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,11 +22,16 @@ public interface CustomerRepository extends JpaRepository<Customer, Long> {
     Optional<Customer> findCustomerByEmailAndPassword(@Param("email"),  @Param("password"));
 */
 
+    Customer findByUsername(String username);
+
     @Query("select st from Customer st where st.uuid=:recordId")
     Optional<Customer> findByUuid(@Param("recordId")UUID uuid);
 
     @Query("select c from Customer c where c.email=:email")
     Optional<Customer> findByEmailId(@Param("email")String email);
+
+    Customer findByEmail(String email);
+
 
 
 

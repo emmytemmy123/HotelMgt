@@ -11,19 +11,16 @@ import static fcmb.com.good.utills.MessageUtil.*;
 @Data
 public class EmployeeShiftRequest {
 
-
-    Long employee_id;
-
     @NotNull(message = INVALID_DESIGNATION)
     @NotEmpty(message = INVALID_DESIGNATION)
-    String designation;
+    private String designation;
 
     @NotNull(message = INVALID_SHIFT)
     @NotEmpty(message = INVALID_SHIFT)
-    String shift;
+    private String shift;
 
     @NotNull(message = INVALID_PERIOD)
     @NotEmpty(message = INVALID_PERIOD)
-    String period;
+    private String period;
 
 }

@@ -7,15 +7,16 @@ import lombok.Data;
 @Data
 public class EmployeeResponse extends BaseDto {
 
-     String name;
-     String email;
-     String gender;
-     String photo;
-     String country;
-     String city;
-     String address;
-     String phone;
-     String designation;
-     String username;
+     private String name;
+     private String email;
+     private String gender;
+     private String photo;
+     private String country;
+     private String city;
+     private String address;
+     private String phone;
+     private String designation;
+     private String username;
+     private String createdById;
 
 }

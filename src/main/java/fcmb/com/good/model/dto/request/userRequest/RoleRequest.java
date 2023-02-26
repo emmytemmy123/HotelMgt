@@ -19,12 +19,8 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_DEPARTMENT;
 @ToString
 public class RoleRequest  {
 
-
-    Long id;
-
     @NotNull(message = INVALID_DEPARTMENT)
     @NotEmpty(message = INVALID_DEPARTMENT)
-    String department;
-
+    private String department;
 
 }

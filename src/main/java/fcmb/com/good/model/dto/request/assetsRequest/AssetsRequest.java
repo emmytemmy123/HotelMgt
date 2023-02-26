@@ -10,6 +10,8 @@ import lombok.ToString;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 import static fcmb.com.good.utills.MessageUtil.INVALID_CATEGORY_ID;
 import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 
@@ -19,29 +21,27 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @ToString
 public class AssetsRequest  {
 
-    @NotNull(message = INVALID_CATEGORY_ID)
-    @NotEmpty(message = INVALID_CATEGORY_ID)
-    private String category_id;
+
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    private String asset_name;
+    private String name;
 
     @NotNull(message = INVALID_NAME)
-    @NotEmpty(message = INVALID_NAME)
-    private Double value_cost;
+//    @NotEmpty(message = INVALID_NAME)
+    private Double purchasePrice;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
     private String description;
 
-    @NotNull(message = INVALID_NAME)
-    @NotEmpty(message = INVALID_NAME)
-    private Long record_id;
+//    @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
+//    private String recordId;
 
-    @NotNull(message = INVALID_NAME)
-    @NotEmpty(message = INVALID_NAME)
-    private String record_type;
+//    @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
+//    private String recordType;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
@@ -49,6 +49,26 @@ public class AssetsRequest  {
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    private String Location;
+    private String status;
+
+    @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
+    private Integer quantity;
+
+//    @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
+//    private String Location;
+
+    @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
+    private UUID createdById;
+
+    @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
+    private UUID assetsCategoryId;
+
+    @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
+    private UUID roomId;
 
 }

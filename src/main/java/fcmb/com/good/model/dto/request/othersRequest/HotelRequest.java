@@ -13,30 +13,30 @@ public class HotelRequest  {
 
         @NotNull(message = INVALID_NAME)
         @NotEmpty(message = INVALID_NAME)
-        String name;
+        private String name;
 
         @NotNull(message = INVALID_NAME)
         @NotEmpty(message = INVALID_NAME)
-        String email;
+        private String email;
 
         @NotNull(message = INVALID_NAME)
         @NotEmpty(message = INVALID_NAME)
-        String country;
+        private String country;
 
         @NotNull(message = INVALID_NAME)
         @NotEmpty(message = INVALID_NAME)
-        String state;
+        private String state;
 
         @NotNull(message = INVALID_NAME)
         @NotEmpty(message = INVALID_NAME)
-        String city;
+        private String city;
 
         @NotNull(message = INVALID_NAME)
         @NotEmpty(message = INVALID_NAME)
-        String address;
+        private String address;
 
         @NotNull(message = INVALID_NAME)
         @NotEmpty(message = INVALID_NAME)
-        String phone;
+        private String phone;
 
 }

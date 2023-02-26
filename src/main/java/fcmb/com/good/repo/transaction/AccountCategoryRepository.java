@@ -19,4 +19,6 @@ public interface AccountCategoryRepository extends JpaRepository<AccountCategory
     @Query("delete from AccountCategory st where st.uuid=:recordId")
     Optional<AccountCategory> deleteByUuid(@Param("recordId")UUID uuid);
 
+    Optional<AccountCategory> findByCurrency(String currency);
+
 }

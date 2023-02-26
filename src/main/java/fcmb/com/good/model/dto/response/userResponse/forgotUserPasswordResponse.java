@@ -1,5 +1,6 @@
 package fcmb.com.good.model.dto.response.userResponse;
 
+import fcmb.com.good.model.dto.BaseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,8 +15,8 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_PASSWORD;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class forgotUserPasswordResponse {
-    @NotNull(message = INVALID_PASSWORD)
-    @NotEmpty(message = INVALID_PASSWORD)
-    String email;
+public class forgotUserPasswordResponse extends BaseDto {
+
+    private String email;
+
 }

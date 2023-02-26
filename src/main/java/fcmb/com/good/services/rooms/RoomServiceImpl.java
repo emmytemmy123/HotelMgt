@@ -5,19 +5,23 @@ import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.roomsRequest.RoomRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
+import fcmb.com.good.model.dto.response.roomsResponse.RoomFacilityResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
+import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
+import fcmb.com.good.model.entity.rooms.RoomCategory;
 import fcmb.com.good.model.entity.rooms.Rooms;
+import fcmb.com.good.model.entity.services.SubService;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
+import fcmb.com.good.repo.rooms.RoomCategoryRepository;
 import fcmb.com.good.repo.rooms.RoomsRepository;
+import fcmb.com.good.repo.user.CustomerRepository;
+import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.SqlReturnType;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -26,11 +30,21 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class RoomServiceImpl implements RoomService {
-    private  final RoomsRepository roomRepository;
+    private  final RoomsRepository roomsRepository;
+    private  final RoomCategoryRepository roomCategoryRepository;
+    private final UserRepository userRepository;
+    private final CustomerRepository customerRepository;
+
+
 
     @Override
+    /**
+     * @Finding the list of rooms
+     * @Validate the List of rooms is empty otherwise return record not found*
+     * @return the list of rooms and a Success Message* *
+     * * */
     public ApiResponse<List<RoomResponse>> getListOfRoom(int page, int size) {
-        List<Rooms> roomsList = roomRepository.findAll(PageRequest.of(page,size)).toList();
+        List<Rooms> roomsList = roomsRepository.findAll(PageRequest.of(page,size)).toList();
         if(roomsList.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
@@ -38,56 +52,123 @@ public class RoomServiceImpl implements RoomService {
                 Mapper.convertList(roomsList, RoomResponse.class));
     }
 
+    /**
+     * @Validating existingRoomsOptional by roomNumber
+     * @Validating existingRoomCategoryOptional by roomNumber
+     * @Validate the List of existingRoomsOptional and existingRoomCategoryOptional is present otherwise return Duplicate Record*
+     * * */
+    private void validateDuplicationRooms(Integer serviceNumber){
+        Optional<Rooms> existingRoomsOptional = roomsRepository.findByServiceNumber(serviceNumber);
+
+        if(existingRoomsOptional.isPresent() )
+            throw new RecordNotFoundException("Duplicate record");
+    }
+
+
     @Override
-    public ApiResponse<RoomResponse> addRoom(@RequestBody RoomRequest request) {
-        Rooms rooms = Mapper.convertObject(request,Rooms.class);
-        rooms=roomRepository.save(rooms);
+    /**
+     * @Validate that no duplicate roomNumber is allowed*
+     * @Validate that room category exists otherwise return record not found*
+     * @Validate that user creating the room exists, otherwise return user not found*
+     * Create the room definition and save
+     * @return success message* *
+     * * */
+    public ApiResponse<String> addRoom(RoomRequest request) {
+
+        validateDuplicationRooms(request.getServiceNumber());
+
+        RoomCategory existingRoomCategory = roomCategoryRepository.findByUuid(request.getRoomCategory())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+        AppUser existingUser  = userRepository.findByUuid(request.getCreatedBy())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+
+        Rooms rooms = new Rooms();
+        rooms.setServiceType(request.getServiceType());
+        rooms.setDescription(request.getDescription());
+        rooms.setServiceNumber(request.getServiceNumber());
+        rooms.setStatus(request.getStatus());
+        rooms.setMaxNoOccupant(request.getMaxNoOccupant());
+        rooms.setCreatedBy(existingUser);
+        rooms.setRoomCategory(existingRoomCategory);
+        roomsRepository.save(rooms);
+
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(rooms, RoomResponse.class));
+                "Record created successfully");
     }
 
     @Override
-    public ApiResponse<RoomResponse> getRoomById(@RequestParam("id") UUID roomId) {
-        Optional<Rooms> rooms = roomRepository.findByUuid(roomId);
+    /**
+     * @Finding the list of all roomsOptional by uuid*
+     * @Validate if the List of roomsOptional is empty otherwise return record not found
+     * Create the room definition and get the room Optional by uuid
+     * @return the list of rooms and a Success Message* *
+     * * */
+    public ApiResponse<RoomResponse> getRoomById(UUID roomId) {
+        Optional<Rooms> roomsOptional = roomsRepository.findByUuid(roomId);
 
-        if(rooms.isEmpty())
+        if(roomsOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        Rooms cm = rooms.get();
-        return new ApiResponse<RoomResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(cm,RoomResponse.class));
+        Rooms rooms = roomsOptional.get();
+        return new ApiResponse<RoomResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(rooms,RoomResponse.class));
 
     }
 
+    /**
+     * @validating rooms by uuid*
+     * @Validate if the List of rooms is empty otherwise return record not found
+     * @return the list of rooms* *
+     * * */
     private Rooms validateRooms(UUID uuid){
-        Optional<Rooms> rooms = roomRepository.findByUuid(uuid);
+        Optional<Rooms> rooms = roomsRepository.findByUuid(uuid);
         if(rooms.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         return rooms.get();
     }
 
     @Override
-    public ApiResponse<RoomResponse> updateRoom(UUID roomId, @RequestBody RoomRequest request) {
-        Rooms rooms = validateRooms(roomId);
-        rooms.setRoom_type(request.getRoom_type());
-        rooms.setRoom_no(request.getRoom_no());
-        rooms.setRoom_description(request.getRoom_description());
-        rooms.setPrice(request.getPrice());
-        rooms.setRoom_status(request.getRoom_status());
-        rooms.setAvailable_rooms(request.getAvailable_rooms());
-        rooms.setState(request.getState());
-        rooms.setCurrent_customer(request.getCurrent_customer());
+    /**
+     * @Validating the list of existingRoomCategory by uuid*
+     * @Validate if the List of existingRoomCategory is empty otherwise return record not found
+     * Create the room definition and save
+     * @return a Success Message* *
+     * * */
+    public ApiResponse<String> updateRoom(UUID roomId, RoomRequest request) {
 
-        rooms = roomRepository.save(rooms);
-        return new ApiResponse<RoomResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(rooms,RoomResponse.class));
+        RoomCategory existingRoomCategory = roomCategoryRepository.findByUuid(request.getRoomCategory())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+        Rooms rooms = validateRooms(roomId);
+        rooms.setServiceType(request.getServiceType());
+        rooms.setDescription(request.getDescription());
+        rooms.setServiceNumber(request.getServiceNumber());
+        rooms.setStatus(request.getStatus());
+        rooms.setMaxNoOccupant(request.getMaxNoOccupant());
+        rooms.setRoomCategory(existingRoomCategory);
+
+        roomsRepository.save(rooms);
+        return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Updated successfully");
     }
 
     @Override
+    /**
+     * @validating rooms by uuid*
+     * @Validate if rooms is empty otherwise return record not found
+     * @Delete room
+     * @return a Success Message* *
+     * * */
     public ApiResponse<String> deleteRoom(UUID roomId) {
         Rooms rooms = validateRooms(roomId);
-        roomRepository.delete(rooms);
+        roomsRepository.delete(rooms);
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Deleted successfully");
     }
+
+
+
 
 
 }

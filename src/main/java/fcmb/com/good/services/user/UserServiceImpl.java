@@ -8,12 +8,10 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.othersRequest.AuthRequest;
 import fcmb.com.good.model.dto.request.userRequest.UserRequest;
 import fcmb.com.good.model.dto.request.userRequest.changeUserPasswordRequest;
+import fcmb.com.good.model.dto.request.userRequest.loginUserRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.userResponse.CustomerResponse;
 import fcmb.com.good.model.dto.response.userResponse.UserResponse;
-import fcmb.com.good.model.dto.response.userResponse.changeUserPasswordResponse;
-import fcmb.com.good.model.dto.response.userResponse.forgotUserPasswordResponse;
-import fcmb.com.good.model.entity.user.User;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.EmailUtils;
 import fcmb.com.good.utills.JwtUtil;
@@ -44,83 +42,117 @@ public class UserServiceImpl  implements UserService {
 
 
     @Override
-    public ApiResponse<AuthRequest> authenticate(AuthRequest authRequest)  {
+    /**
+     * @Authenticating username and password
+     * @Validating if username and password is Authenticated otherwise return record not found
+     * Generate token to access the Api
+     */
+    public ApiResponse<AuthRequest> authenticate(AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 
-        if(!authentication.isAuthenticated()){
+        if (!authentication.isAuthenticated()) {
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         }
-            jwtUtil.generateToken(authRequest.getUsername(), authRequest.getRole());
+        jwtUtil.generateToken(authRequest.getUsername(), authRequest.getRole());
 
         return new ApiResponse<AuthRequest>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(authentication,AuthRequest.class));
+                Mapper.convertObject(authentication, AuthRequest.class));
     }
 
+
     @Override
-    public ApiResponse<UserResponse> getListOfUsers(int page, int size) {
-        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()) {
-            List<User> userList = userRepository.findAll(PageRequest.of(page, size)).toList();
+    /**
+     * @Finding the list of Users
+     * @Validate if the List of users is empty otherwise return record not found
+     * @return the list of users and a Success Message*
+     * * */
+    public ApiResponse<List<UserResponse>> getListOfUsers(int page, int size) {
+//        if (jwtFilter.isAdmin() || jwtFilter.isEmployee()) {
+            List<AppUser> userList = userRepository.findAll(PageRequest.of(page, size)).toList();
             if (userList.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-              return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(userList, UserResponse.class));
+            return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                    Mapper.convertList(userList, UserResponse.class));
         }
-            return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                    "You are not Authorized");
-
-    }
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
     @Override
-    public ApiResponse<UserResponse> addUsers(@RequestBody UserRequest request) {
-        if(jwtFilter.isAdmin()){
-            Optional<User> user  = validateUserByEmailId(request.getEmail());
-            if(!user.isEmpty()){
+    /**
+     * @Validate that no duplicate users is allowed*
+     * @Validate that user exists otherwise return record not found*
+     * Create user definition and save
+     * @return success message
+     * * */
+    public ApiResponse<String> addUsers(@RequestBody UserRequest request) {
+//        if (jwtFilter.isAdmin()) {
+            Optional<AppUser> user = validateUserByEmailId(request.getEmail());
+
+            if (!user.isEmpty()) {
                 return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
                         "Email Already Exist");
             }
             userRepository.save(getUserFromRequest(request));
+
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Added successfully");
         }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-
-    }
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
 
     @Override
+    /**
+     * @Finding the list of all userOptional by uuid*
+     * @Validate if the List of userOptional is empty otherwise return record not found
+     * Create the user definition and get the user Optional
+     * @return the list of users and a Success Message* *
+     * * */
     public ApiResponse<UserResponse> getUsersById(@RequestParam("id") UUID userId) {
-        if(jwtFilter.isAdmin()){
-            Optional<User> user = userRepository.findByUuid(userId);
-            if(user.isEmpty())
+//        if (jwtFilter.isAdmin()) {
+            Optional<AppUser> userOptional = userRepository.findByUuid(userId);
+            if (userOptional.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-            User us = user.get();
+            AppUser appUser = userOptional.get();
             return new ApiResponse<UserResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    Mapper.convertObject(us,UserResponse.class));
+                    Mapper.convertObject(appUser, UserResponse.class));
         }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-    }
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
-    private User validateUser(UUID uuid){
-        Optional<User> user = userRepository.findByUuid(uuid);
-        if(user.isEmpty())
+    /**
+     * @validating userOptional by uuid*
+     * @Validate if the List of user is empty otherwise return record not found
+     * @return userOptional* *
+     * * */
+    private AppUser validateUser(UUID uuid) {
+        Optional<AppUser> userOptional = userRepository.findByUuid(uuid);
+        if (userOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        return user.get();
+        return userOptional.get();
     }
 
-    private Optional<User> validateUserByEmailId(String email){
-        Optional<User> user = userRepository.findByEmailId(email);
-        System.out.println(user);
-        return user;
+    /**
+     * @Validating existingUserOptional by Email
+     * @Validate if existingUserOptional is empty otherwise return Duplicate Record
+     * return existingUserOptional
+     * * */
+    private Optional<AppUser> validateUserByEmailId(String email) {
+        Optional<AppUser> existingUserOptional = userRepository.findByEmailId(email);
+        return existingUserOptional;
     }
 
-    private User getUserFromRequest(UserRequest request){
-        User us = new User();
-        us.setPostedBy(request.getPostedBy());
+    /**
+     * Set and get the users parameters
+     */
+    private AppUser getUserFromRequest(UserRequest request) {
+        AppUser us = new AppUser();
         us.setName(request.getName());
         us.setEmail(request.getEmail());
         us.setAddress(request.getAddress());
@@ -132,23 +164,27 @@ public class UserServiceImpl  implements UserService {
         us.setUsername(request.getUsername());
         us.setPhoto(request.getPhoto());
         us.setRole(request.getRole());
-        //userRepository.save(us);
         return us;
     }
 
-    private User postedByUuid(String postedBy){
-        User user = validateUser(UUID.fromString(postedBy));
-        User users = new User();
-        users.setPostedBy(String.valueOf(users));
-        return user;
-    }
+//    private AppUser postedByUuid(String postedBy) {
+//        AppUser user = validateUser(UUID.fromString(postedBy));
+//        AppUser users = new AppUser();
+//        users.setPostedBy(String.valueOf(users));
+//        return user;
+//    }
 
 
-   @Override
-    public ApiResponse<UserResponse> updateUser(UUID userId, @RequestBody UserRequest request) {
-        if(jwtFilter.isAdmin()){
-            User user = validateUser(userId);
-            user.setPostedBy(request.getPostedBy());
+    @Override
+    /**
+     * @validating userOptional by uuid
+     * @Validate if the List of user is empty otherwise return record not found
+     * Create the user definition and update
+     * @return a Success Message
+     * * */
+    public ApiResponse<String> updateUser(UUID userId, @RequestBody UserRequest request) {
+//        if (jwtFilter.isAdmin()) {
+            AppUser user = validateUser(userId);
             user.setName(request.getName());
             user.setEmail(request.getEmail());
             user.setAddress(request.getAddress());
@@ -162,51 +198,96 @@ public class UserServiceImpl  implements UserService {
             user.setRole(request.getRole());
 
             userRepository.save(user);
-            return new ApiResponse<UserResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                    Mapper.convertObject(user,UserResponse.class));
+            return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                    "Record Updated Successfully");
         }
-            return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                    "You are not Authorized");
-    }
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
     @Override
+    /**
+     * @validating user by uuid
+     * @Validate if user is empty otherwise return record not found
+     * @Delete user
+     * @return a Success Message
+     * * */
     public ApiResponse<String> deleteUser(UUID userId) {
-        if(jwtFilter.isAdmin()){
-            User user = validateUser(userId);
+//        if (jwtFilter.isAdmin()) {
+            AppUser user = validateUser(userId);
             userRepository.delete(user);
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Deleted successfully");
         }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-    }
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
     @Override
-    public ApiResponse<changeUserPasswordResponse> changeUserPassword(String email,  changeUserPasswordRequest request) {
-       if(jwtFilter.isAdmin()){
-           User users = userRepository.findByEmail(email);
-           if(users.getPassword().equals(request.getOldPassword())){
-               users.setPassword(request.getNewPassword());
-               userRepository.save(users);
+    /**
+     * @Validating existingUser by Email
+     * @Validate user password and change password
+     * @Save the new password and return a Success Message
+     */
+    public ApiResponse<String> resetPassword(String email, changeUserPasswordRequest request) {
+//        if (jwtFilter.isAdmin()) {
+            AppUser users = userRepository.findByEmail(email);
 
-               return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                       "Password Changed successfully");
-           }
-           return new ApiResponse(AppStatus.FAILED.label, HttpStatus.BAD_REQUEST.value(),
-                   "Incorrect Old Password");
-       }
-        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
-    }
+            if (users.getPassword().equals(request.getOldPassword())) {
+                users.setPassword(request.getNewPassword());
+
+                userRepository.save(users);
+
+                return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                        "Password Changed successfully");
+            }
+            return new ApiResponse(AppStatus.FAILED.label, HttpStatus.BAD_REQUEST.value(),
+                    "Incorrect Old Password");
+        }
+//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
+//                "You are not Authorized");
+//    }
 
     @Override
-    public ApiResponse<forgotUserPasswordResponse> forgotUserPassword(String email) throws MessagingException {
-        User users = userRepository.findByEmail(email);
-            emailUtils.forgotMail(users.getEmail(), "Credentials by Hotel Management System", users.getPassword() );
+    /**
+     * @Validating existingUser by Email
+     * @Getiing email and password of user and sending it to User`s Email
+     * @Return a Success Message
+     */
+    public ApiResponse<String> forgotUserPassword(String email) throws MessagingException {
+
+        AppUser users = userRepository.findByEmail(email);
+
+        emailUtils.forgotMail(users.getEmail(), "Your Booking Credentials by Hotel Management System", users.getPassword());
 
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Check your email for credentials");
+
     }
+
+
+    @Override
+    /**
+     * @Validating and finding existingUser by Email
+     * @Validate user email and password
+     * @Return a Success Message if email and password is correct
+     * @Return a Failed Message if email and password is Incorrect
+     */
+    public ApiResponse<String> loginUser(String email, loginUserRequest request) {
+        AppUser users = userRepository.findByEmail(email);
+
+        if (users.getEmail().equals(request.getEmail())
+                && users.getPassword().equals(request.getPassword())) {
+
+            return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                    "User login successfully");
+        }
+
+        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.BAD_REQUEST.value(),
+                "Incorrect Email or Password");
+
+    }
+
 
 
 }

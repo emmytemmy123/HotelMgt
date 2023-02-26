@@ -4,7 +4,7 @@ package fcmb.com.good.utills.EndPoints;
 
 public class OthersEndPoints {
 
-    public static final String USERS="USERS";
+    public static final String others="others";
 
     public static final String DOCUMENT="/document";
     public static final String FIND_DOCUMENT=DOCUMENT+"/list";

@@ -1,14 +1,17 @@
 package fcmb.com.good.controller.roomsControllers;
 
 
+import fcmb.com.good.model.dto.request.roomsRequest.RoomFacilityRequest;
 import fcmb.com.good.model.dto.request.roomsRequest.RoomRequest;
 import fcmb.com.good.model.dto.request.roomsRequest.RoomTypeRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
+import fcmb.com.good.model.dto.response.roomsResponse.RoomFacilityResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomTypeResponse;
-import fcmb.com.good.model.entity.rooms.RoomType;
+import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
+import fcmb.com.good.services.rooms.RoomFacilityService;
 import fcmb.com.good.services.rooms.RoomService;
-import fcmb.com.good.services.rooms.RoomTypeService;
+import fcmb.com.good.services.rooms.RoomCategoryService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -19,17 +22,17 @@ import java.util.List;
 import java.util.UUID;
 
 import static fcmb.com.good.utills.EndPoints.RoomEndPoints.*;
-import static fcmb.com.good.utills.EndPoints.RoomEndPoints.USERS;
 import static fcmb.com.good.utills.EndpointParam.*;
 import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 
 @RestController
-@RequestMapping(USERS)
+@RequestMapping(room)
 @RequiredArgsConstructor
 public class RoomController {
 
     private final RoomService roomService;
-    private final RoomTypeService roomTypeService;
+    private final RoomCategoryService roomTypeService;
+    private final RoomFacilityService roomFacilityService;
 
 
                                     //FIND_LISTS_OF_ROOMS
@@ -48,17 +51,24 @@ public class RoomController {
     }
 
 
+
                                      //ADD_ROOMS
     @PostMapping(ADD_ROOM)
     @ApiOperation(value = "Endpoint for adding new room to database", response = String.class)
-    public ApiResponse<RoomResponse> addRoom(@Valid @RequestBody RoomRequest request) {
+    public ApiResponse<String> addRoom(@Valid @RequestBody RoomRequest request) {
         return roomService.addRoom(request);
     }
 
     @PostMapping(ADD_ROOM_TYPE)
     @ApiOperation(value = "Endpoint for adding new roomType to database", response = String.class)
-    public ApiResponse<RoomTypeResponse> addRoomType(@Valid @RequestBody RoomTypeRequest request) {
+    public ApiResponse<String> addRoomType(@Valid @RequestBody RoomTypeRequest request) {
         return roomTypeService.addRoomType(request);
+    }
+
+    @PostMapping(ADD_ROOM_FACILITY)
+    @ApiOperation(value = "Endpoint for adding new roomFacility to database", response = String.class)
+    public ApiResponse<String> addRoomFacility(@Valid @RequestBody RoomFacilityRequest request) {
+        return roomFacilityService.addRoomFacility(request);
     }
 
 
@@ -69,25 +79,38 @@ public class RoomController {
         return roomService.getRoomById(room_id);
     }
 
-    @GetMapping(FIND_ROOM_TYPE_BY_ID)
-    @ApiOperation(value = "Endpoint for fetching roomType by id from database", response = RoomTypeResponse.class)
-    public ApiResponse<RoomTypeResponse> getRoomTypeById(@PathVariable(value = "id") UUID room_type_id) {
-        return roomTypeService.getRoomTypeById(room_type_id);
+//    @GetMapping(FIND_ROOM_TYPE_BY_ID)
+//    @ApiOperation(value = "Endpoint for fetching roomType by id from database", response = RoomTypeResponse.class)
+//    public ApiResponse<RoomTypeResponse> getRoomTypeById(@PathVariable(value = "id") UUID room_type_id) {
+//        return roomTypeService.getRoomTypeById(room_type_id);
+//    }
+
+    @GetMapping(FIND_ROOM_FACILITY_BY_ID)
+    @ApiOperation(value = "Endpoint for fetching roomFacility by id from database", response = RoomFacilityResponse.class)
+    public ApiResponse<RoomFacilityResponse> getRoomFacilityById(@PathVariable(value = "id") UUID roomFacilityId) {
+        return roomFacilityService.getRoomFacilityById(roomFacilityId);
     }
 
 
                                         //UPDATE_ROOM
     @PutMapping(UPDATE_ROOM)
     @ApiOperation(value = "Endpoint for updating room by id from database", response = String.class)
-    public ApiResponse<RoomResponse> updateRoom(@PathVariable(value = "id") UUID room_id, @RequestBody RoomRequest request) {
+    public ApiResponse<String> updateRoom(@PathVariable(value = "id") UUID room_id, @RequestBody RoomRequest request) {
         return roomService.updateRoom(room_id, request);
     }
 
     @PutMapping(UPDATE_ROOM_TYPE)
     @ApiOperation(value = "Endpoint for updating roomType by id from database", response = String.class)
-    public ApiResponse<RoomTypeResponse> updateRoomType(@PathVariable(value = "id") UUID roomType_id,
-                                                       @RequestBody RoomTypeRequest request) {
+    public ApiResponse<String> updateRoomType(@PathVariable(value = "id") UUID roomType_id,
+                                              @RequestBody RoomTypeRequest request) {
         return roomTypeService.updateRoomType(roomType_id, request);
+    }
+
+    @PutMapping(UPDATE_ROOM_FACILITY)
+    @ApiOperation(value = "Endpoint for updating roomFacility by id from database", response = String.class)
+    public ApiResponse<String> updateRoomFacility(@PathVariable(value = "id") UUID roomFacilityId,
+                                              @RequestBody RoomFacilityRequest request) {
+        return roomFacilityService.updateRoomFacility(roomFacilityId, request);
     }
 
 
@@ -103,6 +126,25 @@ public class RoomController {
     public ApiResponse<String> deleteRoomType(@PathVariable(value = "id") UUID roomType_id) {
         return roomTypeService.deleteRoomType(roomType_id);
     }
+
+    @DeleteMapping(DELETE_ROOM_FACILITY)
+    @ApiOperation(value = "Endpoint for deleting roomFacility by id from database", response = String.class)
+    public ApiResponse<String> deleteRoomFacility(@PathVariable(value = "id") UUID roomFacilityId) {
+        return roomFacilityService.deleteRoomFacility(roomFacilityId);
+    }
+
+
+
+
+                                //FIND_ROOM_FACILITY_BY_ROOM_NUMBER
+
+    @GetMapping(SEARCH_ROOM_FACILITY_BY_ROOM_NUMBER)
+    @ApiOperation(value = "Endpoint for retrieving lists of roomFacility by RoomNumber", response = RoomFacilityResponse.class, responseContainer = "List")
+    public ApiResponse<List<RoomFacilityResponse>> searchListOfRoomFacilityByRoomNumber(@RequestParam UUID roomUuid ) {
+        return roomFacilityService.getRoomFacilityByRoomNumber(roomUuid);
+    }
+
+
 
 
 

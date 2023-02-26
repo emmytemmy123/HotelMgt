@@ -7,9 +7,12 @@ import lombok.Data;
 @Data
 public class ServiceRequestResponse extends BaseDto {
 
-     Long service_id;
-     Long customer_id;
-     String service_type;
-     String serviced_by;
+     private String serviceName;
+     private String serviceBy;
+     private  Integer serviceRequestNo;
+     private String currentCustomer;
+     private String serviceCategory;
+     private Double price;
+     private String paymentStatus;
 
 }

@@ -18,10 +18,10 @@ public class changeUserPasswordRequest {
 
     @NotNull(message = INVALID_PASSWORD)
     @NotEmpty(message = INVALID_PASSWORD)
-    String oldPassword;
+    private String oldPassword;
 
     @NotNull(message = INVALID_PASSWORD)
     @NotEmpty(message = INVALID_PASSWORD)
-    String newPassword;
+    private String newPassword;
 
 }

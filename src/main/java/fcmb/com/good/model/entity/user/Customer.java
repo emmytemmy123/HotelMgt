@@ -1,10 +1,8 @@
 package fcmb.com.good.model.entity.user;
 
 
-import fcmb.com.good.model.entity.BaseEntity;
 import fcmb.com.good.model.entity.BaseUser;
-import fcmb.com.good.model.entity.others.Document;
-import fcmb.com.good.model.entity.products.Products;
+import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.services.Services;
 import fcmb.com.good.model.entity.transaction.AccountChart;
 import fcmb.com.good.model.entity.transaction.Booking;
@@ -25,14 +23,12 @@ public class Customer extends BaseUser {
 
     private String nin;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "createdById", updatable = true)
+    private AppUser createdBy;
+
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Booking> roomsList;
-
-    @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
-    private Document document;
-
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    private List<Products> productsList;
 
     @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
     private List<Services> servicesList;

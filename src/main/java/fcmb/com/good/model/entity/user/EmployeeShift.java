@@ -15,13 +15,12 @@ import javax.persistence.*;
 @Table(name = "employeeShift")
 public class EmployeeShift extends BaseEntity {
 
-    private Long employee_id;
     private String designation;
     private String shift;
     private String period;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_id", insertable = false, updatable = false )
+    @JoinColumn(name = "employeeId", insertable = true, updatable = true )
     private Employee employee;
 
 

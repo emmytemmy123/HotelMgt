@@ -1,7 +1,8 @@
 package fcmb.com.good.repo.user;
 
 
-import fcmb.com.good.model.entity.user.User;
+import fcmb.com.good.model.entity.products.ProductCategory;
+import fcmb.com.good.model.entity.user.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,18 +14,21 @@ import java.util.UUID;
 
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<AppUser,Long> {
 
 
-    @Query("select u from User u where u.email=:email")
-    Optional<User> findByEmailId(@Param("email") String email);
+    @Query("select u from AppUser u where u.email=:email")
+    Optional<AppUser> findByEmailId(@Param("email") String email);
 
-    User findByUsername(String username);
+    AppUser findByUsername(String username);
 
-    User findByEmail(String email);
+    AppUser findByEmail(String email);
 
-    @Query("select st from User st where st.uuid=:recordId")
-    Optional<User> findByUuid(@Param("recordId") UUID uuid);
+    @Query("select st from AppUser st where st.uuid=:recordId")
+    Optional<AppUser> findByUuid(@Param("recordId") UUID uuid);
+
+    @Query("select st from AppUser st where st.name=:name")
+    Optional<AppUser> findUsersByName(@Param("name") String name);
 
 
 

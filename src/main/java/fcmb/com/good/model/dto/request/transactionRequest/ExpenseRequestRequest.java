@@ -13,26 +13,26 @@ public class ExpenseRequestRequest  {
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     Long expense_id;
+     private Long expense_id;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     Long employee_id;
+     private Long employee_id;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String quantity;
+     private String quantity;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     Double amount;
+     private Double amount;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String account_no;
+     private String account_no;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     String status;
+     private String status;
 
 }

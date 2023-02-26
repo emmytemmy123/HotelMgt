@@ -4,15 +4,22 @@ package fcmb.com.good.model.dto.response.productsResponse;
 import fcmb.com.good.model.dto.BaseDto;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class ProductOrderResponse extends BaseDto {
-     Long customer_id;
-     Long product_id;
-     Double amount;
-     Double tax;
-     Long order_no;
-     Long account_no;
-     Double profit;
-     String sales_person;
-     String order_state;
+
+     private String productName;
+     private Double amount;
+     private Double tax;
+     private Long orderNo;
+     private Long accountNo;
+     private Double profit;
+     private String salesPerson;
+     private String orderState;
+     private String currentCustomer;
+     private Integer quantity;
+     private Double price;
+
+
 }

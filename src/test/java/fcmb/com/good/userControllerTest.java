@@ -3,21 +3,14 @@ package fcmb.com.good;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fcmb.com.good.controller.usersControllers.UsersController;
-import fcmb.com.good.model.dto.Others.TestData;
-import fcmb.com.good.model.entity.user.User;
 import fcmb.com.good.services.user.UserServiceTest;
 import lombok.RequiredArgsConstructor;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.stereotype.Component;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @Component
 @RequiredArgsConstructor

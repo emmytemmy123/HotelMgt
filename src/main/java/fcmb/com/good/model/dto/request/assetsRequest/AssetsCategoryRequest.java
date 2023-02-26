@@ -9,6 +9,8 @@ import lombok.ToString;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
+import java.util.UUID;
+
 import static fcmb.com.good.utills.MessageUtil.*;
 
 @Data
@@ -23,14 +25,18 @@ public class AssetsCategoryRequest  {
 
     @NotNull(message = INVALID_TYPE)
     @NotEmpty(message = INVALID_TYPE)
-    private String type;
+    private String category;
 
     @NotNull(message = INVALID_DESCRIPTION)
     @NotEmpty(message = INVALID_DESCRIPTION)
     private String description;
 
     @NotNull(message = INVALID_ACCOUNT_NO)
-    @NotEmpty(message = INVALID_ACCOUNT_NO)
-    private String account_no;
+//    @NotEmpty(message = INVALID_ACCOUNT_NO)
+    private String accountNo;
+
+    @NotNull(message = INVALID_ACCOUNT_NO)
+//    @NotEmpty(message = INVALID_ACCOUNT_NO)
+    private UUID createdById;
 
 }

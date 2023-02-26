@@ -2,6 +2,7 @@ package fcmb.com.good.model.entity.products;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.entity.user.Employee;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
@@ -17,22 +18,31 @@ import javax.persistence.*;
 @Table(name = "productOrder")
 public class ProductOrder extends BaseEntity {
 
-    private Long customer_id;
-    private Long product_id;
+    private String productName;
     private Double amount;
     private Double tax;
-    private String order_no;
-    private String account_no;
+    private Integer quantity;
+    private Double price;
+    private Integer orderNo;
+    private String accountNo;
     private Double profit;
-    private String sales_person;
-    private String order_state;
+    private String salesPerson;
+    private String orderState;
+    private String currentCustomer;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_id",insertable = false, updatable = false)
+    @JoinColumn(name = "employeeId",insertable = true, updatable = true)
     private Employee employee;
 
-    public ProductOrder(){}
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "customerId",insertable = true, updatable = true)
+    private Customer customer;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "productId", insertable = true, updatable = true)
+    private Product product;
+
+    public ProductOrder(){}
 
 
 }

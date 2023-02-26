@@ -19,4 +19,6 @@ public interface DocumentRepository extends JpaRepository<Document, Long> {
     @Query("delete from  Document st where st.uuid=:recordId")
     Optional< Document> deleteByUuid(@Param("recordId")UUID uuid);
 
+    Optional<Document> findByName(String name);
+
 }

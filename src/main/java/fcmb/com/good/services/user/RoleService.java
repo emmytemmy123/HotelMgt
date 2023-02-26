@@ -13,11 +13,11 @@ public interface RoleService {
 
     ApiResponse<List<RoleResponse>> getListOfRoles(int page, int size);
 
-    ApiResponse<RoleResponse> addRole(RoleRequest request);
+    ApiResponse<String> addRole(RoleRequest request);
 
     ApiResponse<RoleResponse> getRolesById(UUID roleId);
 
-    ApiResponse<RoleResponse> updateRole(UUID roleId, RoleRequest request);
+    ApiResponse<String> updateRole(UUID roleId, RoleRequest request);
 
     ApiResponse<String> deleteRole(UUID roleId);
 

@@ -9,9 +9,9 @@ import java.util.Date;
 @Data
 public class BookingReminderResponse extends BaseDto {
 
-     Long customer_id;
-     Long booking_id;
-     String reminder_details;
-     String status;
+     private Long customer_id;
+     private Long booking_id;
+     private String reminder_details;
+     private String status;
 
 }

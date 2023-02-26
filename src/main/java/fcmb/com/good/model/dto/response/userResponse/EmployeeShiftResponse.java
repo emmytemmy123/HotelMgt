@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 public class EmployeeShiftResponse extends BaseDto {
 
-     Long employee_id;
-     String designation;
-     String shift;
-     String period;
+     private Long employee_id;
+     private String designation;
+     private String shift;
+     private String period;
 
 }

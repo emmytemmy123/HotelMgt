@@ -13,12 +13,14 @@ import java.util.UUID;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
+    Employee findByUsername(String username);
+
     @Query("select st from Employee st where st.uuid=:recordId")
     Optional<Employee> findByUuid(@Param("recordId") UUID uuid);
 
     @Query("select e from Employee e where e.email=:email")
     Optional<Employee> findByEmailId(@Param("email")String email);
 
-
+    Employee findByEmail(String email);
 
 }

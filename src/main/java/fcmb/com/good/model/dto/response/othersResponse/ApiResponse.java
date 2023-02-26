@@ -1,5 +1,6 @@
 package fcmb.com.good.model.dto.response.othersResponse;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -11,6 +12,7 @@ import java.util.Map;
  * @param <T>
  */
 @Data
+//@Builder
 public class ApiResponse<T> {
     private String message; //Failed/ Success
     private Integer code;

@@ -19,5 +19,7 @@ public interface ProductOrderRepository extends JpaRepository<ProductOrder, Long
     @Query("delete from ProductOrder st where st.uuid=:recordId")
     Optional<ProductOrder> deleteByUuid(@Param("recordId")UUID uuid);
 
+    Optional<ProductOrder> findByOrderNo(Integer orderNo);
+
 
 }

@@ -19,5 +19,8 @@ public interface AssetsRepository extends JpaRepository<Assets, Long> {
     @Query("delete from Assets st where st.uuid=:recordId")
     Optional<Assets> deleteByUuid(@Param("recordId")UUID uuid);
 
+    @Query("select st from Assets st where st.name=:recordId")
+    Optional<Assets> findAssetByName(@Param("recordId") String name);
+
 
 }

@@ -13,22 +13,26 @@ public class DocumentRequest  {
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String file_type;
+       private String Type;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String file_name;
+       private String Name;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String file_size;
+       private String Size;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       String description;
+       private String description;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       Long record_id;
+       private String filePath;
+
+//       @NotNull(message = INVALID_NAME)
+//       @NotEmpty(message = INVALID_NAME)
+//       private Long record_id;
 
 }

@@ -7,12 +7,12 @@ import lombok.Data;
 @Data
 public class HotelResponse extends BaseDto {
 
-     String name;
-     String email;
-     String country;
-     String state;
-     String city;
-     String address;
-     String phone;
+     private String name;
+     private String email;
+     private String country;
+     private String state;
+     private String city;
+     private String address;
+     private String phone;
 
 }

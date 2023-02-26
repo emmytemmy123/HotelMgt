@@ -7,10 +7,10 @@ import lombok.Data;
 @Data
 public class ProductOrderItemsResponse extends BaseDto {
 
-     Long product_id;
-     Long product_order_id;
-     String product_name;
-     String quantity;
-     Double price;
+     private Long product_id;
+     private Long product_order_id;
+     private String product_name;
+     private String quantity;
+     private Double price;
 
 }

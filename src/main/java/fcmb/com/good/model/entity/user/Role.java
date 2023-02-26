@@ -23,7 +23,7 @@ public class Role extends BaseEntity {
     private String department;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private List<User> users = new ArrayList<User>();
+    private List<AppUser> users = new ArrayList<AppUser>();
 
     public Role(){}
 

@@ -13,14 +13,14 @@ public class ServicesRequest  {
 
         @NotNull(message = INVALID_NAME)
         @NotEmpty(message = INVALID_NAME)
-        String service_type;
+        private String service_type;
 
         @NotNull(message = INVALID_NAME)
         @NotEmpty(message = INVALID_NAME)
-        String description;
+        private String description;
 
         @NotNull(message = INVALID_NAME)
         @NotEmpty(message = INVALID_NAME)
-        String service_category;
+        private String service_category;
 
 }

@@ -12,11 +12,11 @@ public interface ProductOrderItemsService {
 
     ApiResponse<List<ProductOrderItemsResponse>> getListOfProductOrderItems(int page, int size);
 
-    ApiResponse<ProductOrderItemsResponse> addProductOrderItems(ProductOrderItemsRequest request);
+    ApiResponse<String> addProductOrderItems(ProductOrderItemsRequest request);
 
     ApiResponse<ProductOrderItemsResponse> getProductOrderItemsById(UUID productOderItemsId);
 
-    ApiResponse<ProductOrderItemsResponse> updateProductOrderItems(UUID productOderItemsId, ProductOrderItemsRequest request);
+    ApiResponse<String> updateProductOrderItems(UUID productOderItemsId, ProductOrderItemsRequest request);
 
     ApiResponse<String> deleteProductOrderItems(UUID productOderItemsId);
 

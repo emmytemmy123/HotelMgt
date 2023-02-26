@@ -2,7 +2,6 @@ package fcmb.com.good.model.entity.user;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.BaseUser;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,7 +20,7 @@ public class UserType extends BaseEntity {
     private String type;
 
     @ManyToMany(mappedBy = "usertype", fetch = FetchType.LAZY)
-    private List<User> users = new ArrayList<User>();
+    private List<AppUser> users = new ArrayList<AppUser>();
 
 
     public UserType(){}

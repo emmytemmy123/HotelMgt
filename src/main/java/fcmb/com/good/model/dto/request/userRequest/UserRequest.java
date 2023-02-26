@@ -21,51 +21,47 @@ public class UserRequest  {
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
-    String name;
+    private String name;
 
     @NotNull(message = INVALID_EMAIL)
     @NotEmpty(message = INVALID_EMAIL)
-    String email;
+    private String email;
 
     @NotNull(message = INVALID_PHONE)
     @NotEmpty(message = INVALID_PHONE)
-    String phone;
+    private String phone;
 
     //   @NotNull(message = INVALID_GENDER)
 //   @NotEmpty(message = INVALID_GENDER)
-    String gender;
+    private String gender;
 
     @NotNull(message = INVALID_ADDRESS)
     @NotEmpty(message = INVALID_ADDRESS)
-    String address;
+    private String address;
 
     //     @NotNull(message = INVALID_COUNTRY)
 //     @NotEmpty(message = INVALID_COUNTRY)
-    String country;
+    private String country;
 
     @NotNull(message = INVALID_CITY)
     @NotEmpty(message = INVALID_CITY)
-    String city;
+    private String city;
 
     //   @NotNull(message = INVALID_FORMAT)
 //   @NotEmpty(message = INVALID_FORMAT)
-    String photo;
+    private String photo;
 
     @NotNull(message = INVALID_USERNAME)
     @NotEmpty(message = INVALID_USERNAME)
-    String username;
+    private String username;
 
     @NotNull(message = INVALID_PASSWORD)
     @NotEmpty(message = INVALID_PASSWORD)
-    String password;
+    private String password;
 
     @NotNull(message = INVALID_USERNAME)
     @NotEmpty(message = INVALID_USERNAME)
-    String postedBy;
-
-    @NotNull(message = INVALID_USERNAME)
-    @NotEmpty(message = INVALID_USERNAME)
-    String role;
+    private String role;
 
 
 

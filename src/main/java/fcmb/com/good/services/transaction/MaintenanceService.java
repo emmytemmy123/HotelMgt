@@ -1,25 +1,22 @@
 package fcmb.com.good.services.transaction;
 
-import fcmb.com.good.model.dto.request.transactionRequest.MaintenanceRequestRequest;
+import fcmb.com.good.model.dto.request.transactionRequest.MaintenanceRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.MaintenanceResponse;
-import fcmb.com.good.model.entity.transaction.MaintenanceRequest;
 
 import java.util.List;
 import java.util.UUID;
 
 public interface MaintenanceService {
 
+    ApiResponse<List<MaintenanceResponse>> getListOfMaintenance(int page, int size);
 
-    ApiResponse<List<MaintenanceResponse>> getListOfMaintenanceRequest(int page, int size);
+    ApiResponse<String> addMaintenance(MaintenanceRequest request);
 
-    ApiResponse<MaintenanceResponse> addMaintenanceRequest(MaintenanceRequestRequest request);
+    ApiResponse<MaintenanceResponse> getMaintenanceById(UUID maintenanceId);
 
-    ApiResponse<MaintenanceResponse> getMaintenanceRequestById(UUID maintenanceId);
+    ApiResponse<String> updateMaintenance(UUID maintenanceId, MaintenanceRequest request);
 
-    ApiResponse<MaintenanceResponse> updateMaintenanceRequest(UUID maintenanceId, MaintenanceRequestRequest request);
-
-    ApiResponse<String> deleteMaintenanceRequest(UUID maintenanceId);
-
+    ApiResponse<String> deleteMaintenance(UUID maintenanceId);
 
 }

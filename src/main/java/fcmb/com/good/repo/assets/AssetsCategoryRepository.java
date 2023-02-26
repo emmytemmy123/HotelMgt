@@ -19,4 +19,7 @@ public interface AssetsCategoryRepository extends JpaRepository<AssetsCategory, 
    /* @Query("delete from AssetsCategory st where st.uuid=:recordId")
     Optional<AssetsCategory> deleteByUuid(@Param("recordId")UUID uuid);
 */
+
+    @Query("select st from AssetsCategory st where st.name=:recordId")
+    Optional<AssetsCategory> findProductCategoryByName(@Param("recordId") String name);
 }

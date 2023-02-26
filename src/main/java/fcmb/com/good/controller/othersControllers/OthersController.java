@@ -21,7 +21,7 @@ import static fcmb.com.good.utills.EndpointParam.*;
 import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 
 @RestController
-@RequestMapping(USERS)
+@RequestMapping(others)
 @RequiredArgsConstructor
 public class OthersController {
 
@@ -48,13 +48,13 @@ public class OthersController {
                                     //ADD_HOTEL AND DOCUMENT
     @PostMapping(ADD_DOCUMENT)
     @ApiOperation(value = "Endpoint for adding new document to database", response = String.class)
-    public ApiResponse<DocumentResponse> addDocument(@Valid @RequestBody DocumentRequest request) {
+    public ApiResponse<String> addDocument(@Valid @RequestBody DocumentRequest request) {
         return documentService.addDocument(request);
     }
 
     @PostMapping(ADD_HOTEL)
     @ApiOperation(value = "Endpoint for adding new hotel to database", response = String.class)
-    public ApiResponse<HotelResponse> addHotel(@Valid @RequestBody HotelRequest request) {
+    public ApiResponse<String> addHotel(@Valid @RequestBody HotelRequest request) {
         return hotelService.addHotel(request);
     }
 
@@ -76,15 +76,15 @@ public class OthersController {
                                             //UPDATE_HOTEL AND DOCUMENT
     @PutMapping(UPDATE_DOCUMENT)
     @ApiOperation(value = "Endpoint for updating document by id from database", response = String.class)
-    public ApiResponse<DocumentResponse> updateDocument(@PathVariable(value = "id") UUID document_id,
-                                                        @RequestBody DocumentRequest request) {
+    public ApiResponse<String> updateDocument(@PathVariable(value = "id") UUID document_id,
+                                              @RequestBody DocumentRequest request) {
         return documentService.updateDocument(document_id, request);
     }
 
     @PutMapping(UPDATE_HOTEL)
     @ApiOperation(value = "Endpoint for updating hotel by id from database", response = String.class)
-    public ApiResponse<HotelResponse> updateHotel(@PathVariable(value = "id") UUID hotel_id,
-                                                 @RequestBody HotelRequest request) {
+    public ApiResponse<String> updateHotel(@PathVariable(value = "id") UUID hotel_id,
+                                           @RequestBody HotelRequest request) {
         return hotelService.updateHotel(hotel_id, request);
     }
 

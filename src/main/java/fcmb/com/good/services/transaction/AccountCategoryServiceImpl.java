@@ -6,9 +6,11 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.AccountCategoryRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.AccountCategoryResponse;
+import fcmb.com.good.model.entity.rooms.RoomCategory;
 import fcmb.com.good.model.entity.transaction.AccountCategory;
-import fcmb.com.good.model.entity.user.Customer;
+import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.transaction.AccountCategoryRepository;
+import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -24,9 +26,17 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class AccountCategoryServiceImpl implements AccountCategoryService {
+
     private  final AccountCategoryRepository accountCategoryRepository;
+    private final UserRepository userRepository;
+
 
     @Override
+    /**
+     * @Validate and Find the list of  AccountCategory
+     * @Validate if the List of AccountCategory is empty otherwise return record not found*
+     * @return the list of AccountCategory and a Success Message
+     * * */
     public ApiResponse<List<AccountCategoryResponse>> getListOfAccountCategory(int page, int size) {
         List<AccountCategory> accountCategoryList = accountCategoryRepository.findAll(PageRequest.of(page,size)).toList();
         if(accountCategoryList.isEmpty())
@@ -36,25 +46,78 @@ public class AccountCategoryServiceImpl implements AccountCategoryService {
                 Mapper.convertList(accountCategoryList, AccountCategoryResponse.class));
     }
 
+
+    /**
+     * @Validating existingAccountingCategoryOption by currency
+     * @Validate if the List of existingAccountingCategoryOption is empty otherwise return Duplicate Record
+     * */
+    private Optional<AccountCategory> validateDuplicateAccountCategory(String currency) {
+        Optional<AccountCategory> existingAccountingCategoryOption = accountCategoryRepository.findByCurrency(currency);
+        return existingAccountingCategoryOption;
+    }
+
+
     @Override
-    public ApiResponse<AccountCategoryResponse> addAccountCategory(@RequestBody AccountCategoryRequest request) {
-        AccountCategory accountCategory = Mapper.convertObject(request,AccountCategory.class);
-        accountCategory=accountCategoryRepository.save(accountCategory);
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(accountCategory,AccountCategoryResponse.class));
+    /**
+     * @Validate that no duplicate AccountCategory is allowed
+     * @Validate that AccountCategory exists otherwise return record not found
+     * Create the AccountCategory definition and save
+     * @return success message
+     * * */
+    public ApiResponse<String> addAccountCategory(@RequestBody AccountCategoryRequest request) {
+
+        Optional<AccountCategory> accountCategoryOptional = validateDuplicateAccountCategory(request.getCurrency());
+
+        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
+        if (!accountCategoryOptional.isEmpty()) {
+            return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
+                    "Duplicate Record");
+        }
+
+        AccountCategory accountCategory = new AccountCategory();
+
+        accountCategory.setCode(request.getCode());
+        accountCategory.setCurrency(request.getCurrency());
+        accountCategory.setAccountType(request.getAccountType());
+        accountCategory.setPostedBy(existingUser.getName());
+        accountCategory.setCreatedBy(existingUser);
+
+        accountCategoryRepository.save(accountCategory);
+        //roomCategoryRepository.save(getRoomTypeFromRequest(request));
+
+        return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record Added successfully");
+
     }
 
     @Override
+    /**
+     * @Validating and Finding the list of AccountCategoryOptional by uuid
+     * @Validate if the List of AccountCategoryOptional is empty otherwise return record not found
+     * Create the AccountCategory definition and get the AccountCategoryOptional by uuid
+     * @return the list of AccountCategory and a Success Message
+     * * */
     public ApiResponse<AccountCategoryResponse> getAccountCategoryById(@RequestParam("id") UUID accountCategoryId) {
         Optional<AccountCategory> accountCategory = accountCategoryRepository.findByUuid(accountCategoryId);
 
         if(accountCategory.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        AccountCategory ac = accountCategory.get();
-        return new ApiResponse<AccountCategoryResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(), Mapper.convertObject(ac,AccountCategoryResponse.class));
+
+        AccountCategory accountCategory1 = accountCategory.get();
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(accountCategory1,AccountCategoryResponse.class));
 
     }
 
+
+    /**
+     * @validating AccountCategoryOptional by uuid
+     * @Validate if the List of AccountCategoryOptional is empty otherwise return record not found
+     * @return AccountCategoryOptional
+     * * */
     private AccountCategory validateAccountCategory(UUID uuid){
         Optional<AccountCategory> accountCategory = accountCategoryRepository.findByUuid(uuid);
         if(accountCategory.isEmpty())
@@ -63,18 +126,32 @@ public class AccountCategoryServiceImpl implements AccountCategoryService {
     }
 
     @Override
-    public ApiResponse<AccountCategoryResponse> updateAccountCategory(@RequestParam UUID accountCategoryId,
-                                                                      @RequestBody AccountCategoryRequest request) {
+    /**
+     * @validating AccountCategoryOptional by uuid
+     * @Validate if the List of AccountCategoryOptional is empty otherwise return record not found
+     * Create the AccountCategory definition and update
+     * @return a Success Message
+     * * */
+    public ApiResponse<String> updateAccountCategory(UUID accountCategoryId, AccountCategoryRequest request) {
+
         AccountCategory accountCategory = validateAccountCategory(accountCategoryId);
         accountCategory.setCode(request.getCode());
         accountCategory.setCurrency(request.getCurrency());
+        accountCategory.setAccountType(request.getAccountType());
 
-        accountCategory = accountCategoryRepository.save(accountCategory);
-        return new ApiResponse<AccountCategoryResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(accountCategory,AccountCategoryResponse.class));
+        accountCategoryRepository.save(accountCategory);
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                "Record updated Successfully");
     }
 
     @Override
+    /**
+     * @validate AccountCategory by uuid
+     * @Validate if AccountCategory is empty otherwise return record not found
+     * @Delete AccountCategory
+     * @return a Success Message
+     * * */
     public ApiResponse<String> deleteAccountCategory(UUID accountCategoryId) {
         AccountCategory accountCategory = validateAccountCategory(accountCategoryId);
         accountCategoryRepository.delete(accountCategory);

@@ -12,11 +12,11 @@ public interface AccountCategoryService {
 
    ApiResponse<List<AccountCategoryResponse>> getListOfAccountCategory(int page, int size);
 
-    ApiResponse<AccountCategoryResponse>addAccountCategory(AccountCategoryRequest request);
+    ApiResponse<String>addAccountCategory(AccountCategoryRequest request);
 
     ApiResponse<AccountCategoryResponse> getAccountCategoryById(UUID accountCategoryId);
 
-    ApiResponse<AccountCategoryResponse> updateAccountCategory( UUID accountCategoryId, AccountCategoryRequest request);
+    ApiResponse<String> updateAccountCategory( UUID accountCategoryId, AccountCategoryRequest request);
 
     ApiResponse<String> deleteAccountCategory(UUID accountCategoryId);
 

@@ -32,7 +32,6 @@ public class JwtAuthenticationController {
 //    }
 
 
-
     @PostMapping("/authenticate")
     public String generateToken(@RequestBody AuthRequest authRequest) throws Exception {
         try {

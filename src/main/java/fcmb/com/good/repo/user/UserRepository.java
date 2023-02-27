@@ -1,7 +1,6 @@
 package fcmb.com.good.repo.user;
 
 
-import fcmb.com.good.model.entity.products.ProductCategory;
 import fcmb.com.good.model.entity.user.AppUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

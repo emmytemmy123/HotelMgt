@@ -6,17 +6,15 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.roomsRequest.RoomFacilityRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.roomsResponse.RoomFacilityResponse;
-import fcmb.com.good.model.entity.rooms.RoomFacility;
+import fcmb.com.good.model.entity.rooms.ProductFacility;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.rooms.RoomFacilityRepository;
 import fcmb.com.good.repo.rooms.RoomsRepository;
 import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -41,7 +39,7 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
      * @Validate the List of existingRoomFacilityOptional otherwise return Duplicate Record
      * * */
     private void validateDuplicationRoomFacility(String name){
-        Optional<RoomFacility> existingRoomFacilityOptional = roomFacilityRepository.findByName(name);
+        Optional<ProductFacility> existingRoomFacilityOptional = roomFacilityRepository.findByName(name);
 
         if(existingRoomFacilityOptional.isPresent() )
             throw new RecordNotFoundException("Duplicate record");
@@ -64,7 +62,7 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
         Rooms existingRoom  = roomRepository.findByUuid(request.getRoomId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        RoomFacility roomFacility = new RoomFacility();
+        ProductFacility roomFacility = new ProductFacility();
         roomFacility.setName(request.getName());
         roomFacility.setFileName(request.getFileName());
         roomFacility.setDescription(request.getDescription());
@@ -86,12 +84,12 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
      * @return the list of roomFacility and a Success Message
      * * */
     public ApiResponse<RoomFacilityResponse> getRoomFacilityById(UUID roomFacilityId) {
-        Optional<RoomFacility> roomFacilityOptional = roomFacilityRepository.findByUuid(roomFacilityId);
+        Optional<ProductFacility> roomFacilityOptional = roomFacilityRepository.findByUuid(roomFacilityId);
 
         if(roomFacilityOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        RoomFacility roomFacility = roomFacilityOptional.get();
+        ProductFacility roomFacility = roomFacilityOptional.get();
 
         return new ApiResponse<RoomFacilityResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertObject(roomFacility,RoomFacilityResponse.class));
@@ -103,8 +101,8 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
      * @Validate if the List of roomFacility is empty otherwise return record not found
      * @return the list of roomFacility
      * * */
-    private RoomFacility validateRoomFacility(UUID uuid){
-        Optional<RoomFacility> roomFacility = roomFacilityRepository.findByUuid(uuid);
+    private ProductFacility validateRoomFacility(UUID uuid){
+        Optional<ProductFacility> roomFacility = roomFacilityRepository.findByUuid(uuid);
         if(roomFacility.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         return roomFacility.get();
@@ -120,7 +118,7 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
      * * */
     public ApiResponse<String> updateRoomFacility(UUID roomFacilityId, RoomFacilityRequest request) {
 
-        RoomFacility roomFacility = validateRoomFacility(roomFacilityId);
+        ProductFacility roomFacility = validateRoomFacility(roomFacilityId);
         roomFacility.setName(request.getName());
         roomFacility.setFileName(request.getFileName());
         roomFacility.setDescription(request.getDescription());
@@ -138,7 +136,7 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
      * @return a Success Message
      * * */
     public ApiResponse<String> deleteRoomFacility(UUID roomFacilityId) {
-        RoomFacility roomFacility = validateRoomFacility(roomFacilityId);
+        ProductFacility roomFacility = validateRoomFacility(roomFacilityId);
         roomFacilityRepository.delete(roomFacility);
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Deleted successfully");
@@ -153,7 +151,7 @@ public class RoomFacilityServiceImpl implements RoomFacilityService {
      * * */
     public ApiResponse<List<RoomFacilityResponse>> getRoomFacilityByRoomNumber(UUID roomUuid) {
 
-    List<RoomFacility> getRoomFacilityByRoomNumber = roomFacilityRepository.findRoomFacilityByRoomNumberAndCustomer(roomUuid);
+    List<ProductFacility> getRoomFacilityByRoomNumber = roomFacilityRepository.findRoomFacilityByRoomNumberAndCustomer(roomUuid);
 
     if(getRoomFacilityByRoomNumber.isEmpty())
         throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);

@@ -21,40 +21,18 @@ import javax.persistence.*;
 @Table(name = "payment")
 public class Payment extends BaseEntity {
 
-    private String category;
     private Double amount;
-    private String serviceName;
-    private Integer accountNo;
-    private Integer roomNo;
-    private Double price;
-    private Integer quantity;
-    private String paymentStatus;
-    private String paymentDetails;
+    private String description;
     private String paidBy;
+    private String paymentMode;
+    private String paymentStatus;
+    private String postedBy;
+    private String tranReference;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "createdById", insertable = true, updatable = true)
-    private AppUser createdBy;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customerId", insertable = true, updatable = true)
-    private Customer customer;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "roomId", insertable = true, updatable = true)
-    private Rooms rooms;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "productId", insertable = true, updatable = true)
-    private Product product;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "kitchenId", insertable = true, updatable = true)
-    private Kitchen kitchen;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "subServiceId", insertable = true, updatable = true)
-    private SubService subService;
+    @JoinColumn(name = "orderId", insertable = true, updatable = true)
+    private Order order;
 
 
     public Payment(){}

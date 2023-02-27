@@ -10,7 +10,7 @@ import java.util.UUID;
 public class RoomHelper  {
 
     private UUID uuid;
-//    private String serviceType;
+    private String serviceType;
     private String description;
     private Double price;
 

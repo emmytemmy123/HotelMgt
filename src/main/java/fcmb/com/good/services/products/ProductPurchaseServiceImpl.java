@@ -7,7 +7,7 @@ import fcmb.com.good.model.dto.request.productsRequest.ProductPurchaseRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductPurchaseResponse;
 import fcmb.com.good.model.entity.products.Product;
-import fcmb.com.good.model.entity.products.ProductCategory;
+import fcmb.com.good.model.entity.products.ProductType;
 import fcmb.com.good.model.entity.products.ProductPurchase;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.products.ProductCategoryRepository;
@@ -19,8 +19,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -92,7 +90,7 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
 
         validateDuplicationProductPurchase(request.getName());
 
-        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getProductCategoryId())
+        ProductType existingProductCategory = productCategoryRepository.findByUuid(request.getProductCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedBy())

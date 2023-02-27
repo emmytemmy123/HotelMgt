@@ -21,27 +21,13 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @ToString
 public class AssetsRequest  {
 
-
-
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
     private String name;
 
     @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-    private Double purchasePrice;
-
-    @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
     private String description;
-
-//    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-//    private String recordId;
-
-//    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-//    private String recordType;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
@@ -55,10 +41,6 @@ public class AssetsRequest  {
 //    @NotEmpty(message = INVALID_NAME)
     private Integer quantity;
 
-//    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-//    private String Location;
-
     @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
     private UUID createdById;
@@ -67,8 +49,8 @@ public class AssetsRequest  {
 //    @NotEmpty(message = INVALID_NAME)
     private UUID assetsCategoryId;
 
-    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-    private UUID roomId;
+
+
+
 
 }

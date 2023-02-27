@@ -8,27 +8,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @EntityListeners(BaseListener.class)
 @Entity
-@Table(name = "productCategory")
-public class ProductCategory extends BaseEntity {
+@Table(name = "productType")
+public class ProductType extends BaseEntity {
 
-    private String name;
+    private String room;
+    private String items;
     private String description;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "createdBy_id", updatable = true)
+    @JoinColumn(name = "createdById", updatable = true)
     private AppUser createdBy;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "productCategory", cascade = CascadeType.MERGE)
-    private Set<Product> prod = new HashSet<>();
 
-    public ProductCategory(){}
+    public ProductType(){}
 
 }

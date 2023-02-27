@@ -23,10 +23,6 @@ public class AssetsCategoryRequest  {
     @NotEmpty(message = INVALID_NAME)
     private String name;
 
-    @NotNull(message = INVALID_TYPE)
-    @NotEmpty(message = INVALID_TYPE)
-    private String category;
-
     @NotNull(message = INVALID_DESCRIPTION)
     @NotEmpty(message = INVALID_DESCRIPTION)
     private String description;

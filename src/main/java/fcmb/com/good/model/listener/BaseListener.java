@@ -10,7 +10,7 @@ import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.model.entity.others.Hotel;
 import fcmb.com.good.model.entity.products.*;
 import fcmb.com.good.model.entity.rooms.RoomCategory;
-import fcmb.com.good.model.entity.rooms.RoomFacility;
+import fcmb.com.good.model.entity.rooms.ProductFacility;
 import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.services.ServiceRequest;
 import fcmb.com.good.model.entity.services.Services;
@@ -138,8 +138,8 @@ public class BaseListener {
             type.setUuid(UUID.randomUUID());
         }
 
-        else if(data instanceof ProductCategory){
-            ProductCategory productCategory = (ProductCategory) data;
+        else if(data instanceof ProductType){
+            ProductType productCategory = (ProductType) data;
             productCategory.setUuid(UUID.randomUUID());
         }
 
@@ -148,8 +148,8 @@ public class BaseListener {
             subService.setUuid(UUID.randomUUID());
         }
 
-        else if(data instanceof RoomFacility){
-            RoomFacility roomFacility = (RoomFacility) data;
+        else if(data instanceof ProductFacility){
+            ProductFacility roomFacility = (ProductFacility) data;
             roomFacility.setUuid(UUID.randomUUID());
         }
 

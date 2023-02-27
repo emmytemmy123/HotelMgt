@@ -2,7 +2,6 @@ package fcmb.com.good.model.entity.products;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.rooms.RoomCategory;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
@@ -37,7 +36,7 @@ public class ProductPurchase extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "productCategory", updatable = true)
-    private ProductCategory productCategory;
+    private ProductType productCategory;
 
     public ProductPurchase(){}
 

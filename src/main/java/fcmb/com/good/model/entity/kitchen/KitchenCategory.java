@@ -19,6 +19,7 @@ import java.util.List;
 public class KitchenCategory extends BaseEntity {
 
     private String categoryName;
+    private String description;
 
     @OneToMany(mappedBy = "kitchenCategory")
     private List<Kitchen> kitchenList;

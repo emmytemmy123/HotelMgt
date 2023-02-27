@@ -137,15 +137,6 @@ public class AssetsController {
     }
 
 
-                            //FIND_DAMAGED_ASSETS_BY_ROOM_NUMBER_AND_CATEGORY
-
-    @GetMapping(FIND_DAMAGED_ASSETS_BY_ROOM_NUMBER_AND_CATEGORY)
-    @ApiOperation(value = "Endpoint for retrieving lists of DamagedAssets by RoomNumberAndCategory", response = DamagedAssetsResponse.class, responseContainer = "List")
-    public ApiResponse<List<DamagedAssetsResponse>> searchListOfDamagedAssetsByRoomNumberAndCategory(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                                        @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
-                                                                                        @RequestParam UUID roomUuid, @RequestParam UUID categoryUuid, @RequestParam UUID assetUuid ) {
-        return damagedAssetsService.findDamageAssetsByRoomAndCategory(roomUuid, categoryUuid, assetUuid);
-    }
 
 
                         //FIND_DAMAGED_ASSETS_BY_NAME

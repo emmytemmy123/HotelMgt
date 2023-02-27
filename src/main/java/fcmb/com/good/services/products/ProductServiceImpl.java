@@ -8,7 +8,7 @@ import fcmb.com.good.model.dto.request.productsRequest.ProductRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductResponse;
 import fcmb.com.good.model.entity.products.Product;
-import fcmb.com.good.model.entity.products.ProductCategory;
+import fcmb.com.good.model.entity.products.ProductType;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.products.ProductCategoryRepository;
 import fcmb.com.good.repo.products.ProductRepository;
@@ -20,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -147,21 +148,25 @@ public class ProductServiceImpl implements ProductService {
 
         validateDuplicationProduct(request.getName());
 
-        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategoryId())
+        ProductType existingProductType = productCategoryRepository.findByUuid(request.getCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedBy())
+        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Product product = new Product();
+
+        product.setCategory(request.getCategory());
+        product.setBrand(request.getBrand());
         product.setName(request.getName());
         product.setDescription(request.getDescription());
         product.setQuantity(request.getQuantity());
-        product.setPrice(request.getPrice());
-        product.setCode(request.getCode());
-        product.setLocation(request.getLocation());
-        product.setProductCategory(existingProductCategory);
-        product.setCreatedBy(existingUser);
+        product.setSalesPrice(request.getSalesPrice());
+        product.setDurations(request.getDurations());
+        product.setPurchasePrice(request.getPurchasedPrice());
+        product.setExpDate(request.getExpDate());
+        product.setPostedBy(existingUser.getName());
+        product.setProductType(existingProductType);
 
         productRepository.save(product);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
@@ -179,20 +184,20 @@ public class ProductServiceImpl implements ProductService {
     public ApiResponse<String> updateProduct(UUID productId, ProductRequest request) {
 //        if(jwtFilter.isAdmin()){
 
-        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategoryId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+        Product product = validateProducts(productId);
 
-            Product product = validateProducts(productId);
-            product.setName(request.getName());
-            product.setDescription(request.getDescription());
-            product.setQuantity(product.getQuantity()+request.getQuantity());
-            product.setPrice(request.getPrice());
-            product.setCode(request.getCode());
-            product.setLocation(request.getLocation());
-            product.setProductCategory(existingProductCategory);
+        product.setCategory(request.getCategory());
+        product.setBrand(request.getBrand());
+        product.setName(request.getName());
+        product.setDescription(request.getDescription());
+        product.setQuantity(product.getQuantity()+request.getQuantity());
+        product.setSalesPrice(request.getSalesPrice());
+        product.setDurations(request.getDurations());
+        product.setPurchasePrice(request.getPurchasedPrice());
+        product.setExpDate((Date) request.getExpDate());
 
-            productRepository.save(product);
-            return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+        productRepository.save(product);
+        return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record updated successfully");
         }
 //        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),

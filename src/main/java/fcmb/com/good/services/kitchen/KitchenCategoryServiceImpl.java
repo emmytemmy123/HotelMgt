@@ -79,6 +79,7 @@ public class KitchenCategoryServiceImpl implements KitchenCategoryService{
 
         KitchenCategory kitchenCategory = new KitchenCategory();
         kitchenCategory.setCategoryName(request.getCategoryName());
+        kitchenCategory.setDescription(request.getDescription());
         kitchenCategory.setCreatedBy(existingUser);
         kitchenCategoryRepository.save(kitchenCategory);
 
@@ -136,7 +137,7 @@ public class KitchenCategoryServiceImpl implements KitchenCategoryService{
         KitchenCategory kitchenCategory = validateKitchenCategory(kitchenCategoryId);
 
         kitchenCategory.setCategoryName(request.getCategoryName());
-
+        kitchenCategory.setDescription(request.getDescription());
         kitchenCategoryRepository.save(kitchenCategory);
 
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),

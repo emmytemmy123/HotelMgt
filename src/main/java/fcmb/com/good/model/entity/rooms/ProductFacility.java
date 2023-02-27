@@ -14,7 +14,7 @@ import javax.persistence.*;
 @EntityListeners(BaseListener.class)
 @Entity
 @Table(name = "roomFacility")
-public class RoomFacility extends BaseEntity {
+public class ProductFacility extends BaseEntity {
 
     private String name;
     private String fileName;
@@ -31,6 +31,6 @@ public class RoomFacility extends BaseEntity {
 
 
 
-    public RoomFacility(){}
+    public ProductFacility(){}
 
 }

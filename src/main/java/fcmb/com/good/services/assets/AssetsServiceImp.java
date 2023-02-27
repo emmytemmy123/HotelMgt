@@ -35,6 +35,7 @@ public class AssetsServiceImp implements AssetsService {
     private final AssetsCategoryRepository assetsCategoryRepository;
     private final RoomsRepository roomsRepository;
 
+
     @Override
     /**
      * @Validate and Find the list of all assets
@@ -69,9 +70,6 @@ public class AssetsServiceImp implements AssetsService {
         AssetsCategory existingAssetCategory  = assetsCategoryRepository.findByUuid(request.getAssetsCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Rooms existingRoom = roomsRepository.findByUuid(request.getRoomId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
 
         if (!assetsOptional.isEmpty()) {
             return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
@@ -79,16 +77,14 @@ public class AssetsServiceImp implements AssetsService {
         }
 
         Assets assets = new Assets();
+
         assets.setName(request.getName());
-        assets.setPurchasePrice(request.getPurchasePrice());
         assets.setDescription(request.getDescription());
         assets.setQuantity(request.getQuantity());
         assets.setStatus(request.getStatus());
         assets.setCode(request.getCode());
         assets.setCreatedBy(existingUser);
         assets.setAssetsCategory(existingAssetCategory);
-        assets.setRooms(existingRoom);
-
 
         assetsRepository.save(assets);
 
@@ -148,7 +144,6 @@ public class AssetsServiceImp implements AssetsService {
         Assets assets = validateAssets(assetsId);
 
         assets.setName(request.getName());
-        assets.setPurchasePrice(request.getPurchasePrice());
         assets.setDescription(request.getDescription());
         assets.setQuantity(request.getQuantity()+assets.getQuantity());
         assets.setStatus(request.getStatus());

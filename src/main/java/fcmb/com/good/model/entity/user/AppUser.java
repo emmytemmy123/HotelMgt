@@ -29,8 +29,6 @@ public class AppUser extends BaseUser {
     @JoinColumn(name = "userTypeId", referencedColumnName = "id")
     private List<UserType> usertype = new ArrayList<UserType>();
 
-    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)
-    private List<Product> productList;
 
     @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)
     private List<Kitchen> kitchenList;

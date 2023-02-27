@@ -64,7 +64,6 @@ public class AssetsCategoryServiceImpl implements AssetsCategoryService {
 
         AssetsCategory assetsCategory = new AssetsCategory();
         assetsCategory.setName(request.getName());
-        assetsCategory.setCategory(request.getCategory());
         assetsCategory.setDescription(request.getDescription());
         assetsCategory.setAccountNo(request.getAccountNo());
         assetsCategory.setCreatedBy(existingUser);
@@ -139,7 +138,6 @@ public class AssetsCategoryServiceImpl implements AssetsCategoryService {
         AssetsCategory assetsCategory = validateAssetsCategory(assetsCategoryId);
 
         assetsCategory.setName(request.getName());
-        assetsCategory.setCategory(request.getCategory());
         assetsCategory.setDescription(request.getDescription());
         assetsCategory.setAccountNo(request.getAccountNo());
 

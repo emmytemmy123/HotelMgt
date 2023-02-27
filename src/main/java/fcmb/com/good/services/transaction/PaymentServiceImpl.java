@@ -75,34 +75,13 @@ public class PaymentServiceImpl implements PaymentService {
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Customer existingCustomer  = customerRepository.findByUuid(request.getCurrentCustomerId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
         Product existingProduct  = productRepository.findByUuid(request.getCurrentProductId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
-        Rooms existingRooms  = roomsRepository.findByUuid(request.getCurrentRoomId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
-        Kitchen existingKitchen  = kitchenRepository.findByUuid(request.getCurrentKitchenId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
 
         Payment payment = new Payment();
 
-        payment.setAmount((existingProduct.getPrice())*(request.getQuantity()));
-        payment.setServiceName(existingProduct.getName());
-        payment.setPrice(existingProduct.getPrice());
-        payment.setQuantity(request.getQuantity());
-        payment.setAccountNo(request.getAccountNo());
-        payment.setRoomNo(existingRooms.getServiceNumber());
-        payment.setPaymentStatus(request.getPaymentStatus());
-        payment.setPaymentDetails(request.getPaymentDetails());
-        payment.setPaidBy(existingCustomer.getName());
-        payment.setCreatedBy(existingUser);
-        payment.setProduct(existingProduct);
-        payment.setCustomer(existingCustomer);
-        payment.setRooms(existingRooms);
+
 
         paymentRepository.save(payment);
 
@@ -155,11 +134,8 @@ public class PaymentServiceImpl implements PaymentService {
     public ApiResponse<String> updatePayment(UUID paymentId,PaymentRequest request) {
 
         Payment payment = validatePayment(paymentId);
-//
-//        payment.setCategory(request.getCategory());
-//        payment.setAmount(request.getAmount());
-        payment.setPaymentStatus(request.getPaymentStatus());
-        payment.setPaymentDetails(request.getPaymentDetails());
+
+
 
         paymentRepository.save(payment);
 

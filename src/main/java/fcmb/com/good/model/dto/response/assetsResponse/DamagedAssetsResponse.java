@@ -8,12 +8,9 @@ import java.util.UUID;
 @Data
 public class DamagedAssetsResponse extends BaseDto {
 
-     private UUID assetId;
-     private UUID assetCategoryId;
+     private String name;
      private String quantity;
      private String status;
      private String comment;
-     private String name;
-     private UUID createdBy;
 
 }

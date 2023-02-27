@@ -6,13 +6,14 @@ import lombok.Data;
 @Data
 public class AssetsResponse extends BaseDto {
 
-    private String category_id;
-    private String asset_name;
-    private Long price;
+    private String name;
     private String description;
-    private Long record_id;
-    private String record_type;
     private String code;
-    private String Location;
+    private Integer quantity;
+    private String status;
+    private String photo;
+
+    private AssetsHelper assetsCategory;
+    private AssetHelper2 assets;
 
 }

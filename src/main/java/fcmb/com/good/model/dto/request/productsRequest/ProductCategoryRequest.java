@@ -12,9 +12,13 @@ import static fcmb.com.good.utills.MessageUtil.PRODUCT_NAME;
 @Data
 public class ProductCategoryRequest {
 
-    @NotNull(message = PRODUCT_NAME)
-    @NotEmpty(message = PRODUCT_NAME)
-    private String name;
+//    @NotNull(message = PRODUCT_NAME)
+//    @NotEmpty(message = PRODUCT_NAME)
+    private String room;
+
+//    @NotNull(message = PRODUCT_NAME)
+//    @NotEmpty(message = PRODUCT_NAME)
+    private String items;
 
     @NotNull(message = PRODUCT_NAME)
     @NotEmpty(message = PRODUCT_NAME)

@@ -7,6 +7,7 @@ import lombok.Data;
 @Data
 public class ProductCategoryResponse extends BaseDto {
 
-    private String name;
+    private String room;
+    private String items;
     private String description;
 }

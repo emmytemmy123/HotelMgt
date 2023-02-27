@@ -8,6 +8,6 @@ import lombok.Data;
 public class KitchenCategoryResponse extends BaseDto {
 
     private String categoryName;
-
+    private String description;
 
 }

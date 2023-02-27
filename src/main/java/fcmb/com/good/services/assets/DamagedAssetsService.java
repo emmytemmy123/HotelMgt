@@ -19,8 +19,6 @@ public interface DamagedAssetsService {
 
     ApiResponse<String> deleteDamageAssets(UUID damagedAssetsId);
 
-    ApiResponse<List<DamagedAssetsResponse>> findDamageAssetsByRoomAndCategory(UUID roomId, UUID categoryId, UUID assetId);
-
     ApiResponse<List<DamagedAssetsResponse>> searchDamagedAssetByName(String name);
 
 }

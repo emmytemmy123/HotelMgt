@@ -18,15 +18,12 @@ import javax.persistence.*;
 public class Assets extends BaseEntity {
 
     private String name;
-    private Double purchasePrice;
     private String description;
     private String code;
     private Integer quantity;
     private String status;
     private String photo;
-//    private String recordId;
-//    private String recordType;
-//    private String Location;
+
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdById", insertable = true, updatable = true)
@@ -36,10 +33,9 @@ public class Assets extends BaseEntity {
     @JoinColumn(name = "assetsCategoryId", insertable = true)
     private AssetsCategory assetsCategory;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "locationRoomId", insertable = true)
-    private Rooms rooms;
-
+//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "damagedAssetsId", insertable = true)
+//    private DamagedAssets damagedAssets;
 
     public Assets (){
 

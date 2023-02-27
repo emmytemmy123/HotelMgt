@@ -2,11 +2,9 @@ package fcmb.com.good.model.entity.rooms;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.assets.DamagedAssets;
 import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.model.entity.services.SubService;
 import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,9 +35,6 @@ public class Rooms extends BaseEntity {
     @OneToMany(mappedBy = "rooms")
     private List<Document> documentList;
 
-    @OneToMany(mappedBy = "existingRoom")
-    private List<DamagedAssets> damagedAssetsList;
-
     @OneToMany(mappedBy = "rooms")
     private List<SubService> subServiceList;
 
@@ -48,7 +43,7 @@ public class Rooms extends BaseEntity {
     private RoomCategory roomCategory;
 
     @OneToMany(mappedBy = "room")
-    private List<RoomFacility> roomFacility;
+    private List<ProductFacility> roomFacility;
 
 
     public Rooms() {

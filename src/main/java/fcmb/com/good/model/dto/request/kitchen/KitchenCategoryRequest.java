@@ -18,6 +18,10 @@ public class KitchenCategoryRequest {
     private String categoryName;
 
     @NotNull(message = INVALID_NAME)
+    @NotEmpty(message = INVALID_NAME)
+    private String description;
+
+    @NotNull(message = INVALID_NAME)
     private UUID createdById;
 
 

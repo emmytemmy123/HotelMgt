@@ -77,12 +77,6 @@ public class DamageAssetServiceImpl implements DamagedAssetsService {
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        AssetsCategory existingAssetCategory  = assetsCategoryRepository.findByUuid(request.getAssetsCategoryId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
-        Rooms existingRoom = roomsRepository.findByUuid(request.getRoomId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
         Assets existingAssets = assetsRepository.findByUuid(request.getAssetId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
@@ -93,13 +87,12 @@ public class DamageAssetServiceImpl implements DamagedAssetsService {
         }
 
         DamagedAssets damagedAssets = new DamagedAssets();
+
         damagedAssets.setName(request.getName());
-        damagedAssets.setQuantity(request.getQuantity());
+        damagedAssets.setQuantity(String.valueOf(request.getQuantity()));
         damagedAssets.setStatus(request.getStatus());
         damagedAssets.setComment(request.getComment());
         damagedAssets.setCreatedBy(existingUser);
-        damagedAssets.setAssetsCategory(existingAssetCategory);
-        damagedAssets.setExistingRoom(existingRoom);
         damagedAssets.setAssets(existingAssets);
 
         damagedAssetsRepository.save(damagedAssets);
@@ -155,7 +148,7 @@ public class DamageAssetServiceImpl implements DamagedAssetsService {
         DamagedAssets damagedAssets = validateDamagedAssets(damagedAssetsId);
 
         damagedAssets.setName(request.getName());
-        damagedAssets.setQuantity(request.getQuantity());
+        damagedAssets.setQuantity(String.valueOf(request.getQuantity()));
         damagedAssets.setStatus(request.getStatus());
         damagedAssets.setComment(request.getComment());
 
@@ -178,23 +171,7 @@ public class DamageAssetServiceImpl implements DamagedAssetsService {
                 "Record Deleted successfully");
     }
 
-    @Override
-    /**
-     * @Search the list of all damageAssets by room and category
-     * @Validate if the List of damageAssets is empty otherwise return record not found
-     * @return the list of damageAssets by room and category
-     * * */
-    public ApiResponse<List<DamagedAssetsResponse>> findDamageAssetsByRoomAndCategory(UUID roomId, UUID categoryId, UUID assetId) {
 
-        List<DamagedAssets> getDamagedAssetsByRoomAndCategory = damagedAssetsRepository.findDamageAssetsByRoomAndCategory(roomId, categoryId, assetId);
-
-        if(getDamagedAssetsByRoomAndCategory.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(getDamagedAssetsByRoomAndCategory, DamagedAssetsResponse.class));
-
-    }
 
     @Override
     /**

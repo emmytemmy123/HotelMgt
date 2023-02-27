@@ -18,8 +18,8 @@ public class DamagedAssetsRequest  {
      private String name;
 
      @NotNull(message = INVALID_NAME)
-     @NotEmpty(message = INVALID_NAME)
-     private String quantity;
+//     @NotEmpty(message = INVALID_NAME)
+     private Integer quantity;
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
@@ -32,12 +32,6 @@ public class DamagedAssetsRequest  {
      @NotNull(message = INVALID_NAME)
 //     @NotEmpty(message = INVALID_NAME)
      private UUID createdById;
-
-     @NotNull(message = INVALID_NAME)
-     private UUID assetsCategoryId;
-
-     @NotNull(message = INVALID_NAME)
-     private UUID roomId;
 
      @NotNull(message = INVALID_NAME)
      private UUID assetId;

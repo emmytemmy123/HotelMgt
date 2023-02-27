@@ -36,8 +36,6 @@ public class Customer extends BaseUser {
     @OneToOne(mappedBy = "customer", fetch = FetchType.LAZY)
     private AccountChart accountChart;
 
-    @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
-    private List<Payment> paymentList;
 
 
     public Customer(){

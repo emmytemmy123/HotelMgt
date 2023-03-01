@@ -6,20 +6,14 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.PaymentRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.PaymentResponse;
-import fcmb.com.good.model.entity.kitchen.Kitchen;
 import fcmb.com.good.model.entity.products.Product;
-import fcmb.com.good.model.entity.rooms.Rooms;
-import fcmb.com.good.model.entity.transaction.Maintenance;
-import fcmb.com.good.model.entity.transaction.MaintenanceCategory;
+import fcmb.com.good.model.entity.transaction.Orders;
 import fcmb.com.good.model.entity.transaction.Payment;
-import fcmb.com.good.model.entity.transaction.PaymentCategory;
 import fcmb.com.good.model.entity.user.AppUser;
+
 import fcmb.com.good.model.entity.user.Customer;
-import fcmb.com.good.model.entity.user.Employee;
-import fcmb.com.good.repo.kitchen.KitchenRepository;
 import fcmb.com.good.repo.products.ProductRepository;
-import fcmb.com.good.repo.rooms.RoomsRepository;
-import fcmb.com.good.repo.transaction.PaymentCategoryRepository;
+import fcmb.com.good.repo.transaction.OrdersRepository;
 import fcmb.com.good.repo.transaction.PaymentRepository;
 import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.repo.user.UserRepository;
@@ -28,8 +22,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -43,8 +36,8 @@ public class PaymentServiceImpl implements PaymentService {
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
     private final ProductRepository productRepository;
-    private final RoomsRepository roomsRepository;
-    private final KitchenRepository kitchenRepository;
+    private final OrdersRepository ordersRepository;
+
 
 
     @Override
@@ -75,13 +68,21 @@ public class PaymentServiceImpl implements PaymentService {
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Product existingProduct  = productRepository.findByUuid(request.getCurrentProductId())
+        Orders existingOrders  = ordersRepository.findByUuid(request.getOrdersId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
+        Customer existingCustomer  = customerRepository.findByUuid(request.getCustomerId())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Payment payment = new Payment();
 
-
+        payment.setDescription(request.getDescription());
+        payment.setAmount(existingOrders.getAmount());
+        payment.setPaidBy(existingCustomer.getName());
+        payment.setPaymentMode(request.getPaymentMode());
+        payment.setPaymentStatus(request.getPaymentStatus());
+        payment.setPostedBy(existingUser.getName());
+        payment.setTranReference(request.getTranReference());
 
         paymentRepository.save(payment);
 
@@ -135,7 +136,10 @@ public class PaymentServiceImpl implements PaymentService {
 
         Payment payment = validatePayment(paymentId);
 
-
+        payment.setDescription(request.getDescription());
+        payment.setPaymentMode(request.getPaymentMode());
+        payment.setPaymentStatus(request.getPaymentStatus());
+        payment.setTranReference(request.getTranReference());
 
         paymentRepository.save(payment);
 

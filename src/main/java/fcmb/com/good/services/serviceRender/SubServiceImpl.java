@@ -6,11 +6,9 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.servicesRequest.SubServiceRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
-import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.services.SubService;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
-import fcmb.com.good.repo.rooms.RoomsRepository;
 import fcmb.com.good.repo.services.SubServiceRepository;
 import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.repo.user.UserRepository;
@@ -32,7 +30,6 @@ public class SubServiceImpl implements SubServiceService {
     private final SubServiceRepository subServiceRepository;
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
-    private final RoomsRepository roomRepository;
 
 
 
@@ -70,15 +67,12 @@ public class SubServiceImpl implements SubServiceService {
         Customer existingCustomer  = customerRepository.findByUuid(request.getCurrentCustomerId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Rooms existingRooms  = roomRepository.findByUuid(request.getCurrentRoomId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         SubService subService = new SubService();
         subService.setServiceName(request.getServiceName());
         subService.setUnitCost(request.getUnitCost());
         subService.setNoOfOccupant(request.getNoOfOccupant());
         subService.setCreatedBy(existingUser);
-        subService.setRooms(existingRooms);
         subService.setCustomer(existingCustomer);
 
         subServiceRepository.save(subService);

@@ -6,12 +6,8 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.BookingRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.BookingResponse;
-import fcmb.com.good.model.entity.rooms.RoomCategory;
-import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.transaction.Booking;
 import fcmb.com.good.model.entity.user.Customer;
-import fcmb.com.good.repo.rooms.RoomCategoryRepository;
-import fcmb.com.good.repo.rooms.RoomsRepository;
 import fcmb.com.good.repo.transaction.BookingRepository;
 import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.utills.EmailUtils;
@@ -33,8 +29,6 @@ public class BookingServiceImpl implements BookingService {
 
     private  final BookingRepository bookingRepository;
     private final CustomerRepository customerRepository;
-    private final RoomsRepository roomsRepository;
-    private final RoomCategoryRepository roomCategoryRepository;
     private final EmailUtils emailUtils;
 
     @Override
@@ -66,25 +60,16 @@ public class BookingServiceImpl implements BookingService {
         Customer existingCustomer  = customerRepository.findByUuid(request.getCustomerId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Rooms existingRoom  = roomsRepository.findByUuid(request.getRoomId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
-        RoomCategory existingRoomCategory = roomCategoryRepository.findByUuid(request.getRoomCategoryId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Booking booking = new Booking();
-        booking.setCategory(existingRoomCategory.getCategory());
-        booking.setPrice(existingRoomCategory.getCost());
-        booking.setRoomNo(String.valueOf(existingRoom.getServiceNumber()));
+
         booking.setNight(request.getNight());
         booking.setBookedNo(request.getBookedNo());
         booking.setBookedBy(existingCustomer.getName());
-        booking.setTotalAmount((existingRoomCategory.getCost())*(request.getNight()));
         booking.setCheckInDate(request.getCheckInDate());
         booking.setCheckOutDate(request.getCheckOutDate());
         booking.setCustomer(existingCustomer);
-        booking.setRooms(existingRoom);
-        booking.setRoomCategory(existingRoomCategory);
+
 
         bookingRepository.save(booking);
 

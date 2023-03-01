@@ -29,13 +29,6 @@ public class MaintenanceCategory extends BaseEntity {
     @JoinColumn(name = "createdById", updatable = true)
     private AppUser createdBy;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "maintenanceId", insertable = true, updatable = true)
-//    private Maintenance maintenance;
-//
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "employeeId", insertable = true, updatable = true)
-//    private Employee employee;
 
 
     public MaintenanceCategory(){}

@@ -2,10 +2,8 @@ package fcmb.com.good.model.entity.user;
 
 
 import fcmb.com.good.model.entity.BaseUser;
-import fcmb.com.good.model.entity.products.ProductOrder;
 import fcmb.com.good.model.entity.transaction.ExpenseRequest;
 import fcmb.com.good.model.entity.transaction.Maintenance;
-import fcmb.com.good.model.entity.services.ServiceRequest;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -28,12 +26,6 @@ public class Employee extends BaseUser {
 
     @OneToMany(mappedBy = "employee")
     private List<ExpenseRequest> expenseRequestList;
-
-    @OneToMany(mappedBy = "employee")
-    private List<ServiceRequest>  serviceRequestList;
-
-    @OneToMany(mappedBy = "employee")
-    private List<ProductOrder>  productOrderList;
 
     @OneToMany(mappedBy = "employee")
     private List<EmployeeShift>  employeeShiftList;

@@ -2,6 +2,7 @@ package fcmb.com.good.model.entity.products;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.transaction.OrderItems;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -29,10 +30,10 @@ public class Product extends BaseEntity {
     private String postedBy;
 
 
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "productTypeId", updatable = true)
     private ProductType productType;
+
 
     public Product(){}
 

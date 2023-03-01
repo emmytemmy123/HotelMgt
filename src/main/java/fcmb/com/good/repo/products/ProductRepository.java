@@ -19,12 +19,11 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("delete from Product st where st.uuid=:recordId")
     Optional<Product> deleteByUuid(@Param("recordId")UUID uuid);
 
-
     Optional<Product> findByName(String name);
 
     @Query("SELECT p FROM Product p WHERE " +
             "p.name LIKE CONCAT('%',:query, '%')" +
-            "Or p.description LIKE CONCAT('%', :query, '%')")
+            "Or p.category LIKE CONCAT('%', :query, '%')")
     List<Product> searchProductsByName(String query);
 
 //    @Query("SELECT p FROM Product p WHERE " +

@@ -1,4 +1,4 @@
-package fcmb.com.good.model.entity.assets;
+package fcmb.com.good.model.entity.products;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
@@ -8,33 +8,29 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
-
 
 @Data
 @AllArgsConstructor
 @EntityListeners(BaseListener.class)
 @Entity
-@Table(name = "damagedAsset")
-public class DamagedAssets extends BaseEntity {
+@Table(name = "roomFacility")
+public class ProductFacility extends BaseEntity {
 
     private String name;
-    private String quantity;
-    private String status;
-    private String comment;
+    private String fileName;
+    private String description;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "assetsId", insertable = true, updatable = true)
-    private Assets assets;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdById", insertable = true, updatable = true)
     private AppUser createdBy;
 
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "productId", insertable = true, updatable = true)
+    private Product product;
 
-    public DamagedAssets(){
 
-    }
+    public ProductFacility(){}
 
 }

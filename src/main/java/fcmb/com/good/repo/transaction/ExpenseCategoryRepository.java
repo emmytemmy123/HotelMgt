@@ -1,7 +1,6 @@
 package fcmb.com.good.repo.transaction;
 
 
-import fcmb.com.good.model.entity.rooms.RoomCategory;
 import fcmb.com.good.model.entity.transaction.ExpenseCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

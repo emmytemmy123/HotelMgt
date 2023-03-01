@@ -2,6 +2,7 @@ package fcmb.com.good.controller.productsControllers;
 
 
 import fcmb.com.good.model.dto.request.productsRequest.*;
+import fcmb.com.good.model.dto.request.transactionRequest.OrdersRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.*;
 import fcmb.com.good.services.products.*;
@@ -24,8 +25,7 @@ import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 @RequiredArgsConstructor
 public class ProductController {
 
-    private final ProductOrderItemsService productOrderItemsService;
-    private final ProductOrderService productOrderService;
+
     private final ProductPurchaseService productPurchaseService;
     private final ProductService productService;
     private final ProductCategoryService productCategoryService;
@@ -34,19 +34,7 @@ public class ProductController {
 
 
                                             //FIND_LISTS_OF_PRODUCTS
-    @GetMapping(FIND_PRODUCT_ORDER_ITEMS)
-    @ApiOperation(value = "Endpoint for retrieving lists of productOrderItems", response = ProductOrderItemsResponse.class, responseContainer = "List")
-    public ApiResponse<List<ProductOrderItemsResponse>> getListOfProductOrderItems(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                                   @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
-        return productOrderItemsService.getListOfProductOrderItems(page,size);
-    }
 
-    @GetMapping(FIND_PRODUCT_ORDER)
-    @ApiOperation(value = "Endpoint for retrieving lists of productOrder", response = ProductOrderResponse.class, responseContainer = "List")
-    public ApiResponse<List<ProductOrderResponse>> getListOfProductOrder(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                         @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
-        return productOrderService.getListOfProductOrder(page,size);
-    }
 
     @GetMapping(FIND_PRODUCT_PURCHASE)
     @ApiOperation(value = "Endpoint for retrieving lists of productPurchase", response = ProductPurchaseResponse.class, responseContainer = "List")
@@ -72,17 +60,7 @@ public class ProductController {
 
 
                                                 //ADD_PRODUCTS
-    @PostMapping(ADD_PRODUCT_ORDER_ITEMS)
-    @ApiOperation(value = "Endpoint for adding new productOrderItems to database", response = String.class)
-    public ApiResponse<String> addProductOrderItems(@Valid @RequestBody ProductOrderItemsRequest request) {
-        return productOrderItemsService.addProductOrderItems(request);
-    }
 
-    @PostMapping(ADD_PRODUCT_ORDER)
-    @ApiOperation(value = "Endpoint for adding new productOder to database", response = String.class)
-    public ApiResponse<String> addProductOrder(@Valid @RequestBody ProductOrderRequest request) {
-        return productOrderService.addProductOrder(request);
-    }
 
     @PostMapping(ADD_PRODUCT_PURCHASE)
     @ApiOperation(value = "Endpoint for adding new productPurchase to database", response = String.class)
@@ -90,11 +68,7 @@ public class ProductController {
         return productPurchaseService.addProductPurchase(request);
     }
 
-//    @PostMapping(ADD_PRODUCT)
-//    @ApiOperation(value = "Endpoint for adding new product to database", response = String.class)
-//    public ApiResponse<ProductResponse> addProduct(UUID uuid,@Valid @RequestBody ProductRequest request, boolean isAdd) {
-//        return productService.addProducts(request);
-//    }
+
     @PostMapping(ADD_PRODUCT)
     @ApiOperation(value = "Endpoint for adding new product to database", response = String.class)
     public ApiResponse<String> addProduct(@Valid @RequestBody ProductRequest request) {
@@ -109,17 +83,7 @@ public class ProductController {
 
 
                                                          //FIND_PRODUCTS_BY_ID
-    @GetMapping(FIND_PRODUCT_ORDER_ITEMS_BY_ID)
-    @ApiOperation(value = "Endpoint for fetching productOderItems by id from database", response = ProductOrderItemsResponse.class)
-    public ApiResponse<ProductOrderItemsResponse> getProductOrderItemsById(@PathVariable(value = "id") UUID productOrderItems_id) {
-        return productOrderItemsService.getProductOrderItemsById(productOrderItems_id);
-    }
 
-    @GetMapping(FIND_PRODUCT_ORDER_BY_ID)
-    @ApiOperation(value = "Endpoint for fetching productOrder by id from database", response = ProductOrderResponse.class)
-    public ApiResponse<ProductOrderResponse> getProductOrderById(@PathVariable(value = "id") UUID productOrder_id) {
-        return productOrderService.getProductOrderById(productOrder_id);
-    }
 
     @GetMapping(FIND_PRODUCT_PURCHASE_BY_ID)
     @ApiOperation(value = "Endpoint for fetching productPurchase by id from database", response = ProductPurchaseResponse.class)
@@ -181,19 +145,7 @@ public class ProductController {
 
 
                                                 //UPDATE_PRODUCTS
-    @PutMapping(UPDATE_PRODUCT_ORDER_ITEMS)
-    @ApiOperation(value = "Endpoint for updating productOrderItems by id from database", response = String.class)
-    public ApiResponse<String> updateProductOrderItems(@PathVariable(value = "id") UUID productOrderItem_id,
-                                                       @RequestBody ProductOrderItemsRequest request) {
-        return productOrderItemsService.updateProductOrderItems(productOrderItem_id, request);
-    }
 
-    @PutMapping(UPDATE_PRODUCT_ORDER)
-    @ApiOperation(value = "Endpoint for updating productOrder by id from database", response = String.class)
-    public ApiResponse<String> updateProductOrder(@PathVariable(value = "id") UUID productOrder_id,
-                                                  @RequestBody ProductOrderRequest request) {
-        return productOrderService.updateProductOrder(productOrder_id, request);
-    }
 
     @PutMapping(UPDATE_PRODUCT_PURCHASE)
     @ApiOperation(value = "Endpoint for updating productPurchase by id from database", response = String.class)
@@ -219,17 +171,7 @@ public class ProductController {
 
 
                                                      //DELETE_USERS
-    @DeleteMapping(DELETE_PRODUCT_ORDER_ITEMS)
-    @ApiOperation(value = "Endpoint for deleting productOrderItems by id from database", response = String.class)
-    public ApiResponse<String> deleteProductOrderItems(@PathVariable(value = "id") UUID productOrderItems_id) {
-        return productOrderItemsService.deleteProductOrderItems(productOrderItems_id);
-    }
 
-    @DeleteMapping(DELETE_PRODUCT_ORDER)
-    @ApiOperation(value = "Endpoint for deleting productOrder by id from database", response = String.class)
-    public ApiResponse<String> deleteProductOrder(@PathVariable(value = "id") UUID productOrder_id) {
-        return productOrderService.deleteProductOrder(productOrder_id);
-    }
 
     @DeleteMapping(DELETE_PRODUCT_PURCHASE)
     @ApiOperation(value = "Endpoint for deleting productPurchase by id from database", response = String.class)

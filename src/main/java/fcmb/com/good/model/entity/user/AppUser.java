@@ -1,9 +1,6 @@
 package fcmb.com.good.model.entity.user;
 
 import fcmb.com.good.model.entity.BaseUser;
-import fcmb.com.good.model.entity.kitchen.Kitchen;
-import fcmb.com.good.model.entity.kitchen.KitchenOrder;
-import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,11 +27,6 @@ public class AppUser extends BaseUser {
     private List<UserType> usertype = new ArrayList<UserType>();
 
 
-    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)
-    private List<Kitchen> kitchenList;
-
-    @OneToMany(mappedBy = "createdBy", fetch = FetchType.LAZY)
-    private List<KitchenOrder> kitchenOrderList;
 
     public AppUser(){}
 

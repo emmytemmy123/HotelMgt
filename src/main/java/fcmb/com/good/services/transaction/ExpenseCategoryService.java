@@ -1,9 +1,7 @@
 package fcmb.com.good.services.transaction;
 
-import fcmb.com.good.model.dto.request.roomsRequest.RoomTypeRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.ExpenseCategoryRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.roomsResponse.RoomTypeResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.ExpenseCategoryResponse;
 import org.springframework.stereotype.Service;
 

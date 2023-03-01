@@ -1,7 +1,9 @@
 package fcmb.com.good.model.dto.request.orderItemRequest;
 
-import java.util.Date;
+import lombok.Data;
 
+import java.util.Date;
+@Data
 public class OrderItemsRequest {
     private String itemName;
     private Double salesPrice;

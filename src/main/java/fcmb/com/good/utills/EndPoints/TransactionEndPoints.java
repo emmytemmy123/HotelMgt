@@ -5,6 +5,11 @@ public class TransactionEndPoints {
     public static final String transaction="transaction";
 
     public static final String ACCOUNT_CATEGORY="/accountCategory";
+    public static final String ORDER_ITEM="/order_items";
+    public static final String ADD_ORDER_ITEMS=ORDER_ITEM +"/add";
+    public static final String DELETE_ORDER_ITEMS=ORDER_ITEM +"/delete";
+    public static final String UPDATE_ORDER_ITEMS=ORDER_ITEM +"/update";
+    public static final String LIST_BY_CUSTOMER_NAME=ORDER_ITEM +"/list_by_customer";
     public static final String FIND_ACCOUNT_CATEGORY=ACCOUNT_CATEGORY+"/list";
     public static final String ADD_ACCOUNT_CATEGORY=ACCOUNT_CATEGORY+"/add";
     public static final String FIND_ACCOUNT_CATEGORY_BY_ID=ACCOUNT_CATEGORY+"/{id}";

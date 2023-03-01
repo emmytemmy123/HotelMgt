@@ -12,6 +12,7 @@ public interface PaymentService {
 
 
     ApiResponse<List<PaymentResponse>> getListOfPayment(int page, int size);
+    ApiResponse<List<PaymentResponse>> findListOfPaymentByDateRange(String from, String to);
 
     ApiResponse<String> addPayment(PaymentRequest request);
 

@@ -55,6 +55,16 @@ public class PaymentServiceImpl implements PaymentService {
                 Mapper.convertList(paymentList, PaymentResponse.class));
     }
 
+    @Override
+    public ApiResponse<List<PaymentResponse>> findListOfPaymentByDateRange(String from, String to) {
+        List<Payment> paymentList = paymentRepository.listPaymentByDateRange(from,to);
+        if(paymentList.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertList(paymentList, PaymentResponse.class));
+    }
+
 
     @Override
     /**

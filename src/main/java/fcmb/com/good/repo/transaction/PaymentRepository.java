@@ -7,12 +7,17 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
+   //  payment/list/date-range/{dateFrom}/{dateTo}
 
+ //"select * from mastercard  where (DATE(datecreated) between =:fromDate and =:toDate)
+    @Query(value = "select * from payment where (DATE(date_created) between =:startDate and =:endDate)",nativeQuery = true)
+    List<Payment> listPaymentByDateRange(@Param("startDate") String from, @Param("endDate") String to);
     @Query("select st from Payment st where st.uuid=:recordId")
     Optional<Payment> findByUuid(@Param("recordId") UUID uuid);
 

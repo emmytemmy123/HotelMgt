@@ -36,9 +36,12 @@ public class TransactionController {
     private final ExpenseCategoryService expenseCategoryService;
     private final MaintenanceCategoryService maintenanceCategoryService;
     private final PaymentCategoryService paymentCategoryService;
+    private final OrderItemsService orderItemsService;
+    private final OrderService orderService;
 
 
-                                            //FIND_LISTS_OF_TRANSACTIONS
+
+    //FIND_LISTS_OF_TRANSACTIONS
     @GetMapping(FIND_ACCOUNT_CATEGORY)
     @ApiOperation(value = "Endpoint for retrieving lists of accountCategory", response = AccountCategoryResponse.class, responseContainer = "List")
     public ApiResponse<List<AccountCategoryResponse>> getListOfAccountCategory(@RequestParam(value = PAGE, defaultValue = PAGE_DEFAULT) int page,
@@ -159,6 +162,17 @@ public class TransactionController {
         return paymentCategoryService.addPaymentCategory(request);
     }
 
+    @PostMapping(ADD_ORDER_ITEMS)
+    @ApiOperation(value = "Endpoint for adding new orderItem to database", response = String.class)
+    public ApiResponse<String> addOrder(@Valid @RequestBody OrderItemRequest request) {
+        return orderItemsService.addOrderItems(request);
+    }
+
+    @PostMapping(ADD_ORDER)
+    @ApiOperation(value = "Endpoint for adding new order to database", response = String.class)
+    public ApiResponse<String> addOrderItem(@Valid @RequestBody OrdersRequest request, @RequestBody OrderItemRequest orderItemRequest) {
+        return orderService.addOrder(request, orderItemRequest);
+    }
 
 
                                             //FIND_TRANSACTIONS_BY_ID

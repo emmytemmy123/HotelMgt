@@ -2,8 +2,6 @@ package fcmb.com.good.model.entity.transaction;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.rooms.RoomCategory;
-import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
@@ -33,14 +31,6 @@ public class Booking extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "customerId", insertable = true )
     private Customer customer;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "roomId", insertable = true)
-    private Rooms rooms;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "roomCategoryId", insertable = true)
-    private RoomCategory roomCategory;
 
     public Booking(){
 

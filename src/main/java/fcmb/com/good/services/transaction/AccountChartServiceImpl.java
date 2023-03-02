@@ -6,8 +6,6 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.AccountChartRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.AccountChartResponse;
-import fcmb.com.good.model.entity.rooms.RoomCategory;
-import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.transaction.AccountCategory;
 import fcmb.com.good.model.entity.transaction.AccountChart;
 import fcmb.com.good.model.entity.user.AppUser;

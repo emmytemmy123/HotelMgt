@@ -9,11 +9,9 @@ import fcmb.com.good.model.dto.response.assetsResponse.AssetsResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.entity.assets.Assets;
 import fcmb.com.good.model.entity.assets.AssetsCategory;
-import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.assets.AssetsCategoryRepository;
 import fcmb.com.good.repo.assets.AssetsRepository;
-import fcmb.com.good.repo.rooms.RoomsRepository;
 import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +31,6 @@ public class AssetsServiceImp implements AssetsService {
     private final AssetsRepository assetsRepository;
     private final UserRepository userRepository;
     private final AssetsCategoryRepository assetsCategoryRepository;
-    private final RoomsRepository roomsRepository;
 
 
     @Override

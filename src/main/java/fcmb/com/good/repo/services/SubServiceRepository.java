@@ -17,11 +17,11 @@ import java.util.UUID;
 @Repository
 public interface SubServiceRepository extends JpaRepository<SubService, Long> {
 
-    @Query("select st from SubService st where st.rooms.uuid=:roomUuid")
-    List<SubService> findByRooms(@Param("roomUuid") UUID roomUuid);
+    @Query("select st from SubService st where st.product.uuid=:productUuid")
+    List<SubService> findByRooms(@Param("productUuid") UUID productUuid);
 
-    @Query("select st from SubService st where st.customer.uuid=:customerUuid and st.rooms.uuid=:roomUuid")
-    List<SubService> findSubServiceByCustomerAndRoom(@Param("customerUuid") UUID customerUuid, @Param("roomUuid")UUID roomUuid);
+    @Query("select st from SubService st where st.customer.uuid=:customerUuid and st.product.uuid=:productUuid")
+    List<SubService> findSubServiceByCustomerAndRoom(@Param("customerUuid") UUID customerUuid, @Param("productUuid")UUID productUuid);
 
     @Query("select st from SubService st where st.uuid=:recordId")
     Optional<SubService> findByUuid(@Param("recordId") UUID uuid);

@@ -160,7 +160,7 @@ public class ProductServiceImpl implements ProductService {
         product.setBrand(request.getBrand());
         product.setName(request.getName());
         product.setDescription(request.getDescription());
-        product.setQuantity(request.getQuantity());
+        product.setQuantity((product.getQuantity())+(request.getQuantity()));
         product.setSalesPrice(request.getSalesPrice());
         product.setDurations(request.getDurations());
         product.setPurchasePrice(request.getPurchasedPrice());

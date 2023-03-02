@@ -3,13 +3,13 @@ package fcmb.com.good.model.entity.transaction;
 import fcmb.com.good.model.entity.BaseEntity;
 import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @AllArgsConstructor
@@ -30,14 +30,13 @@ public class OrderItems extends BaseEntity {
     private Date transactionDate;
     private String status;
 
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdById", insertable = true, updatable = true)
     private AppUser createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "orderId", insertable = true, updatable = true)
-    private Order order;
+    @JoinColumn(name = "ordersId", insertable = true, updatable = true)
+    private Orders orders;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "productId", insertable = true, updatable = true)

@@ -16,34 +16,29 @@ public class PaymentRequest  {
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
+       private String description;
+
+       @NotNull(message = INVALID_NAME)
+       @NotEmpty(message = INVALID_NAME)
        private String paymentStatus;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       private String paymentDetails;
+       private String paymentMode;
 
        @NotNull(message = INVALID_NAME)
-//       @NotEmpty(message = INVALID_NAME)
-       private Integer quantity;
-
-       @NotNull(message = INVALID_NAME)
-//       @NotEmpty(message = INVALID_NAME)
-       private Integer accountNo;
+       @NotEmpty(message = INVALID_NAME)
+       private String tranReference;
 
        @NotNull(message = INVALID_NAME)
        private UUID createdById;
 
        @NotNull(message = INVALID_NAME)
-       private UUID currentProductId;
+       private UUID customerId;
 
        @NotNull(message = INVALID_NAME)
-       private UUID currentRoomId;
+       private UUID ordersId;
 
-       @NotNull(message = INVALID_NAME)
-       private UUID currentKitchenId;
-
-       @NotNull(message = INVALID_NAME)
-       private UUID currentCustomerId;
 
 
 

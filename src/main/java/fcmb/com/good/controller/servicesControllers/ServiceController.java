@@ -1,12 +1,9 @@
 package fcmb.com.good.controller.servicesControllers;
 
 
-import fcmb.com.good.model.dto.request.servicesRequest.ServiceRequestRequest;
 import fcmb.com.good.model.dto.request.servicesRequest.SubServiceRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.dto.response.servicesResponse.ServiceRequestResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
-import fcmb.com.good.services.serviceRender.ServiceRequestService;
 import fcmb.com.good.services.serviceRender.SubServiceService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -25,17 +22,11 @@ import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 @RequiredArgsConstructor
 public class ServiceController {
 
-    private final ServiceRequestService serviceRequestService;
     private final SubServiceService subServiceService;
 
 
                                     //FIND_LISTS_OF_SERVICES
-    @GetMapping(FIND_SERVICE_REQUEST)
-    @ApiOperation(value = "Endpoint for retrieving list of serviceRequest", response = ServiceRequestResponse.class, responseContainer = "List")
-    public ApiResponse<List<ServiceRequestResponse>> getListOfServiceRequest(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                             @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
-        return serviceRequestService.getListOfServiceRequest(page,size);
-    }
+
 
 
     @GetMapping(FIND_SUB_SERVICE)
@@ -47,11 +38,7 @@ public class ServiceController {
 
 
                                     //ADD_SERVICES
-    @PostMapping(ADD_SERVICE_REQUEST)
-    @ApiOperation(value = "Endpoint for adding new serviceRequest to database", response = String.class)
-    public ApiResponse<String> addServiceRequest(@Valid @RequestBody ServiceRequestRequest request) {
-        return serviceRequestService.addServiceRequest(request);
-    }
+
 
 
     @PostMapping(ADD_SUB_SERVICE)
@@ -62,11 +49,7 @@ public class ServiceController {
 
 
                                                 //FIND_SERVICES_ID
-    @GetMapping(FIND_SERVICE_REQUEST_BY_ID)
-    @ApiOperation(value = "Endpoint for fetching serviceRequest by id from database", response = ServiceRequestResponse.class)
-    public ApiResponse<ServiceRequestResponse> getServiceRequestById(@PathVariable(value = "id") UUID serviceRequest_id) {
-        return serviceRequestService.getServiceRequestById(serviceRequest_id);
-    }
+
 
 
     @GetMapping(FIND_SUB_SERVICE_BY_ID)
@@ -79,12 +62,7 @@ public class ServiceController {
 
 
                                                 //UPDATE_SERVICE
-    @PutMapping(UPDATE_SERVICE_REQUEST)
-    @ApiOperation(value = "Endpoint for updating serviceRequest by id from database", response = String.class)
-    public ApiResponse<String> updateServiceRequest(@PathVariable(value = "id") UUID serviceRequest_id,
-                                                    @RequestBody ServiceRequestRequest request) {
-        return serviceRequestService.updateServiceRequest(serviceRequest_id, request);
-    }
+
 
 
     @PutMapping(UPDATE_SUB_SERVICE)
@@ -96,11 +74,7 @@ public class ServiceController {
 
 
                                             //DELETE SERVICES
-    @DeleteMapping(DELETE_SERVICE_REQUEST)
-    @ApiOperation(value = "Endpoint for deleting serviceRequest by id from database", response = String.class)
-    public ApiResponse<String> deleteServiceRequest(@PathVariable(value = "id") UUID serviceRequest_id) {
-        return serviceRequestService.deleteServiceRequest(serviceRequest_id);
-    }
+
 
 
     @DeleteMapping(DELETE_SUB_SERVICE)
@@ -144,15 +118,7 @@ public class ServiceController {
     }
 
 
-                                            //FIND_SUB_SERVICE_BY_NAME
 
-    @GetMapping(SEARCH_SERVICE_REQUEST_BY_NAME)
-    @ApiOperation(value = "Endpoint for retrieving lists of ServiceRequest by serviceName", response = ServiceRequestResponse.class, responseContainer = "List")
-    public ApiResponse<List<ServiceRequestResponse>> searchListOfServiceRequestByName(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                              @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
-                                                                              @RequestParam String serviceName) {
-        return serviceRequestService.searchServiceRequestByName(serviceName);
-    }
 
 
 

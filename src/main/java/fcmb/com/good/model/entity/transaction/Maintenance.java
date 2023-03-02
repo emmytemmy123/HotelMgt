@@ -2,11 +2,7 @@ package fcmb.com.good.model.entity.transaction;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.assets.Assets;
-import fcmb.com.good.model.entity.kitchen.Kitchen;
-import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.entity.user.Employee;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
@@ -47,17 +43,6 @@ public class Maintenance extends BaseEntity {
     @JoinColumn(name = "maintenanceCategoryId", insertable = true, updatable = true)
     private MaintenanceCategory maintenanceCategory;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "assetId", insertable = true, updatable = true)
-//    private Assets assets;
-//
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "kitchenId", insertable = true, updatable = true)
-//    private Kitchen kitchen;
-//
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "roomId", insertable = true, updatable = true)
-//    private Rooms rooms;
 
     public Maintenance(){}
 

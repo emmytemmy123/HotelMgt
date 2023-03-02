@@ -3,19 +3,14 @@ package fcmb.com.good.model.listener;
 import fcmb.com.good.model.entity.assets.Assets;
 import fcmb.com.good.model.entity.assets.AssetsCategory;
 import fcmb.com.good.model.entity.assets.DamagedAssets;
-import fcmb.com.good.model.entity.kitchen.Kitchen;
-import fcmb.com.good.model.entity.kitchen.KitchenCategory;
-import fcmb.com.good.model.entity.kitchen.KitchenOrder;
 import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.model.entity.others.Hotel;
 import fcmb.com.good.model.entity.products.*;
-import fcmb.com.good.model.entity.rooms.RoomCategory;
-import fcmb.com.good.model.entity.rooms.ProductFacility;
-import fcmb.com.good.model.entity.rooms.Rooms;
-import fcmb.com.good.model.entity.services.ServiceRequest;
+import fcmb.com.good.model.entity.products.ProductFacility;
 import fcmb.com.good.model.entity.services.Services;
 import fcmb.com.good.model.entity.services.SubService;
 import fcmb.com.good.model.entity.transaction.*;
+import fcmb.com.good.model.entity.transaction.Orders;
 import fcmb.com.good.model.entity.user.*;
 import org.springframework.stereotype.Component;
 
@@ -28,11 +23,8 @@ public class BaseListener {
     @PrePersist
     private void beforeCreate(Object data) {
 
-        if(data instanceof Rooms){
-            Rooms rooms = (Rooms) data;
-            rooms.setUuid(UUID.randomUUID());
-        }
-        else if(data instanceof Assets){
+
+        if(data instanceof Assets){
             Assets assets = (Assets) data;
             assets.setUuid(UUID.randomUUID());
         }
@@ -52,14 +44,11 @@ public class BaseListener {
             Hotel hotel = (Hotel) data;
             hotel.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof ProductOrder){
-            ProductOrder productOrder = (ProductOrder) data;
+        else if(data instanceof Orders){
+            Orders productOrder = (Orders) data;
             productOrder.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof ProductOrderItems){
-            ProductOrderItems productOrderItems = (ProductOrderItems) data;
-            productOrderItems.setUuid(UUID.randomUUID());
-        }
+
         else if(data instanceof ProductPurchase){
             ProductPurchase productPurchase = (ProductPurchase) data;
             productPurchase.setUuid(UUID.randomUUID());
@@ -68,14 +57,7 @@ public class BaseListener {
             Product product = (Product) data;
             product.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof RoomCategory){
-            RoomCategory roomType = (RoomCategory) data;
-            roomType.setUuid(UUID.randomUUID());
-        }
-        else if(data instanceof ServiceRequest){
-            ServiceRequest serviceRequest = (ServiceRequest) data;
-            serviceRequest.setUuid(UUID.randomUUID());
-        }
+
         else if(data instanceof Services){
             Services services = (Services) data;
             services.setUuid(UUID.randomUUID());
@@ -153,21 +135,6 @@ public class BaseListener {
             roomFacility.setUuid(UUID.randomUUID());
         }
 
-        else if(data instanceof Kitchen){
-            Kitchen kitchen = (Kitchen) data;
-            kitchen.setUuid(UUID.randomUUID());
-        }
-
-        else if(data instanceof KitchenCategory){
-            KitchenCategory kitchenCategory = (KitchenCategory) data;
-            kitchenCategory.setUuid(UUID.randomUUID());
-        }
-
-        else if(data instanceof KitchenOrder){
-            KitchenOrder kitchenRequest = (KitchenOrder) data;
-            kitchenRequest.setUuid(UUID.randomUUID());
-        }
-
         else if(data instanceof ExpenseCategory){
             ExpenseCategory expenseCategory = (ExpenseCategory) data;
             expenseCategory.setUuid(UUID.randomUUID());
@@ -181,6 +148,11 @@ public class BaseListener {
         else if(data instanceof PaymentCategory){
             PaymentCategory paymentCategory = (PaymentCategory) data;
             paymentCategory.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof OrderItems){
+            OrderItems orderItems = (OrderItems) data;
+            orderItems.setUuid(UUID.randomUUID());
         }
 
 

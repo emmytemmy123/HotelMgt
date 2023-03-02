@@ -2,7 +2,7 @@ package fcmb.com.good.model.entity.services;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.rooms.Rooms;
+import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.model.listener.BaseListener;
@@ -23,9 +23,6 @@ public class SubService extends BaseEntity {
     private Integer noOfOccupant;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "roomId", insertable = true, updatable = true)
-    private Rooms rooms;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "customerId", insertable = true, updatable = true)
@@ -34,6 +31,10 @@ public class SubService extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdById", insertable = true, updatable = true)
     private AppUser createdBy;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "productId", insertable = true, updatable = true)
+    private Product product;
 
     public SubService(){}
 

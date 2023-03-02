@@ -2,7 +2,6 @@ package fcmb.com.good.model.entity.assets;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;

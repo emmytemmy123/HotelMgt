@@ -70,5 +70,19 @@ public class TransactionEndPoints {
     public static final String DELETE_PAYMENT_CATEGORY= PAYMENT_CATEGORY+"/delete/{id}";
 
 
+    public static final String ORDER_ITEMS="/orderItems";
+    public static final String FIND_ORDER_ITEMS=ORDER_ITEMS+"/list";
+    public static final String ADD_ORDER_ITEMS= ORDER_ITEMS+"/add";
+    public static final String FIND_ORDER_ITEMS_BY_ID= ORDER_ITEMS+"/{id}";
+    public static final String UPDATE_ORDER_ITEMS= ORDER_ITEMS+"/update/{id}";
+    public static final String DELETE_ORDER_ITEMS= ORDER_ITEMS+"/delete/{id}";
+
+    public static final String ORDER="/order";
+    public static final String FIND_ORDER=ORDER+"/list";
+    public static final String ADD_ORDER= ORDER+"/add";
+    public static final String FIND_ORDER_BY_ID= ORDER+"/{id}";
+    public static final String UPDATE_ORDER= ORDER+"/update/{id}";
+    public static final String DELETE_ORDER= ORDER+"/delete/{id}";
+
 
 }

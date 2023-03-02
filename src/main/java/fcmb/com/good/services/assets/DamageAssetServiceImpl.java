@@ -7,14 +7,11 @@ import fcmb.com.good.model.dto.request.assetsRequest.DamagedAssetsRequest;
 import fcmb.com.good.model.dto.response.assetsResponse.DamagedAssetsResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.entity.assets.Assets;
-import fcmb.com.good.model.entity.assets.AssetsCategory;
 import fcmb.com.good.model.entity.assets.DamagedAssets;
-import fcmb.com.good.model.entity.rooms.Rooms;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.assets.AssetsCategoryRepository;
 import fcmb.com.good.repo.assets.AssetsRepository;
 import fcmb.com.good.repo.assets.DamagedAssetsRepository;
-import fcmb.com.good.repo.rooms.RoomsRepository;
 import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -33,7 +30,6 @@ public class DamageAssetServiceImpl implements DamagedAssetsService {
     private final DamagedAssetsRepository damagedAssetsRepository;
     private final UserRepository userRepository;
     private final AssetsCategoryRepository assetsCategoryRepository;
-    private final RoomsRepository roomsRepository;
     private final AssetsRepository assetsRepository;
 
 

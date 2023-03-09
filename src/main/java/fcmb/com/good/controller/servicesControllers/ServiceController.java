@@ -86,13 +86,6 @@ public class ServiceController {
 
                                         //FIND_SUB_SERVICE_BY_ROOM
 
-    @GetMapping(SEARCH_SUB_SERVICE_BY_ROOM)
-    @ApiOperation(value = "Endpoint for retrieving lists of SUB_SERVICE by Room", response = SubServiceResponse.class, responseContainer = "List")
-    public ApiResponse<List<SubServiceResponse>> searchListOfSubServiceByRoom(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                              @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
-                                                                              @RequestParam UUID roomUuid) {
-        return subServiceService.searchSubServiceByRoom(roomUuid);
-    }
 
 
                                                  //FIND_SUB_SERVICE_BY_NAME
@@ -107,15 +100,6 @@ public class ServiceController {
 
 
 
-                                        //FIND_SUB_SERVICE_BY_CUSTOMER_AND_ROOM
-
-    @GetMapping(SEARCH_SUB_SERVICE_BY_CUSTOMER_AND_ROOM)
-    @ApiOperation(value = "Endpoint for retrieving lists of SUB_SERVICE by customerAndRoom", response = SubServiceResponse.class, responseContainer = "List")
-    public ApiResponse<List<SubServiceResponse>> searchListOfSubServiceByCustomerAndRoom(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                                         @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
-                                                                              @RequestParam UUID customerUuid, @RequestParam UUID roomUuid) {
-        return subServiceService.findSubServiceByCustomerAndRoom(customerUuid, roomUuid);
-    }
 
 
 

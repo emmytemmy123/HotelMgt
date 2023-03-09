@@ -25,16 +25,13 @@ public class Assets extends BaseEntity {
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "createdById", insertable = true, updatable = true)
-    private AppUser createdBy;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "assetsCategoryId", insertable = true)
     private AssetsCategory assetsCategory;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "damagedAssetsId", insertable = true)
-//    private DamagedAssets damagedAssets;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "createdById", updatable = true)
+    private AppUser createdBy;
+
 
     public Assets (){
 

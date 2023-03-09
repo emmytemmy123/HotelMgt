@@ -75,7 +75,7 @@ public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
     public ResponseEntity handleDuplicateRecordException(DuplicateRecordException exception, WebRequest webRequest) {
         String requestUrl = webRequest.getContextPath();
         log.warn("Bad request exception {} access through endpoint {}", exception.getMessage(),requestUrl);
-        return ResponseEntity.ok(new ApiResponse<>(FAILED.label, CONFLICT.value().toString(), "Record already exist,kindly update"));
+        return ResponseEntity.ok(new ApiResponse<>(FAILED.label, "Record already exist,kindly update"));
 
     }
     @ExceptionHandler(BadRequestException.class)

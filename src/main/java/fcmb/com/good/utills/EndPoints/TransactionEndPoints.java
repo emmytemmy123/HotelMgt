@@ -64,8 +64,15 @@ public class TransactionEndPoints {
     public static final String FIND_PAYMENT=PAYMENT+"/list";
     public static final String ADD_PAYMENT= PAYMENT+"/add";
     public static final String FIND_PAYMENT_BY_ID= PAYMENT+"/{id}";
+    public static final String FIND_PAYMENT_BY_ORDER_ID= PAYMENT+"/{orderId}";
     public static final String UPDATE_PAYMENT= PAYMENT+"/update/{id}";
     public static final String DELETE_PAYMENT= PAYMENT+"/delete/{id}";
+    public static final String FIND_LIST_OF_PAYMENT_BY_DATE_RANGE= PAYMENT+"/findListPaymentByDateRange";
+    public static final String FIND_LISTS_OF_PAYMENT_BY_DATE= PAYMENT+"/findListPaymentByDate";
+    public static final String FIND_PAYMENT_BY_SALES_PERSON= PAYMENT+"/findListPaymentBySalesPerson";
+    public static final String FIND_PAYMENT_BY_CUSTOMER= PAYMENT+"/findListPaymentByCustomer";
+
+
 
     public static final String PAYMENT_CATEGORY="/paymentCategory";
     public static final String FIND_PAYMENT_CATEGORY=PAYMENT_CATEGORY+"/list";
@@ -77,10 +84,10 @@ public class TransactionEndPoints {
 
     public static final String ORDER_ITEMS="/orderItems";
     public static final String FIND_ORDER_ITEMS=ORDER_ITEMS+"/list";
-    public static final String ADD_ORDER_ITEMS= ORDER_ITEMS+"/add";
+//    public static final String ADD_ORDER_ITEMS= ORDER_ITEMS+"/add";
     public static final String FIND_ORDER_ITEMS_BY_ID= ORDER_ITEMS+"/{id}";
-    public static final String UPDATE_ORDER_ITEMS= ORDER_ITEMS+"/update/{id}";
-    public static final String DELETE_ORDER_ITEMS= ORDER_ITEMS+"/delete/{id}";
+//    public static final String UPDATE_ORDER_ITEMS= ORDER_ITEMS+"/update/{id}";
+//    public static final String DELETE_ORDER_ITEMS= ORDER_ITEMS+"/delete/{id}";
 
     public static final String ORDER="/order";
     public static final String FIND_ORDER=ORDER+"/list";
@@ -88,6 +95,10 @@ public class TransactionEndPoints {
     public static final String FIND_ORDER_BY_ID= ORDER+"/{id}";
     public static final String UPDATE_ORDER= ORDER+"/update/{id}";
     public static final String DELETE_ORDER= ORDER+"/delete/{id}";
+    public static final String FIND_ORDER_BY_CUSTOMER= ORDER+"/findListOrderByCustomer";
+    public static final String FIND_LISTS_OF_ORDER_BY_DATE= ORDER+"/findListOrderByDate";
+
+
 
 
 }

@@ -6,9 +6,11 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.servicesRequest.SubServiceRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
+import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.services.SubService;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
+import fcmb.com.good.repo.products.ProductRepository;
 import fcmb.com.good.repo.services.SubServiceRepository;
 import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.repo.user.UserRepository;
@@ -30,7 +32,7 @@ public class SubServiceImpl implements SubServiceService {
     private final SubServiceRepository subServiceRepository;
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
-
+    private final ProductRepository productRepository;
 
 
     @Override
@@ -64,16 +66,20 @@ public class SubServiceImpl implements SubServiceService {
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Customer existingCustomer  = customerRepository.findByUuid(request.getCurrentCustomerId())
+        Customer existingCustomer  = customerRepository.findByUuid(request.getCustomerId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
+        Product existingProduct  = productRepository.findByUuid(request.getProductId())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         SubService subService = new SubService();
+
         subService.setServiceName(request.getServiceName());
         subService.setUnitCost(request.getUnitCost());
         subService.setNoOfOccupant(request.getNoOfOccupant());
         subService.setCreatedBy(existingUser);
         subService.setCustomer(existingCustomer);
+        subService.setProduct(existingProduct);
 
         subServiceRepository.save(subService);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
@@ -161,23 +167,6 @@ public class SubServiceImpl implements SubServiceService {
 
     }
 
-    @Override
-    /**
-     * @Search the list of all subService by name
-     * @Validate if the List of subService is empty otherwise return record not found*
-     * @return the list of subService by name
-     * * */
-    public ApiResponse<List<SubServiceResponse>> searchSubServiceByRoom(UUID roomUuid) {
-
-        List<SubService> searchSubServiceByRoom = subServiceRepository.findByRooms(roomUuid);
-
-        if(searchSubServiceByRoom.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(searchSubServiceByRoom, SubServiceResponse.class));
-
-    }
 
     @Override
     public ApiResponse<List<SubServiceResponse>> searchSubServiceByName(String serviceName) {
@@ -192,18 +181,6 @@ public class SubServiceImpl implements SubServiceService {
 
     }
 
-    @Override
-    public ApiResponse<List<SubServiceResponse>> findSubServiceByCustomerAndRoom(UUID customerUuid, UUID roomUuid) {
-
-        List<SubService> findSubServiceByCustomerAndRoom = subServiceRepository.findSubServiceByCustomerAndRoom(customerUuid, roomUuid);
-
-        if(findSubServiceByCustomerAndRoom.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(findSubServiceByCustomerAndRoom, SubServiceResponse.class));
-
-    }
 
 
 }

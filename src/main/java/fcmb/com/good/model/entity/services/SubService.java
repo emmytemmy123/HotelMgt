@@ -23,7 +23,6 @@ public class SubService extends BaseEntity {
     private Integer noOfOccupant;
 
 
-
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "customerId", insertable = true, updatable = true)
     private Customer customer;

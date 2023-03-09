@@ -13,13 +13,12 @@ import javax.persistence.*;
 @AllArgsConstructor
 @EntityListeners(BaseListener.class)
 @Entity
-@Table(name = "roomFacility")
+@Table(name = "productFacility")
 public class ProductFacility extends BaseEntity {
 
     private String name;
     private String fileName;
     private String description;
-
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

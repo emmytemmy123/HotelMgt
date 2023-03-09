@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -27,7 +28,7 @@ public class OrderItems extends BaseEntity {
     private Double profit;
     private String serviceName;
     private String description;
-    private Date transactionDate;
+    private LocalDateTime transactionDate;
     private String status;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

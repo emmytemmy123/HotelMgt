@@ -6,7 +6,6 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.PaymentRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.PaymentResponse;
-import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.transaction.Orders;
 import fcmb.com.good.model.entity.transaction.Payment;
 import fcmb.com.good.model.entity.user.AppUser;
@@ -24,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -56,7 +56,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public ApiResponse<List<PaymentResponse>> findListOfPaymentByDateRange(String from, String to) {
+    public ApiResponse<List<PaymentResponse>> findListOfPaymentByDateRange(int page, int size, String from, String to) {
         List<Payment> paymentList = paymentRepository.listPaymentByDateRange(from,to);
         if(paymentList.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
@@ -121,6 +121,21 @@ public class PaymentServiceImpl implements PaymentService {
                 Mapper.convertObject(payment,PaymentResponse.class));
     }
 
+    @Override
+    public ApiResponse<PaymentResponse> getPaymentByOrderId(UUID orderId) {
+
+        Optional<Payment> paymentOptional = paymentRepository.findByOrderUuid(orderId);
+
+        if(paymentOptional.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+        Payment payment = paymentOptional.get();
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(payment,PaymentResponse.class));
+
+    }
+
 
     /**
      * @validating PaymentOptional by uuid
@@ -172,6 +187,50 @@ public class PaymentServiceImpl implements PaymentService {
                 "Record Deleted successfully");
     }
 
+
+    @Override
+    public ApiResponse<List<PaymentResponse>> findPaymentByDate(Date dateCreated) {
+
+        List<Payment> paymentList = paymentRepository.findPaymentByDateCreated(String.valueOf(dateCreated));
+
+        if(paymentList.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertList(paymentList, PaymentResponse.class));
+
+    }
+
+    @Override
+    public ApiResponse<List<PaymentResponse>> findPaymentBySalesPerson(UUID uuid) {
+
+        Optional<Payment> paymentOptional = paymentRepository.findPaymentBySalesPerson(uuid);
+
+        if(paymentOptional.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+        Payment payment = paymentOptional.get();
+
+        return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(payment,PaymentResponse.class));
+
+
+    }
+
+    @Override
+    public ApiResponse<List<PaymentResponse>> findPaymentByCustomer(UUID uuid) {
+
+        Optional<Payment> paymentOptional = paymentRepository.findPaymentByCustomer(uuid);
+
+        if(paymentOptional.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+
+        Payment payment = paymentOptional.get();
+
+        return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertObject(payment,PaymentResponse.class));
+
+    }
 
 
 }

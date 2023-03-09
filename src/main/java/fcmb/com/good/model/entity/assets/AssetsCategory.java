@@ -21,11 +21,9 @@ public class AssetsCategory extends BaseEntity {
     private String description;
     private String accountNo;
 
-//    @OneToMany(mappedBy = "assetsCategory")
-//    private List<Assets> assetsList;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "createdBy_id", updatable = true)
+    @JoinColumn(name = "createdById", updatable = true)
     private AppUser createdBy;
 
     public AssetsCategory(){

@@ -13,33 +13,9 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @Data
 public class OrderItemRequest {
 
-//    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-    private String itemName;
-
-//    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-    private Double salesPrice;
-
     @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
     private Integer quantity;
-
-//    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-    private Double amount;
-
-//    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-    private Double purchasePrice;
-
-//    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-    private Double purchaseAmount;
-
-//    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-    private Double profit;
 
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
@@ -51,19 +27,7 @@ public class OrderItemRequest {
 
     @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
-    private Date transactionDate;
-
-    @NotNull(message = INVALID_NAME)
-    @NotEmpty(message = INVALID_NAME)
-    private String status;
-
-    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-    private UUID createdById;
-
-    @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
-    private UUID productById;
+    private UUID productId;
 
 
 

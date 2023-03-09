@@ -9,6 +9,8 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,18 +19,21 @@ import java.sql.Timestamp;
 @Table(name = "orders")
 public class Orders extends BaseEntity {
 
-    private Integer orderNo;
+    private String orderNo;
     private String orderBy;
     private Double amount;
     private Double amountDue;
     private String orderStatus;
-    private Timestamp startTime;
-    private Timestamp endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "customerId", insertable = true, updatable = true)
     private Customer customer;
+
+    @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY)
+    private List<OrderItems> orderItemsList;
 
 
     public Orders(){}

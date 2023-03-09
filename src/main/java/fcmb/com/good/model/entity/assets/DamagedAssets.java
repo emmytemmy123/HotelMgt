@@ -9,6 +9,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.UUID;
 
 
 @Data
@@ -29,9 +30,8 @@ public class DamagedAssets extends BaseEntity {
     private Assets assets;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "createdById", insertable = true, updatable = true)
+    @JoinColumn(name = "createdById", updatable = true)
     private AppUser createdBy;
-
 
     public DamagedAssets(){
 

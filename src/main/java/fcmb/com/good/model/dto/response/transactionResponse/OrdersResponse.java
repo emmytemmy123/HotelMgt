@@ -4,6 +4,8 @@ import fcmb.com.good.model.dto.BaseDto;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 public class OrdersResponse extends BaseDto {
@@ -13,7 +15,9 @@ public class OrdersResponse extends BaseDto {
     private Double amount;
     private Double amountDue;
     private String orderStatus;
-    private Timestamp startTime;
-    private Timestamp endTime;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+
+    private List<OrderItemsResponse> orderItemsList;
 
 }

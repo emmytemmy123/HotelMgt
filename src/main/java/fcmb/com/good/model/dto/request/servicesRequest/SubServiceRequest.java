@@ -20,7 +20,6 @@ public class SubServiceRequest {
 //    @NotEmpty(message = INVALID_NAME)
     private Double unitCost;
 
-
     @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
     private Integer noOfOccupant;
@@ -29,9 +28,10 @@ public class SubServiceRequest {
     private UUID createdById;
 
     @NotNull(message = INVALID_NAME)
-    private UUID currentCustomerId;
+    private UUID customerId;
 
     @NotNull(message = INVALID_NAME)
-    private UUID currentRoomId;
+    private UUID productId;
+
 
 }

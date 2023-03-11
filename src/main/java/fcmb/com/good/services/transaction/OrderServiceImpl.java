@@ -3,13 +3,16 @@ package fcmb.com.good.services.transaction;
 import fcmb.com.good.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
+import fcmb.com.good.model.dto.request.orderItemRequest.OrderItemsRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.OrderItemRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.OrdersRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.OrdersResponse;
+import fcmb.com.good.model.dto.response.transactionResponse.PaymentResponse;
 import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.transaction.OrderItems;
 import fcmb.com.good.model.entity.transaction.Orders;
+import fcmb.com.good.model.entity.transaction.Payment;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.products.ProductRepository;
@@ -76,7 +79,6 @@ public class OrderServiceImpl implements OrderService{
     }
 
 
-
     @Override
     public ApiResponse<String> addOrder(OrdersRequest request) {
 
@@ -89,7 +91,7 @@ public class OrderServiceImpl implements OrderService{
         Orders orders = new Orders();
 
         orders.setOrderBy(existingCustomer.getName());
-//        orders.setOrderNo(generateOrderNo());
+        orders.setOrderNo(OrderUtils.generateOrderNumber());
         orders.setOrderStatus("pending");
         orders.setStartTime(LocalDateTime.now());
         orders.setCustomer(existingCustomer);
@@ -117,6 +119,7 @@ public class OrderServiceImpl implements OrderService{
                 orderItems.setStatus("pending");
                 orderItems.setCreatedBy(existingUser);
                 orderItems.setProduct(existingProduct);
+                orderItems.setOrders(orders);
 
                 totalAmount += orderItem.getQuantity() * existingProduct.getSalesPrice();
 
@@ -136,15 +139,17 @@ public class OrderServiceImpl implements OrderService{
 
 
     @Override
-    public ApiResponse<List<OrdersResponse>> findOrderByCustomer(UUID uuid) {
+    public ApiResponse<List<OrdersResponse>> findOrderByCustomer(UUID customerId) {
 
-        List<Orders> ordersList = orderRepository.findByCustomerUuid(uuid);
+        Optional<Orders> ordersOptional = orderRepository.findOrdersByCustomer(customerId);
 
-        if(ordersList.isEmpty())
+        if(ordersOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
+        Orders orders = ordersOptional.get();
+
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(ordersList, OrdersResponse.class));
+                Mapper.convertObject(orders,OrdersResponse.class));
 
     }
 

@@ -33,5 +33,10 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
 //    @Query("select st from Orders st where st.dateCreated = LocalDateTime().now order by id desc limit 1")
     Optional<Orders> findByDateCreated(@Param("LocalDateTime().now") LocalDateTime localDateTime);
 
+    @Query(value="SELECT * FROM orders WHERE CONVERT(date, date_created) = CONVERT(date, GETDATE()) order by id desc limit 1"nativeQuery = true)
+    Optional<Orders> findOrderForCurrentDate();
+//SELECT * FROM table_name WHERE CONVERT(date, date_column) = CONVERT(date, GETDATE());
+
+
 
 }

@@ -5,6 +5,7 @@ import fcmb.com.good.model.dto.request.productsRequest.*;
 import fcmb.com.good.model.dto.request.transactionRequest.OrdersRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.*;
+import fcmb.com.good.repo.products.ProductFacilityRepository;
 import fcmb.com.good.services.products.*;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,7 @@ public class ProductController {
     private final ProductPurchaseService productPurchaseService;
     private final ProductService productService;
     private final ProductCategoryService productCategoryService;
-
+    private final ProductFacilityService productFacilityService;
 
 
 
@@ -61,7 +62,6 @@ public class ProductController {
 
                                                 //ADD_PRODUCTS
 
-
     @PostMapping(ADD_PRODUCT_PURCHASE)
     @ApiOperation(value = "Endpoint for adding new productPurchase to database", response = String.class)
     public ApiResponse<String> addEmployeeShift(@Valid @RequestBody ProductPurchaseRequest request) {
@@ -79,6 +79,12 @@ public class ProductController {
     @ApiOperation(value = "Endpoint for adding new productCategory to database", response = String.class)
     public ApiResponse<String> addProductCategory(@Valid @RequestBody ProductCategoryRequest request) {
         return productCategoryService.addProductCategory(request);
+    }
+
+    @PostMapping(ADD_PRODUCT_FACILITY)
+    @ApiOperation(value = "Endpoint for adding new productFacility to database", response = String.class)
+    public ApiResponse<String> addProductFacility(@Valid @RequestBody ProductFacilityRequest request) {
+        return productFacilityService.addProductFacility(request);
     }
 
 
@@ -105,15 +111,14 @@ public class ProductController {
 
     }
 
-//                                            //FIND_PRODUCTS_BY_CATEGORY
-//
-//    @GetMapping(SEARCH_PRODUCT_BY_CATEGORY)
-//    @ApiOperation(value = "Endpoint for searching products by Category", response = ProductResponse.class, responseContainer = "List")
-//    public ApiResponse<List<ProductResponse>> searchProductsByCategory(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-//                                                                       @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size,
-//                                                                       @RequestParam String category ) {
-//        return productService.searchProductsByProductCategory(category);
-//    }
+    @GetMapping(FIND_PRODUCT_FACILITY_BY_ID)
+    @ApiOperation(value = "Endpoint for fetching productFacility by id from database", response = ProductFacilityResponse.class)
+    public ApiResponse<ProductFacilityResponse> getProductFacilityById(@PathVariable(value = "id") UUID productFacilityId) {
+        return productFacilityService.getProductFacilityById(productFacilityId);
+
+    }
+
+
 
                                             //FIND_PRODUCTS_BY_NAME
 
@@ -144,8 +149,16 @@ public class ProductController {
     }
 
 
-                                                //UPDATE_PRODUCTS
+                                        //FIND_PRODUCT_FACILITY_BY_PRODUCT_UUID
+    @GetMapping(FIND_PRODUCT_FACILITY_BY_PRODUCT_UUID)
+    @ApiOperation(value = "Endpoint for retrieving lists of productFacility by productId", response = ProductFacilityResponse.class, responseContainer = "List")
+    public ApiResponse<List<ProductFacilityResponse>> searchListOfProductFacilityByProductId(@RequestParam UUID uuid ) {
+        return productFacilityService.getProductFacilityByProduct(uuid);
+    }
 
+
+
+                                                //UPDATE_PRODUCTS
 
     @PutMapping(UPDATE_PRODUCT_PURCHASE)
     @ApiOperation(value = "Endpoint for updating productPurchase by id from database", response = String.class)
@@ -166,6 +179,13 @@ public class ProductController {
     public ApiResponse<String> updateProductCategory(@PathVariable(value = "id") UUID productCategory_id,
                                                      @RequestBody ProductCategoryRequest request) {
         return productCategoryService.updateProductCategory(productCategory_id, request);
+    }
+
+    @PutMapping(UPDATE_PRODUCT_FACILITY)
+    @ApiOperation(value = "Endpoint for updating productFacility by id from database", response = String.class)
+    public ApiResponse<String> updateProductFacility(@PathVariable(value = "id") UUID productFacilityId,
+                                                     @RequestBody ProductFacilityRequest request) {
+        return productFacilityService.updateProductFacility(productFacilityId, request);
     }
 
 
@@ -191,6 +211,11 @@ public class ProductController {
         return productCategoryService.deleteProductCategory(productCategory_id);
     }
 
+    @DeleteMapping(DELETE_PRODUCT_FACILITY)
+    @ApiOperation(value = "Endpoint for deleting productFacility by id from database", response = String.class)
+    public ApiResponse<String> deleteProductFacility(@PathVariable(value = "id") UUID productFacilityId) {
+        return productFacilityService.deleteProductFacility(productFacilityId);
+    }
 
 
 

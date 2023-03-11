@@ -81,18 +81,17 @@ public class PaymentServiceImpl implements PaymentService {
         Orders existingOrders  = ordersRepository.findByUuid(request.getOrdersId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Customer existingCustomer  = customerRepository.findByUuid(request.getCustomerId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Payment payment = new Payment();
 
         payment.setDescription(request.getDescription());
         payment.setAmount(existingOrders.getAmount());
-        payment.setPaidBy(existingCustomer.getName());
+        payment.setPaidBy(existingOrders.getOrderBy());
         payment.setPaymentMode(request.getPaymentMode());
-        payment.setPaymentStatus(request.getPaymentStatus());
+        payment.setPaymentStatus("paid");
         payment.setPostedBy(existingUser.getName());
         payment.setTranReference(request.getTranReference());
+        payment.setOrder(existingOrders);
 
         paymentRepository.save(payment);
 
@@ -163,7 +162,7 @@ public class PaymentServiceImpl implements PaymentService {
 
         payment.setDescription(request.getDescription());
         payment.setPaymentMode(request.getPaymentMode());
-        payment.setPaymentStatus(request.getPaymentStatus());
+        payment.setPaymentStatus("paid");
         payment.setTranReference(request.getTranReference());
 
         paymentRepository.save(payment);

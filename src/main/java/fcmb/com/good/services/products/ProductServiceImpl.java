@@ -74,23 +74,6 @@ public class ProductServiceImpl implements ProductService {
 
     }
 
-//    @Override
-//    /**
-//     * @Search the list of all products by category*
-//     * @Validate if the List of productCategory is empty otherwise return record not found*
-//     * @return the list of products by categoryName* *
-//     * * */
-//    public ApiResponse<List<ProductResponse>> searchProductsByProductCategory(String productCategory) {
-//        List<Product> searchProductsByProductCategory = productRepository.searchProductsByProductCategory(productCategory);
-//
-//        if(searchProductsByProductCategory.isEmpty())
-//            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-//
-//        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-//                Mapper.convertList(searchProductsByProductCategory, ProductResponse.class));
-//
-//    }
-
 
     @Override
     /**

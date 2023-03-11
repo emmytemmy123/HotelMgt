@@ -19,7 +19,7 @@ public interface OrderService {
 
     ApiResponse<String> addOrder(OrdersRequest request);
 
-    ApiResponse<List<OrdersResponse>> findOrderByCustomer(UUID customerId);
+    ApiResponse<List<OrdersResponse>> findOrderByCustomer(UUID uuid);
 
     ApiResponse<List<OrdersResponse>> findOrderByDate(Date dateCreated);
 

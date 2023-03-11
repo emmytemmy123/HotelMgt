@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
+
 @Data
 public class OrdersResponse extends BaseDto {
 
@@ -18,6 +19,7 @@ public class OrdersResponse extends BaseDto {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 
-    private List<OrderItemsResponse> orderItemsList;
+    private List<OrderHelperResponse> orderItemsList;
 
 }
+

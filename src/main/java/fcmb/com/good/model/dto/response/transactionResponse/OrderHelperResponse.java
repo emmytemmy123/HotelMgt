@@ -1,25 +1,22 @@
 package fcmb.com.good.model.dto.response.transactionResponse;
 
-import fcmb.com.good.model.dto.BaseDto;
+
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-public class OrderItemsResponse extends BaseDto {
+public class OrderHelperResponse {
 
     private String itemName;
-    private Double salesPrice;
     private Integer quantity;
     private Double amount;
     private Double purchasePrice;
     private Double purchaseAmount;
-    private Double profit;
     private String serviceName;
     private String description;
     private LocalDateTime transactionDate;
     private String status;
-
 
 
 }

@@ -6,9 +6,11 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.productsRequest.ProductFacilityRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductFacilityResponse;
+import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.products.ProductFacility;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.repo.products.ProductFacilityRepository;
+import fcmb.com.good.repo.products.ProductRepository;
 import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.MessageUtil;
@@ -24,10 +26,10 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ProductFacilityServiceImpl implements ProductFacilityService {
 
-    private final ProductFacilityRepository roomFacilityRepository;
+    private final ProductFacilityRepository productFacilityRepository;
     private final UserRepository userRepository;
     private final CustomerRepository customerRepository;
-
+    private final ProductRepository productRepository;
 
 
     /**
@@ -35,10 +37,10 @@ public class ProductFacilityServiceImpl implements ProductFacilityService {
      * @Validating existingRoomCategoryOptional by name
      * @Validate the List of existingRoomFacilityOptional otherwise return Duplicate Record
      * * */
-    private void validateDuplicationRoomFacility(String name){
-        Optional<ProductFacility> existingRoomFacilityOptional = roomFacilityRepository.findByName(name);
+    private void validateDuplicationProductFacility(String name){
+        Optional<ProductFacility> productFacilityOptional = productFacilityRepository.findByName(name);
 
-        if(existingRoomFacilityOptional.isPresent() )
+        if(productFacilityOptional.isPresent() )
             throw new RecordNotFoundException("Duplicate record");
     }
 
@@ -49,21 +51,26 @@ public class ProductFacilityServiceImpl implements ProductFacilityService {
      * Create the roomFacility definition and save
      * @return success message
      * * */
-    public ApiResponse<String> addRoomFacility(ProductFacilityRequest request) {
+    public ApiResponse<String> addProductFacility(ProductFacilityRequest request) {
 
-        validateDuplicationRoomFacility(request.getName());
+        validateDuplicationProductFacility(request.getName());
 
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
+        Product existingProduct  = productRepository.findByUuid(request.getProductId())
+                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        ProductFacility roomFacility = new ProductFacility();
-        roomFacility.setName(request.getName());
-        roomFacility.setFileName(request.getFileName());
-        roomFacility.setDescription(request.getDescription());
-        roomFacility.setCreatedBy(existingUser);
+        ProductFacility productFacility = new ProductFacility();
+        productFacility.setName(request.getName());
+        productFacility.setFileName(request.getFileName());
+        productFacility.setQuantity(request.getQuantity());
+        productFacility.setStatus("Good Condition");
+        productFacility.setDescription(request.getDescription());
+        productFacility.setCreatedBy(existingUser);
+        productFacility.setProduct(existingProduct);
 
-        roomFacilityRepository.save(roomFacility);
+        productFacilityRepository.save(productFacility);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record created successfully");
 
@@ -77,16 +84,16 @@ public class ProductFacilityServiceImpl implements ProductFacilityService {
      * Create the roomFacility definition and get the roomFacilityOptional by uuid
      * @return the list of roomFacility and a Success Message
      * * */
-    public ApiResponse<ProductFacilityResponse> getRoomFacilityById(UUID roomFacilityId) {
-        Optional<ProductFacility> roomFacilityOptional = roomFacilityRepository.findByUuid(roomFacilityId);
+    public ApiResponse<ProductFacilityResponse> getProductFacilityById(UUID productFacilityId) {
+        Optional<ProductFacility> productFacilityOptional = productFacilityRepository.findByUuid(productFacilityId);
 
-        if(roomFacilityOptional.isEmpty())
+        if(productFacilityOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        ProductFacility roomFacility = roomFacilityOptional.get();
+        ProductFacility productFacility = productFacilityOptional.get();
 
         return new ApiResponse<ProductFacilityResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(roomFacility, ProductFacilityResponse.class));
+                Mapper.convertObject(productFacility, ProductFacilityResponse.class));
     }
 
 
@@ -95,11 +102,11 @@ public class ProductFacilityServiceImpl implements ProductFacilityService {
      * @Validate if the List of roomFacility is empty otherwise return record not found
      * @return the list of roomFacility
      * * */
-    private ProductFacility validateRoomFacility(UUID uuid){
-        Optional<ProductFacility> roomFacility = roomFacilityRepository.findByUuid(uuid);
-        if(roomFacility.isEmpty())
+    private ProductFacility validateProductFacility(UUID uuid){
+        Optional<ProductFacility> productFacilityOptional = productFacilityRepository.findByUuid(uuid);
+        if(productFacilityOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        return roomFacility.get();
+        return productFacilityOptional.get();
     }
 
 
@@ -110,14 +117,14 @@ public class ProductFacilityServiceImpl implements ProductFacilityService {
      * Create the roomFacility definition and save
      * @return a Success Message
      * * */
-    public ApiResponse<String> updateRoomFacility(UUID roomFacilityId, ProductFacilityRequest request) {
+    public ApiResponse<String> updateProductFacility(UUID productFacilityId, ProductFacilityRequest request) {
 
-        ProductFacility roomFacility = validateRoomFacility(roomFacilityId);
-        roomFacility.setName(request.getName());
-        roomFacility.setFileName(request.getFileName());
-        roomFacility.setDescription(request.getDescription());
+        ProductFacility productFacility = validateProductFacility(productFacilityId);
+        productFacility.setName(request.getName());
+        productFacility.setFileName(request.getFileName());
+        productFacility.setDescription(request.getDescription());
 
-        roomFacilityRepository.save(roomFacility);
+        productFacilityRepository.save(productFacility);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated successfully");
     }
@@ -129,9 +136,9 @@ public class ProductFacilityServiceImpl implements ProductFacilityService {
      * @Delete roomFacility
      * @return a Success Message
      * * */
-    public ApiResponse<String> deleteRoomFacility(UUID roomFacilityId) {
-        ProductFacility roomFacility = validateRoomFacility(roomFacilityId);
-        roomFacilityRepository.delete(roomFacility);
+    public ApiResponse<String> deleteProductFacility(UUID productFacilityId) {
+        ProductFacility productFacility = validateProductFacility(productFacilityId);
+        productFacilityRepository.delete(productFacility);
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Deleted successfully");
     }
@@ -143,15 +150,15 @@ public class ProductFacilityServiceImpl implements ProductFacilityService {
      * @Validate if the List of RoomFacilityResponse is empty otherwise return record not found*
      * @return the list of RoomFacilityResponse by roomNo
      * * */
-    public ApiResponse<List<ProductFacilityResponse>> getRoomFacilityByRoomNumber(UUID roomUuid) {
+    public ApiResponse<List<ProductFacilityResponse>> getProductFacilityByProduct(UUID productUuid) {
 
-    List<ProductFacility> getRoomFacilityByRoomNumber = roomFacilityRepository.findRoomFacilityByRoomNumberAndCustomer(roomUuid);
+    List<ProductFacility> productFacilityList = productFacilityRepository.findProductFacilityByProduct(productUuid);
 
-    if(getRoomFacilityByRoomNumber.isEmpty())
+    if(productFacilityList.isEmpty())
         throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(getRoomFacilityByRoomNumber, ProductFacilityResponse.class));
+                Mapper.convertList(productFacilityList, ProductFacilityResponse.class));
 
     }
 

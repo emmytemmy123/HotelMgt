@@ -11,15 +11,15 @@ import java.util.UUID;
 public interface ProductFacilityService {
 
 
-    ApiResponse<String> addRoomFacility(ProductFacilityRequest request);
+    ApiResponse<String> addProductFacility(ProductFacilityRequest request);
 
-    ApiResponse<ProductFacilityResponse>getRoomFacilityById(UUID roomFacilityId);
+    ApiResponse<ProductFacilityResponse>getProductFacilityById(UUID productFacilityId);
 
-    ApiResponse<String> updateRoomFacility( UUID roomFacilityId, ProductFacilityRequest request);
+    ApiResponse<String> updateProductFacility( UUID productFacilityId, ProductFacilityRequest request);
 
-    ApiResponse<String> deleteRoomFacility(UUID roomFacilityId);
+    ApiResponse<String> deleteProductFacility(UUID productFacilityId);
 
-    ApiResponse<List<ProductFacilityResponse>> getRoomFacilityByRoomNumber(UUID roomUuid);
+    ApiResponse<List<ProductFacilityResponse>> getProductFacilityByProduct(UUID productFacilityId);
 
 
 

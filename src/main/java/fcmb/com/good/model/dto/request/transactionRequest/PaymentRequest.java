@@ -20,10 +20,6 @@ public class PaymentRequest  {
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       private String paymentStatus;
-
-       @NotNull(message = INVALID_NAME)
-       @NotEmpty(message = INVALID_NAME)
        private String paymentMode;
 
        @NotNull(message = INVALID_NAME)
@@ -32,9 +28,6 @@ public class PaymentRequest  {
 
        @NotNull(message = INVALID_NAME)
        private UUID createdById;
-
-       @NotNull(message = INVALID_NAME)
-       private UUID customerId;
 
        @NotNull(message = INVALID_NAME)
        private UUID ordersId;

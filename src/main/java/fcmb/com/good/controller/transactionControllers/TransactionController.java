@@ -415,8 +415,8 @@ public class TransactionController {
                                         //FIND_ORDER_BY_CUSTOMER
     @GetMapping(FIND_ORDER_BY_CUSTOMER)
     @ApiOperation(value = "Endpoint for fetching order by customer from database", response = OrdersResponse.class)
-    public ApiResponse<List<OrdersResponse>> getOrderByCustomer(@PathVariable(value = "customerId") UUID customerId) {
-        return orderService.findOrderByCustomer(customerId);
+    public ApiResponse<List<OrdersResponse>> getOrderByCustomer(@PathVariable(value = "uuid") UUID uuid) {
+        return orderService.findOrderByCustomer(uuid);
     }
 
 

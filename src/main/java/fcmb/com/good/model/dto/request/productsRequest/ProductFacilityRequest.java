@@ -1,5 +1,6 @@
 package fcmb.com.good.model.dto.request.productsRequest;
 
+import fcmb.com.good.model.dto.response.productsResponse.ProductFacilityHelperResponse;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
@@ -21,6 +22,10 @@ public class ProductFacilityRequest {
     private String fileName;
 
     @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
+    private Integer quantity;
+
+    @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
     private String description;
 
@@ -29,8 +34,7 @@ public class ProductFacilityRequest {
     private UUID createdById;
 
     @NotNull(message = INVALID_NAME)
-    private UUID roomId;
-
+    private UUID productId;
 
 
 }

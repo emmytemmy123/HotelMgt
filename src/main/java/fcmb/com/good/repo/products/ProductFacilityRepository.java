@@ -22,7 +22,7 @@ public interface ProductFacilityRepository extends JpaRepository<ProductFacility
     Optional<ProductFacility> deleteByUuid(@Param("recordId")UUID uuid);
 
     @Query("select st from ProductFacility st where st.product.uuid=:productUuid")
-    List<ProductFacility> findRoomFacilityByRoomNumberAndCustomer(@Param("productUuid")UUID productUuid);
+    List<ProductFacility> findProductFacilityByProduct(@Param("productUuid")UUID productUuid);
 
     @Query("SELECT st FROM ProductFacility st WHERE " +
             "st.name LIKE CONCAT('%',:query, '%')" )

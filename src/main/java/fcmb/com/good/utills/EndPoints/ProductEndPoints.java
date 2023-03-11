@@ -6,19 +6,6 @@ public class ProductEndPoints {
 
     public static final String product="product";
 
-    public static final String PRODUCT_ORDER_ITEMS="/OrderItems";
-    public static final String FIND_PRODUCT_ORDER_ITEMS=PRODUCT_ORDER_ITEMS+"/list";
-    public static final String ADD_PRODUCT_ORDER_ITEMS=PRODUCT_ORDER_ITEMS+"/add";
-    public static final String FIND_PRODUCT_ORDER_ITEMS_BY_ID=PRODUCT_ORDER_ITEMS+"/{id}";
-    public static final String UPDATE_PRODUCT_ORDER_ITEMS= PRODUCT_ORDER_ITEMS+"/update/{id}";
-    public static final String DELETE_PRODUCT_ORDER_ITEMS= PRODUCT_ORDER_ITEMS+"/customerDelete/{id}";
-
-    public static final String PRODUCT_ORDER="/order";
-    public static final String FIND_PRODUCT_ORDER=PRODUCT_ORDER+"/list";
-    public static final String ADD_PRODUCT_ORDER= PRODUCT_ORDER+"/add";
-    public static final String FIND_PRODUCT_ORDER_BY_ID= PRODUCT_ORDER+"/{id}";
-    public static final String UPDATE_PRODUCT_ORDER= PRODUCT_ORDER+"/update/{id}";
-    public static final String DELETE_PRODUCT_ORDER= PRODUCT_ORDER+"/delete/{id}";
 
     public static final String PRODUCT_PURCHASE="/purchase";
     public static final String FIND_PRODUCT_PURCHASE=PRODUCT_PURCHASE+"/list";
@@ -28,6 +15,16 @@ public class ProductEndPoints {
     public static final String DELETE_PRODUCT_PURCHASE= PRODUCT_PURCHASE+"/delete/{id}";
     public static final String SEARCH_PRODUCT_PURCHASE_BY_NAME= PRODUCT_PURCHASE+"/searchProductPurchaseListByName";
     public static final String SEARCH_PRODUCT_PURCHASE_BY_DATE_RANGE= PRODUCT_PURCHASE+"/searchProductPurchaseListByDateRange";
+
+
+    public static final String PRODUCT_FACILITY="/facility";
+    public static final String FIND_PRODUCT_FACILITY=PRODUCT_FACILITY+"/list";
+    public static final String ADD_PRODUCT_FACILITY= PRODUCT_FACILITY+"/add";
+    public static final String FIND_PRODUCT_FACILITY_BY_ID= PRODUCT_FACILITY+"/{id}";
+    public static final String UPDATE_PRODUCT_FACILITY= PRODUCT_FACILITY+"/update/{id}";
+    public static final String DELETE_PRODUCT_FACILITY= PRODUCT_FACILITY+"/delete/{id}";
+    public static final String FIND_PRODUCT_FACILITY_BY_PRODUCT_UUID= PRODUCT_FACILITY+"/searchProductFacilityByProductId";
+    public static final String SEARCH_PRODUCT_FACILITY_BY_DATE_RANGE= PRODUCT_FACILITY+"/searchProductPurchaseListByDateRange";
 
 
 

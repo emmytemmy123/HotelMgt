@@ -2,6 +2,7 @@ package fcmb.com.good.model.entity.products;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
+import fcmb.com.good.model.entity.services.Services;
 import fcmb.com.good.model.entity.transaction.OrderItems;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 @AllArgsConstructor
@@ -33,6 +35,9 @@ public class Product extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "productTypeId", updatable = true)
     private ProductType productType;
+
+    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    private List<ProductFacility> productFacilityList;
 
 
     public Product(){}

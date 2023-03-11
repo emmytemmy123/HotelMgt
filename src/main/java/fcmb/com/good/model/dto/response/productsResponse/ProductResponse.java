@@ -5,6 +5,7 @@ import fcmb.com.good.model.dto.BaseDto;
 import lombok.Data;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -21,7 +22,7 @@ public class ProductResponse extends BaseDto {
      private Date expDate;
      private String postedBy;
 
-
+     private List<ProductHelperResponse> productFacilityList;
 
 
 }

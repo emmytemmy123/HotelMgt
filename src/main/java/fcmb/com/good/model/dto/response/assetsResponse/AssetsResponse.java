@@ -14,6 +14,5 @@ public class AssetsResponse extends BaseDto {
     private String photo;
 
     private AssetsHelper assetsCategory;
-    private AssetHelper2 assets;
 
 }

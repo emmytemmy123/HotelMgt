@@ -87,7 +87,7 @@ public class UserServiceImpl  implements UserService {
      * Create user definition and save
      * @return success message
      * * */
-    public ApiResponse<String> addUsers(@RequestBody UserRequest request) {
+    public ApiResponse<String> addUsers(UserRequest request) {
 //        if (jwtFilter.isAdmin()) {
             Optional<AppUser> user = validateUserByEmailId(request.getEmail());
 
@@ -112,7 +112,7 @@ public class UserServiceImpl  implements UserService {
      * Create the user definition and get the user Optional
      * @return the list of users and a Success Message* *
      * * */
-    public ApiResponse<UserResponse> getUsersById(@RequestParam("id") UUID userId) {
+    public ApiResponse<UserResponse> getUsersById( UUID userId) {
 //        if (jwtFilter.isAdmin()) {
             Optional<AppUser> userOptional = userRepository.findByUuid(userId);
             if (userOptional.isEmpty())
@@ -182,7 +182,7 @@ public class UserServiceImpl  implements UserService {
      * Create the user definition and update
      * @return a Success Message
      * * */
-    public ApiResponse<String> updateUser(UUID userId, @RequestBody UserRequest request) {
+    public ApiResponse<String> updateUser(UUID userId, UserRequest request) {
 //        if (jwtFilter.isAdmin()) {
             AppUser user = validateUser(userId);
             user.setName(request.getName());

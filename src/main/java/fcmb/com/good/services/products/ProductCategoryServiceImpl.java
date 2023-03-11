@@ -132,7 +132,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * Create the productCategory definition and get the productCategoryOptional by uuid
      * @return the list of productCategory and a Success Message
      * * */
-    public ApiResponse<ProductCategoryResponse> getProductCategoryById(@RequestParam("id") UUID productCategoryId) {
+    public ApiResponse<ProductCategoryResponse> getProductCategoryById(UUID productCategoryId) {
 //        if(jwtFilter.isAdmin()){
 
             Optional<ProductType> productCategoryOptional = productCategoryRepository.findByUuid(productCategoryId);

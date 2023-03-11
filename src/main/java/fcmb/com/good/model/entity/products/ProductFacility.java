@@ -19,6 +19,8 @@ public class ProductFacility extends BaseEntity {
     private String name;
     private String fileName;
     private String description;
+    private Integer quantity;
+    private String status;
 
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

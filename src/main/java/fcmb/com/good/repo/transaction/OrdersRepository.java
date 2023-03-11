@@ -29,5 +29,10 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
             "st.dateCreated LIKE CONCAT('%',:query, '%')" )
     List<Orders> findOrderByDateCreated(String query);
 
+    @Query(value="SELECT * FROM orders WHERE CONVERT(date, date_created) = CONVERT(date, GETDATE()) order by id desc limit 1"nativeQuery = true)
+    Optional<Orders> findOrderForCurrentDate();
+//SELECT * FROM table_name WHERE CONVERT(date, date_column) = CONVERT(date, GETDATE());
+
+
 
 }

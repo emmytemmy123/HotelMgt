@@ -20,6 +20,7 @@ import fcmb.com.good.repo.transaction.OrderItemsRepository;
 import fcmb.com.good.repo.transaction.OrdersRepository;
 import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.utills.EndPoints.OrderUtils;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -91,10 +92,11 @@ public class OrderServiceImpl implements OrderService{
         Orders orders = new Orders();
 
         orders.setOrderBy(existingCustomer.getName());
-        orders.setOrderNo("1234");
+        orders.setOrderNo(OrderUtils.generateOrderNumber());
         orders.setOrderStatus("pending");
         orders.setStartTime(LocalDateTime.now());
         orders.setCustomer(existingCustomer);
+
 
         Double totalAmount = 0.0;
 

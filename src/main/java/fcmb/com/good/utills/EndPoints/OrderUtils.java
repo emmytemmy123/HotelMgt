@@ -22,8 +22,8 @@ public class OrderUtils {
         String orderNumber;
     Optional<Orders> listOrderForToday = ordersRepository.findOrderForCurrentDate();
        Orders todayLastOrder = listOrderForToday.get();
-        if(listOrderForToday.isEmpty())
-            return "1";
+        if(listOrderForToday.isEmpty() || !listOrderForToday.isPresent())
+            return orderNumber= "1";
         else {
             orderNumber = todayLastOrder.getDateCreated().getYear() + todayLastOrder.getDateCreated().getMonthValue()
                     + todayLastOrder.getDateCreated().getDayOfMonth() + todayLastOrder.getOrderNo();

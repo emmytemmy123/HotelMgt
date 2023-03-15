@@ -30,7 +30,7 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     List<Orders> findOrderByDateCreated(String query);
 
 //    @Query(value="SELECT * FROM orders WHERE CONVERT(date, date_created) = CONVERT(date, GETDATE()) order by id desc limit 1",nativeQuery = true)
-    @Query( value = "select * from orders where date_created = current_date() order by id desc limit 1", nativeQuery = true)
+    @Query( value = "select * from orders where DATE(date_created) = current_date() order by id desc limit 1", nativeQuery = true)
     Optional<Orders> findOrderForCurrentDate();
 //SELECT * FROM table_name WHERE CONVERT(date, date_column) = CONVERT(date, GETDATE());
 

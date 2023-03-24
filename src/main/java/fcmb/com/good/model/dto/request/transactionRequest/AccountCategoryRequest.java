@@ -13,8 +13,6 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @Data
 public class AccountCategoryRequest  {
 
-
-
     @NotNull(message = INVALID_NAME)
     @NotEmpty(message = INVALID_NAME)
     private String code;

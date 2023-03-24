@@ -3,16 +3,13 @@ package fcmb.com.good.services.transaction;
 import fcmb.com.good.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
-import fcmb.com.good.model.dto.request.orderItemRequest.OrderItemsRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.OrderItemRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.OrdersRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.OrdersResponse;
-import fcmb.com.good.model.dto.response.transactionResponse.PaymentResponse;
 import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.transaction.OrderItems;
 import fcmb.com.good.model.entity.transaction.Orders;
-import fcmb.com.good.model.entity.transaction.Payment;
 import fcmb.com.good.model.entity.user.AppUser;
 import fcmb.com.good.model.entity.user.Customer;
 import fcmb.com.good.repo.products.ProductRepository;
@@ -22,13 +19,16 @@ import fcmb.com.good.repo.user.CustomerRepository;
 import fcmb.com.good.repo.user.UserRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService{
@@ -79,6 +79,27 @@ public class OrderServiceImpl implements OrderService{
     }
 
 
+    private void generateOrderNumber(Orders  orders){
+        Integer serial;
+        String orderNumber;
+
+        LocalDate localDate = LocalDate.now();
+        orderNumber ="Tr"+localDate.getYear()+""+localDate.getMonthValue()+""+localDate.getDayOfMonth();
+
+        List<Orders> listOrderForToday = orderRepository.findOrderForCurrentDate(localDate.getMonthValue(), localDate.getYear());
+        if(listOrderForToday.isEmpty()){
+            orders.setOrderNo(orderNumber+"-1");
+            orders.setSerialNo(1);
+        }else{
+            Orders order = listOrderForToday.get(0);
+            serial = order.getSerialNo()+1;
+            orders.setSerialNo(serial);
+            orders.setOrderNo(orderNumber+"-"+serial);
+        }
+    }
+
+
+
     @Override
     public ApiResponse<String> addOrder(OrdersRequest request) {
 
@@ -91,12 +112,13 @@ public class OrderServiceImpl implements OrderService{
         Orders orders = new Orders();
 
         orders.setOrderBy(existingCustomer.getName());
-        orders.setOrderNo(OrderUtils.generateOrderNumber());
         orders.setOrderStatus("pending");
         orders.setStartTime(LocalDateTime.now());
         orders.setCustomer(existingCustomer);
 
         Double totalAmount = 0.0;
+        List<OrderItems> orderItemsList = new ArrayList<>();
+        generateOrderNumber(orders);
 
         for (OrderItemRequest orderItem : request.getItems()) {
 
@@ -122,13 +144,13 @@ public class OrderServiceImpl implements OrderService{
                 orderItems.setOrders(orders);
 
                 totalAmount += orderItem.getQuantity() * existingProduct.getSalesPrice();
-
-                orderItemsRepository.save(orderItems);
+                orderItemsList.add(orderItems);
 
             }
 
             orders.setAmount(totalAmount);
             orders.setAmountDue(totalAmount);
+            orders.setOrderItemsList(orderItemsList);
             orderRepository.save(orders);
 
         }
@@ -139,26 +161,22 @@ public class OrderServiceImpl implements OrderService{
 
 
     @Override
-    public ApiResponse<List<OrdersResponse>> findOrderByCustomer(UUID customerId) {
+    public ApiResponse<List<OrdersResponse>> getOrdersByCustomer(UUID customerUuid) {
 
-        Optional<Orders> ordersOptional = orderRepository.findOrdersByCustomer(customerId);
+        List<Orders> ordersList = orderRepository.findOrdersByCustomer(customerUuid);
 
-        if(ordersOptional.isEmpty())
+        if(ordersList.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        Orders orders = ordersOptional.get();
-
-        return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(orders,OrdersResponse.class));
-
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                Mapper.convertList(ordersList, OrdersResponse.class));
     }
 
 
-
     @Override
-    public ApiResponse<List<OrdersResponse>> findOrderByDate(Date dateCreated) {
+    public ApiResponse<List<OrdersResponse>> findOrderByDate(LocalDateTime dateCreated) {
 
-        List<Orders> ordersList = orderRepository.findOrderByDateCreated(String.valueOf(dateCreated));
+        List<Orders> ordersList = orderRepository.searchOrderByDateCreated(dateCreated);
 
         if(ordersList.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
@@ -167,6 +185,7 @@ public class OrderServiceImpl implements OrderService{
                 Mapper.convertList(ordersList, OrdersResponse.class));
 
     }
+
 
 
 

@@ -65,7 +65,6 @@ public class AssetsCategoryServiceImpl implements AssetsCategoryService {
         AssetsCategory assetsCategory = new AssetsCategory();
         assetsCategory.setName(request.getName());
         assetsCategory.setDescription(request.getDescription());
-        assetsCategory.setAccountNo(request.getAccountNo());
         assetsCategory.setCreatedBy(existingUser);
 
         assetsCategoryRepository.save(assetsCategory);
@@ -139,7 +138,6 @@ public class AssetsCategoryServiceImpl implements AssetsCategoryService {
 
         assetsCategory.setName(request.getName());
         assetsCategory.setDescription(request.getDescription());
-        assetsCategory.setAccountNo(request.getAccountNo());
 
         assetsCategoryRepository.save(assetsCategory);
         return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),

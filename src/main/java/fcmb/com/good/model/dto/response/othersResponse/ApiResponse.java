@@ -11,6 +11,7 @@ import java.util.Map;
  * @author OdofinTimoty
  * @param <T>
  */
+
 @Data
 //@Builder
 public class ApiResponse<T> {
@@ -35,6 +36,7 @@ public class ApiResponse<T> {
         this.message = message;
         this.data = data;
     }
+
     public ApiResponse(String message, Integer code, T data) {
         this.message = message;
         this.data = data;

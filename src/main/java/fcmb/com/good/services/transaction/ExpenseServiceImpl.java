@@ -101,7 +101,6 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenses.setPrice(request.getPrice());
         expenses.setQuantity(request.getQuantity());
         expenses.setTotalAmount((request.getPrice())*(request.getQuantity()));
-        expenses.setDateOfExpense(request.getDateOfExpense());
         expenses.setExpensedBy(existingEmployee.getName());
         expenses.setExpenseCategory(existingExpenseCategory);
         expenses.setCreatedBy(existingUser);
@@ -164,7 +163,6 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenses.setDescription(request.getDescription());
         expenses.setPrice(request.getPrice());
         expenses.setQuantity(request.getQuantity());
-        expenses.setDateOfExpense(request.getDateOfExpense());
 
         expensesRepository.save(expenses);
 

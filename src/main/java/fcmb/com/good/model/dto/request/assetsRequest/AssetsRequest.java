@@ -34,10 +34,6 @@ public class AssetsRequest  {
     private String code;
 
     @NotNull(message = INVALID_NAME)
-    @NotEmpty(message = INVALID_NAME)
-    private String status;
-
-    @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
     private Integer quantity;
 
@@ -48,8 +44,6 @@ public class AssetsRequest  {
     @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
     private UUID assetsCategoryId;
-
-
 
 
 

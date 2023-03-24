@@ -9,12 +9,14 @@ import java.util.Date;
 @Data
 public class PaymentResponse extends BaseDto {
 
-     private String category;
      private Double amount;
-     private String name;
-     private Double price;
-     private Integer quantity;
-     private String paymentStatus;
-     private String paymentDetails;
+     private String description;
      private String paidBy;
+     private String paymentMode;
+     private String paymentStatus;
+     private String postedBy;
+     private String tranReference;
+
+     private PaymentHelper order;
+
 }

@@ -14,15 +14,15 @@ public class BookingReminderRequest  {
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       private Long customer_id;
+       private Long customerId;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       private Long booking_id;
+       private Long bookingId;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
-       private String reminder_details;
+       private String reminderDetails;
 
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)

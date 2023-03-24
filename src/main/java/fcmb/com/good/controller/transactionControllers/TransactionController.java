@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.mail.MessagingException;
 import javax.validation.Valid;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -29,14 +30,13 @@ public class TransactionController {
     private final AccountCategoryService accountCategoryService;
     private final AccountChartService accountChartService;
     private final BookingService bookingService;
-//    private final ExpenseRequestService expenseRequestService;
     private final ExpenseService expenseService;
     private final MaintenanceService maintenanceService;
     private final PaymentService paymentService;
     private final ExpenseCategoryService expenseCategoryService;
     private final MaintenanceCategoryService maintenanceCategoryService;
     private final PaymentCategoryService paymentCategoryService;
-    private final OrderService orderService;
+    private final OrderService ordersService;
 
 
 
@@ -108,18 +108,7 @@ public class TransactionController {
     @ApiOperation(value = "Endpoint for retrieving lists of orders", response = OrdersResponse.class, responseContainer = "List")
     public ApiResponse<List<OrdersResponse>> getListOfOrders(@RequestParam(value = PAGE, defaultValue = PAGE_DEFAULT) int page,
                                                                                @RequestParam(value = SIZE, defaultValue = SIZE_DEFAULT) int size) {
-        return orderService.getListOfOrder(page, size);
-    }
-
-
-                                //FIND_LIST_OF_PAYMENT_BY_DATE_RANGE
-
-    @GetMapping(FIND_LIST_OF_PAYMENT_BY_DATE_RANGE)
-    @ApiOperation(value = "Endpoint for retrieving lists of payment by dateRange", response = PaymentResponse.class, responseContainer = "List")
-    public ApiResponse<List<PaymentResponse>> getListOfPaymentByDateRange(@RequestParam(value = PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                               @RequestParam(value = SIZE, defaultValue = SIZE_DEFAULT) int size,
-                                                                 @RequestParam String from, @RequestParam String to) {
-        return paymentService.findListOfPaymentByDateRange(page, size, from, to);
+        return ordersService.getListOfOrder(page, size);
     }
 
 
@@ -184,7 +173,7 @@ public class TransactionController {
     @PostMapping(ADD_ORDER)
     @ApiOperation(value = "Endpoint for adding new order to database", response = String.class)
     public ApiResponse<String> addOrderItem(@Valid @RequestBody OrdersRequest request) {
-        return orderService.addOrder(request);
+        return ordersService.addOrder(request);
     }
 
 
@@ -231,22 +220,17 @@ public class TransactionController {
         return maintenanceService.getMaintenanceById(maintenance_id);
     }
 
-    @GetMapping(FIND_PAYMENT_BY_ID)
-    @ApiOperation(value = "Endpoint for fetching payment by id from database", response = PaymentResponse.class)
-    public ApiResponse<PaymentResponse> getPaymentById(@PathVariable(value = "id") UUID paymentId) {
-        return paymentService.getPaymentById(paymentId);
-    }
+//    @GetMapping(FIND_PAYMENT_BY_ID)
+//    @ApiOperation(value = "Endpoint for fetching payment by id from database", response = PaymentResponse.class)
+//    public ApiResponse<PaymentResponse> getPaymentById(@PathVariable(value = "id") UUID paymentId) {
+//        return paymentService.getPaymentById(paymentId);
+//    }
 
-    @GetMapping(FIND_PAYMENT_BY_ORDER_ID)
-    @ApiOperation(value = "Endpoint for fetching payment by orderId from database", response = PaymentResponse.class)
-    public ApiResponse<PaymentResponse> getPaymentByOrderId(@PathVariable(value = "OrderUuid") UUID orderId) {
-        return paymentService.getPaymentByOrderId(orderId);
-    }
 
     @GetMapping(FIND_ORDER_BY_ID)
     @ApiOperation(value = "Endpoint for fetching Orders by id from database", response = OrdersResponse.class)
-    public ApiResponse<OrdersResponse> getPaymentOrderById(@PathVariable(value = "id") UUID orderId) {
-        return orderService.getOrderById(orderId);
+    public ApiResponse<OrdersResponse> getPaymentOrderById(@RequestParam UUID orderId) {
+        return ordersService.getOrderById(orderId);
     }
 
 
@@ -386,38 +370,59 @@ public class TransactionController {
                                 //FIND_LISTS_OF_PAYMENT_BY_DATE
     @GetMapping(FIND_LISTS_OF_PAYMENT_BY_DATE)
     @ApiOperation(value = "Endpoint for retrieving lists of payment by date", response = PaymentResponse.class, responseContainer = "List")
-    public ApiResponse<List<PaymentResponse>> getListOfPayment(@RequestParam Date dateCreated) {
+    public ApiResponse<List<PaymentResponse>> getListOfPayment(@RequestParam LocalDateTime dateCreated) {
         return paymentService.findPaymentByDate(dateCreated);
     }
 
                                     //FIND_LISTS_OF_ORDER_BY_DATE
     @GetMapping(FIND_LISTS_OF_ORDER_BY_DATE)
     @ApiOperation(value = "Endpoint for retrieving lists of order by date", response = OrdersResponse.class, responseContainer = "List")
-    public ApiResponse<List<OrdersResponse>> getListOfOrder(@RequestParam Date dateCreated) {
-        return orderService.findOrderByDate(dateCreated);
+    public ApiResponse<List<OrdersResponse>> getListOfOrderByDate(@RequestParam LocalDateTime dateCreated) {
+        return ordersService.findOrderByDate(dateCreated);
     }
 
 
                                     //FIND_PAYMENT_BY_SALES_PERSON
     @GetMapping(FIND_PAYMENT_BY_SALES_PERSON)
-    @ApiOperation(value = "Endpoint for fetching payment by salesPerson from database", response = PaymentResponse.class)
-    public ApiResponse<List<PaymentResponse>> getPaymentBySalesPerson(@PathVariable(value = "salesPersonId") UUID userId) {
+    @ApiOperation(value = "Endpoint for fetching payment by salesPerson from database", response = PaymentResponse.class, responseContainer = "List")
+    public ApiResponse<List<PaymentResponse>> getPaymentBySalesPerson(@RequestParam UUID userId) {
         return paymentService.findPaymentBySalesPerson(userId);
     }
 
                                     //FIND_PAYMENT_BY_CUSTOMER
     @GetMapping(FIND_PAYMENT_BY_CUSTOMER)
-    @ApiOperation(value = "Endpoint for fetching payment by customer from database", response = PaymentResponse.class)
-    public ApiResponse<List<PaymentResponse>> getPaymentByCustomer(@PathVariable(value = "customerId") UUID customerId) {
+    @ApiOperation(value = "Endpoint for fetching payment by customer from database", response = PaymentResponse.class, responseContainer = "List")
+    public ApiResponse<List<PaymentResponse>> getPaymentByCustomer(@RequestParam UUID customerId) {
         return paymentService.findPaymentByCustomer(customerId);
     }
 
                                         //FIND_ORDER_BY_CUSTOMER
     @GetMapping(FIND_ORDER_BY_CUSTOMER)
-    @ApiOperation(value = "Endpoint for fetching order by customer from database", response = OrdersResponse.class)
-    public ApiResponse<List<OrdersResponse>> getOrderByCustomer(@PathVariable(value = "uuid") UUID uuid) {
-        return orderService.findOrderByCustomer(uuid);
+    @ApiOperation(value = "Endpoint for fetching order by customer from database", response = OrdersResponse.class, responseContainer = "List")
+    public ApiResponse<List<OrdersResponse>> getOrdersByCustomer(@RequestParam UUID customerUuid) {
+        return ordersService.getOrdersByCustomer(customerUuid);
     }
+
+
+                                    //FIND_LIST_OF_PAYMENT_BY_DATE_RANGE
+
+    @GetMapping(FIND_LIST_OF_PAYMENT_BY_DATE_RANGE)
+    @ApiOperation(value = "Endpoint for retrieving lists of payment by dateRange", response = PaymentResponse.class, responseContainer = "List")
+    public ApiResponse<List<PaymentResponse>> getListOfPaymentByDateRange(@RequestParam(value = PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                                          @RequestParam(value = SIZE, defaultValue = SIZE_DEFAULT) int size,
+                                                                          @RequestParam String from, @RequestParam String to) {
+        return paymentService.findListOfPaymentByDateRange(page, size, from, to);
+    }
+
+
+                                //FIND_LIST_OF_PAYMENT_BY_ORDER_ID
+
+    @GetMapping(FIND_PAYMENT_BY_ORDER_ID)
+    @ApiOperation(value = "Endpoint for fetching payment by orderId from database", response = PaymentResponse.class, responseContainer = "List")
+    public ApiResponse<List<PaymentResponse>> getPaymentByOrderId(@RequestParam UUID orderId) {
+        return paymentService.getPaymentByOrderId(orderId);
+    }
+
 
 
 

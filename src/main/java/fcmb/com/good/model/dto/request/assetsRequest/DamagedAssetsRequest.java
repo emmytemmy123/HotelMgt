@@ -23,10 +23,6 @@ public class DamagedAssetsRequest  {
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
-     private String status;
-
-     @NotNull(message = INVALID_NAME)
-     @NotEmpty(message = INVALID_NAME)
      private String comment;
 
      @NotNull(message = INVALID_NAME)

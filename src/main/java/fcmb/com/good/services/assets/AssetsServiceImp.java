@@ -78,7 +78,7 @@ public class AssetsServiceImp implements AssetsService {
         assets.setName(request.getName());
         assets.setDescription(request.getDescription());
         assets.setQuantity(request.getQuantity());
-        assets.setStatus(request.getStatus());
+        assets.setStatus("Good Condition");
         assets.setCode(request.getCode());
         assets.setCreatedBy(existingUser);
         assets.setAssetsCategory(existingAssetCategory);
@@ -143,7 +143,7 @@ public class AssetsServiceImp implements AssetsService {
         assets.setName(request.getName());
         assets.setDescription(request.getDescription());
         assets.setQuantity(request.getQuantity()+assets.getQuantity());
-        assets.setStatus(request.getStatus());
+        assets.setStatus("good condition");
         assets.setCode(request.getCode());
 
         assetsRepository.save(assets);

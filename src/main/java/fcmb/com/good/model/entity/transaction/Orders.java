@@ -8,7 +8,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -26,15 +25,15 @@ public class Orders extends BaseEntity {
     private String orderStatus;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private Integer serialNo;
 
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "customerId", insertable = true, updatable = true)
     private Customer customer;
 
-    @OneToMany(mappedBy = "orders", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "orders", cascade = CascadeType.ALL)
     private List<OrderItems> orderItemsList;
-
 
     public Orders(){}
 

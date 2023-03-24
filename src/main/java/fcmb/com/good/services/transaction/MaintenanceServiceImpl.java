@@ -99,7 +99,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         maintenance.setStatus(request.getStatus());
         maintenance.setQuantity(request.getQuantity());
         maintenance.setAmount((request.getCost())*(request.getQuantity()));
-        maintenance.setDateMaintenance(request.getDateMaintained());
         maintenance.setMaintainedBy(existingEmployee.getName());
         maintenance.setRequestedBy(existingEmployee.getName());
         maintenance.setMaintenanceCategory(existingMaintenanceCategory);
@@ -169,7 +168,6 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         maintenance.setStatus(request.getStatus());
         maintenance.setQuantity(request.getQuantity());
         maintenance.setAmount((request.getCost())*(request.getQuantity()));
-        maintenance.setDateMaintenance(request.getDateMaintained());
 
         maintenanceRepository.save(maintenance);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),

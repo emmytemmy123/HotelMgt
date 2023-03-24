@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum MessageHelpers {
+
     RECORD_NOT_FOUND("Record with specified credential not found", "404"),
     RECORD_EXISTED("Record with specified credential Existed", "404"),
     OKAY("Operation processed successfully", "200"),

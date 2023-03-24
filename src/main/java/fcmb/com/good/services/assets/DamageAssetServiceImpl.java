@@ -86,7 +86,7 @@ public class DamageAssetServiceImpl implements DamagedAssetsService {
 
         damagedAssets.setName(request.getName());
         damagedAssets.setQuantity(String.valueOf(request.getQuantity()));
-        damagedAssets.setStatus(request.getStatus());
+        damagedAssets.setStatus("faulty");
         damagedAssets.setComment(request.getComment());
         damagedAssets.setCreatedBy(existingUser);
         damagedAssets.setAssets(existingAssets);
@@ -145,7 +145,7 @@ public class DamageAssetServiceImpl implements DamagedAssetsService {
 
         damagedAssets.setName(request.getName());
         damagedAssets.setQuantity(String.valueOf(request.getQuantity()));
-        damagedAssets.setStatus(request.getStatus());
+        damagedAssets.setStatus("faulty");
         damagedAssets.setComment(request.getComment());
 
         damagedAssetsRepository.save(damagedAssets);

@@ -3,6 +3,7 @@ package fcmb.com.good.model.dto.request.transactionRequest;
 import fcmb.com.good.model.dto.BaseDto;
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -27,16 +28,12 @@ public class ExpenseRequest {
       private String name;
 
       @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
+      @Min(value = 50, message = INVALID_NAME)
       private Double price;
 
       @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
+      @Min(value = 1, message = INVALID_NAME)
       private Integer quantity;
-
-      @NotNull(message = INVALID_NAME)
-//      @NotEmpty(message = INVALID_NAME)
-      private Date dateOfExpense;
 
       @NotNull(message = INVALID_NAME)
       private UUID createdById;

@@ -30,7 +30,7 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class ProductServiceImpl implements ProductService {
-    private  final ProductRepository productRepository;
+    private final ProductRepository productRepository;
     private final ProductCategoryRepository productCategoryRepository;
     private final JwtFilter jwtFilter;
     private final UserRepository userRepository;
@@ -42,7 +42,6 @@ public class ProductServiceImpl implements ProductService {
      * @return the list of products and a Success Message* *
      * * */
     public ApiResponse<List<ProductResponse>> getListOfProduct(int page, int size) {
-//        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()) {
 
             List<Product> productList = productRepository.findAll(PageRequest.of(page,size)).toList();
             if(productList.isEmpty())
@@ -51,9 +50,6 @@ public class ProductServiceImpl implements ProductService {
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertList(productList, ProductResponse.class));
 
-//        }
-//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
     }
 
 
@@ -152,8 +148,10 @@ public class ProductServiceImpl implements ProductService {
         product.setProductType(existingProductType);
 
         productRepository.save(product);
+
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record created successfully");
+
     }
 
 
@@ -165,7 +163,6 @@ public class ProductServiceImpl implements ProductService {
      * @return a Success Message* *
      * * */
     public ApiResponse<String> updateProduct(UUID productId, ProductRequest request) {
-//        if(jwtFilter.isAdmin()){
 
         Product product = validateProducts(productId);
 
@@ -180,6 +177,7 @@ public class ProductServiceImpl implements ProductService {
         product.setExpDate((Date) request.getExpDate());
 
         productRepository.save(product);
+
         return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record updated successfully");
         }
@@ -196,15 +194,11 @@ public class ProductServiceImpl implements ProductService {
      * @return a Success Message* *
      * * */
     public ApiResponse<String> deleteProduct(UUID productId) {
-//        if(jwtFilter.isAdmin()){
             Product product = validateProducts(productId);
             productRepository.delete(product);
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Deleted successfully");
         }
-//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
-//    }
 
 
 }

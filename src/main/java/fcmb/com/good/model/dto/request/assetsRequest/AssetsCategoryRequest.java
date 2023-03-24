@@ -29,10 +29,6 @@ public class AssetsCategoryRequest  {
 
     @NotNull(message = INVALID_ACCOUNT_NO)
 //    @NotEmpty(message = INVALID_ACCOUNT_NO)
-    private String accountNo;
-
-    @NotNull(message = INVALID_ACCOUNT_NO)
-//    @NotEmpty(message = INVALID_ACCOUNT_NO)
     private UUID createdById;
 
 }

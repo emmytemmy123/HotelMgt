@@ -23,12 +23,12 @@ public class ProductRequest  {
      @NotEmpty(message = INVALID_NAME)
      private String category;
 
-//     @NotNull(message = INVALID_NAME)
-//     @NotEmpty(message = INVALID_NAME)
+//   @NotNull(message = INVALID_NAME)
+//   @NotEmpty(message = INVALID_NAME)
      private String brand;
 
-     @NotNull(message = INVALID_NAME)
-//     @NotEmpty(message = INVALID_NAME)
+//   @NotNull(message = INVALID_NAME)
+//   @NotEmpty(message = INVALID_NAME)
      private Date expDate;
 
      @NotNull(message = INVALID_NAME)
@@ -36,11 +36,11 @@ public class ProductRequest  {
      private String description;
 
      @NotNull(message = INVALID_NAME)
-//     @NotEmpty(message = INVALID_NAME)
+     @Min(value = 1, message = INVALID_NAME)
      private Integer durations;
 
      @NotNull(message = INVALID_NAME)
-//     @NotEmpty(message = INVALID_NAME)
+     @Min(value=50, message = INVALID_NAME)
      private Double salesPrice;
 
      @NotNull(message = INVALID_NAME)

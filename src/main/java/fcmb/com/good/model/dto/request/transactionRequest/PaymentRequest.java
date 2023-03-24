@@ -13,7 +13,6 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @Data
 public class PaymentRequest  {
 
-
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
        private String description;
@@ -21,10 +20,6 @@ public class PaymentRequest  {
        @NotNull(message = INVALID_NAME)
        @NotEmpty(message = INVALID_NAME)
        private String paymentMode;
-
-       @NotNull(message = INVALID_NAME)
-       @NotEmpty(message = INVALID_NAME)
-       private String tranReference;
 
        @NotNull(message = INVALID_NAME)
        private UUID createdById;

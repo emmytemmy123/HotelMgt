@@ -2,6 +2,7 @@ package fcmb.com.good.model.dto.request.servicesRequest;
 
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
@@ -17,11 +18,11 @@ public class SubServiceRequest {
     private String serviceName;
 
     @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
+    @Min(value = 50, message = INVALID_NAME)
     private Double unitCost;
 
     @NotNull(message = INVALID_NAME)
-//    @NotEmpty(message = INVALID_NAME)
+    @Min(value = 1, message = INVALID_NAME)
     private Integer noOfOccupant;
 
     @NotNull(message = INVALID_NAME)

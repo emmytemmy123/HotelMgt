@@ -36,7 +36,7 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "productTypeId", updatable = true)
     private ProductType productType;
 
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "product")
     private List<ProductFacility> productFacilityList;
 
 

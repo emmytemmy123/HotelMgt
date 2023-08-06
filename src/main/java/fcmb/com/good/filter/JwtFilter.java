@@ -1,7 +1,7 @@
 package fcmb.com.good.filter;
 
 
-import fcmb.com.good.utills.CustomUserDetailsService;
+import fcmb.com.good.config.CustomUserDetailsService;
 import fcmb.com.good.utills.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -59,21 +59,23 @@ public class JwtFilter extends OncePerRequestFilter {
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
 
-    public boolean isAdmin(){
-        return "admin".equalsIgnoreCase((String) claims.get("role"));
-    }
 
-    public boolean isModerator(){
-        return "moderator".equalsIgnoreCase((String) claims.get("role"));
-    }
 
-    public boolean isEmployee(){
-        return "employee".equalsIgnoreCase((String) claims.get("role"));
-    }
-
-    public String getCurrentUser(){
-        return userName;
-    }
+//    public boolean isAdmin(){
+//        return "admin".equalsIgnoreCase((String) claims.get("role"));
+//    }
+//
+//    public boolean isModerator(){
+//        return "moderator".equalsIgnoreCase((String) claims.get("role"));
+//    }
+//
+//    public boolean isEmployee(){
+//        return "employee".equalsIgnoreCase((String) claims.get("role"));
+//    }
+//
+//    public String getCurrentUser(){
+//        return userName;
+//    }
 
 
 

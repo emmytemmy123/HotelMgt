@@ -100,6 +100,7 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         ProductPurchase productPurchase = new ProductPurchase();
+
         productPurchase.setName(request.getName());
         productPurchase.setCategory(request.getCategory());
         productPurchase.setDescription(request.getDescription());

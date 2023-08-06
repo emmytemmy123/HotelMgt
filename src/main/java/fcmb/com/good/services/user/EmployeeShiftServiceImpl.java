@@ -104,9 +104,16 @@ public class EmployeeShiftServiceImpl implements EmployeeShiftService {
      * * */
     public ApiResponse<String> updateEmployeeShift(UUID employeeShiftId, @RequestBody EmployeeShiftRequest request) {
         EmployeeShift employeeShifty = validateEmployeeShift(employeeShiftId);
-        employeeShifty.setDesignation(request.getDesignation());
-        employeeShifty.setShift(request.getShift());
-        employeeShifty.setPeriod(request.getPeriod());
+
+        if (request.getDesignation() != null) {
+            employeeShifty.setDesignation(request.getDesignation());
+        }
+        if (request.getShift() != null) {
+            employeeShifty.setShift(request.getShift());
+        }
+        if (request.getPeriod() != null) {
+            employeeShifty.setPeriod(request.getPeriod());
+        }
 
         employeeShiftRepository.save(employeeShifty);
 

@@ -14,7 +14,7 @@ public interface PaymentService {
 
     ApiResponse<List<PaymentResponse>> getListOfPayment(int page, int size);
 
-    ApiResponse<List<PaymentResponse>> findListOfPaymentByDateRange(int page, int size, String from, String to);
+    ApiResponse<List<PaymentResponse>> findListOfPaymentByDateRange( String from, String to);
 
     ApiResponse<String> addPayment(PaymentRequest request);
 
@@ -22,11 +22,7 @@ public interface PaymentService {
 
     ApiResponse<List<PaymentResponse>> getPaymentByOrderId(UUID orderId);
 
-    ApiResponse<String> updatePayment( UUID paymentId, PaymentRequest request);
-
-    ApiResponse<String> deletePayment(UUID paymentId);
-
-    ApiResponse<List<PaymentResponse>> findPaymentByDate(LocalDateTime dateCreated);
+    ApiResponse<List<PaymentResponse>> findPaymentByDate(String dateCreated);
 
     ApiResponse<List<PaymentResponse>> findPaymentBySalesPerson(UUID userId);
 

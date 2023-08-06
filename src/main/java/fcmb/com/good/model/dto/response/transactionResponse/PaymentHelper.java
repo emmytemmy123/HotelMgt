@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Data
 public class PaymentHelper {
 
-    private Integer orderNo;
+    private String orderNo;
     private String orderBy;
     private Double amount;
     private Double amountDue;

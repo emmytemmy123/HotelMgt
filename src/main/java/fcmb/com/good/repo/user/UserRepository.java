@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<AppUser,Long> {
     @Query("select u from AppUser u where u.email=:email")
     Optional<AppUser> findByEmailId(@Param("email") String email);
 
-    AppUser findByUsername(String username);
+    Optional<AppUser> findByUsername(String username);
 
     AppUser findByEmail(String email);
 

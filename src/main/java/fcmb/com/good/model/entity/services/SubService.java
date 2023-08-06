@@ -20,20 +20,12 @@ public class SubService extends BaseEntity {
 
     private String serviceName;
     private Double unitCost;
-    private Integer noOfOccupant;
 
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "customerId", insertable = true, updatable = true)
-    private Customer customer;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdById", insertable = true, updatable = true)
     private AppUser createdBy;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "productId", insertable = true, updatable = true)
-    private Product product;
 
     public SubService(){}
 

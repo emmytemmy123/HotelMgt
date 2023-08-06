@@ -1,6 +1,7 @@
 package fcmb.com.good.services.user;
 
 
+import fcmb.com.good.common.UserConstant;
 import fcmb.com.good.exception.RecordNotFoundException;
 import fcmb.com.good.filter.JwtFilter;
 import fcmb.com.good.mapper.Mapper;
@@ -22,14 +23,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.mail.MessagingException;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.security.Principal;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,23 +41,23 @@ public class UserServiceImpl  implements UserService {
     private final EmailUtils emailUtils;
 
 
+
     @Override
     /**
      * @Authenticating username and password
      * @Validating if username and password is Authenticated otherwise return record not found
      * Generate token to access the Api
      */
-    public ApiResponse<AuthRequest> authenticate(AuthRequest authRequest) {
+    public String authenticate(AuthRequest authRequest) {
+
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+                new UsernamePasswordAuthenticationToken(authRequest.getUserName(), authRequest.getPassword()));
 
-        if (!authentication.isAuthenticated()) {
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-        }
-        jwtUtil.generateToken(authRequest.getUsername(), authRequest.getRole());
+        if (!authentication.isAuthenticated())
+            throw new UsernameNotFoundException("invalid user request !");
 
-        return new ApiResponse<AuthRequest>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(authentication, AuthRequest.class));
+        return jwtUtil.generateToken(authRequest.getUserName());
+
     }
 
 
@@ -68,7 +68,6 @@ public class UserServiceImpl  implements UserService {
      * @return the list of users and a Success Message*
      * * */
     public ApiResponse<List<UserResponse>> getListOfUsers(int page, int size) {
-//        if (jwtFilter.isAdmin() || jwtFilter.isEmployee()) {
             List<AppUser> userList = userRepository.findAll(PageRequest.of(page, size)).toList();
             if (userList.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
@@ -76,9 +75,32 @@ public class UserServiceImpl  implements UserService {
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     Mapper.convertList(userList, UserResponse.class));
         }
-//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
-//    }
+
+
+    /**
+     * Set and get the users parameters
+     */
+    private AppUser getUserFromRequest(UserRequest request) {
+        AppUser user = new AppUser();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setAddress(request.getAddress());
+        user.setCountry(request.getCountry());
+        user.setCity(request.getCity());
+        user.setGender(request.getGender());
+        user.setPassword(request.getPassword());
+        user.setPhone(request.getPhone());
+        user.setUsername(request.getUsername());
+        user.setPhoto(request.getPhoto());
+
+        user.setRoles(UserConstant.DEFAULT_ROLE);//USER
+//        String encryptedPwd = passwordEncoder.encode(user.getPassword());
+//        user.setPassword(encryptedPwd);
+
+        return user;
+    }
+
+
 
     @Override
     /**
@@ -88,21 +110,18 @@ public class UserServiceImpl  implements UserService {
      * @return success message
      * * */
     public ApiResponse<String> addUsers(UserRequest request) {
-//        if (jwtFilter.isAdmin()) {
             Optional<AppUser> user = validateUserByEmailId(request.getEmail());
 
             if (!user.isEmpty()) {
                 return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
                         "Email Already Exist");
             }
-            userRepository.save(getUserFromRequest(request));
+
+        userRepository.save(getUserFromRequest(request));
 
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Added successfully");
         }
-//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
-//    }
 
 
     @Override
@@ -148,24 +167,6 @@ public class UserServiceImpl  implements UserService {
         return existingUserOptional;
     }
 
-    /**
-     * Set and get the users parameters
-     */
-    private AppUser getUserFromRequest(UserRequest request) {
-        AppUser us = new AppUser();
-        us.setName(request.getName());
-        us.setEmail(request.getEmail());
-        us.setAddress(request.getAddress());
-        us.setCountry(request.getCountry());
-        us.setCity(request.getCity());
-        us.setGender(request.getGender());
-        us.setPassword(request.getPassword());
-        us.setPhone(request.getPhone());
-        us.setUsername(request.getUsername());
-        us.setPhoto(request.getPhoto());
-        us.setRole(request.getRole());
-        return us;
-    }
 
 //    private AppUser postedByUuid(String postedBy) {
 //        AppUser user = validateUser(UUID.fromString(postedBy));
@@ -183,27 +184,40 @@ public class UserServiceImpl  implements UserService {
      * @return a Success Message
      * * */
     public ApiResponse<String> updateUser(UUID userId, UserRequest request) {
-//        if (jwtFilter.isAdmin()) {
-            AppUser user = validateUser(userId);
-            user.setName(request.getName());
-            user.setEmail(request.getEmail());
-            user.setAddress(request.getAddress());
-            user.setCountry(request.getCountry());
-            user.setCity(request.getCity());
-            user.setGender(request.getGender());
-            user.setPassword(request.getPassword());
-            user.setPhone(request.getPhone());
-            user.setUsername(request.getUsername());
-            user.setPhoto(request.getPhoto());
-            user.setRole(request.getRole());
 
-            userRepository.save(user);
+            AppUser user = validateUser(userId);
+
+        if (request.getName() != null) {
+            user.setName(request.getName());
+        }
+
+        if (request.getAddress() != null) {
+            user.setAddress(request.getAddress());
+        }
+        if (request.getCountry() != null) {
+            user.setCountry(request.getCountry());
+        }
+        if (request.getCity() != null) {
+            user.setCity(request.getCity());
+        }
+        if (request.getGender() != null) {
+            user.setGender(request.getGender());
+        }
+        if (request.getPhone() != null) {
+            user.setPhone(request.getPhone());
+        }
+
+        if (request.getPhoto() != null) {
+            user.setPhoto(request.getPhoto());
+        }
+
+
+
+        userRepository.save(user);
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Updated Successfully");
         }
-//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
-//    }
+
 
     @Override
     /**
@@ -285,7 +299,23 @@ public class UserServiceImpl  implements UserService {
 
         return new ApiResponse(AppStatus.FAILED.label, HttpStatus.BAD_REQUEST.value(),
                 "Incorrect Email or Password");
+    }
 
+
+    private List<String> getRolesByLoggedInUser(Principal principal) {
+        String roles = getLoggedInUser(principal).getRoles();
+        List<String> assignRoles = Arrays.stream(roles.split(",")).collect(Collectors.toList());
+        if (assignRoles.contains("ROLE_ADMIN")) {
+            return Arrays.stream(UserConstant.ADMIN_ACCESS).collect(Collectors.toList());
+        }
+        if (assignRoles.contains("ROLE_MODERATOR")) {
+            return Arrays.stream(UserConstant.MODERATOR_ACCESS).collect(Collectors.toList());
+        }
+        return Collections.emptyList();
+    }
+
+    private AppUser getLoggedInUser(Principal principal) {
+        return userRepository.findByUsername(principal.getName()).get();
     }
 
 

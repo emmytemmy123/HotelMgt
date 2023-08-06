@@ -6,4 +6,5 @@ public class ResponseCode {
     public final static String NOT_FOUND= "404";
     public final static String INTERNAL_SERVER_ERROR = "500";
     public final static String BAD_REQUEST= "400";
+
 }

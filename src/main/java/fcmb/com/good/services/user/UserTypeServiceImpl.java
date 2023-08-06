@@ -52,17 +52,13 @@ public class UserTypeServiceImpl implements UserTypeService {
      * @return success message
      * * */
     public ApiResponse<String> addUserType(UserTypeRequest request) {
-        if(jwtFilter.isAdmin()){
             UserType type = Mapper.convertObject(request,UserType.class);
             userTypeRepository.save(type);
 
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Added Successfully");
         }
-        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
-                "You are not Authorized");
 
-    }
 
 
     @Override

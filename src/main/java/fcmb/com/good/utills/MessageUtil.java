@@ -13,9 +13,11 @@ public class MessageUtil {
     public final static String FILE_TOO_LARGE = "File is too large than expected size";
     public final static String PATIENT_NOT_FOUND = "Patient with specified constraint(s) not found";
     public final static String FAILED = "failed";
+    public final static String OUT_OF_STOCK = "The Product is Out Of Stock, Please Stock Immediately";
 
 
-                            //users messages
+
+    //users messages
     public final static String INVALID_NAME = "Invalid name, value is required";
     public final static String INVALID_EMAIL = "Invalid email format, value is required";
     public final static String INVALID_PHONE = "Invalid phone format, value is required";

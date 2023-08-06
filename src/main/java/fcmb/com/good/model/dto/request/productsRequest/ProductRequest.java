@@ -21,6 +21,10 @@ public class ProductRequest  {
 
      @NotNull(message = INVALID_NAME)
      @NotEmpty(message = INVALID_NAME)
+     private String roomNo;
+
+     @NotNull(message = INVALID_NAME)
+     @NotEmpty(message = INVALID_NAME)
      private String category;
 
 //   @NotNull(message = INVALID_NAME)

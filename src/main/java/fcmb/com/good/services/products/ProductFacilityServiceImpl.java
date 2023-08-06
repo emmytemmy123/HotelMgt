@@ -62,6 +62,7 @@ public class ProductFacilityServiceImpl implements ProductFacilityService {
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         ProductFacility productFacility = new ProductFacility();
+
         productFacility.setName(request.getName());
         productFacility.setFileName(request.getFileName());
         productFacility.setQuantity(request.getQuantity());

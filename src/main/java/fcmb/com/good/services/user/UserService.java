@@ -7,8 +7,6 @@ import fcmb.com.good.model.dto.request.userRequest.changeUserPasswordRequest;
 import fcmb.com.good.model.dto.request.userRequest.loginUserRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.userResponse.UserResponse;
-import fcmb.com.good.model.dto.response.userResponse.changeUserPasswordResponse;
-import fcmb.com.good.model.dto.response.userResponse.forgotUserPasswordResponse;
 
 import javax.mail.MessagingException;
 import java.util.List;
@@ -31,7 +29,7 @@ public interface UserService {
 
     ApiResponse<String> forgotUserPassword(String email) throws MessagingException;
 
-    ApiResponse<AuthRequest> authenticate(AuthRequest authRequest);
+    String authenticate(AuthRequest authRequest);
 
     ApiResponse<String> loginUser(String email, loginUserRequest request);
 

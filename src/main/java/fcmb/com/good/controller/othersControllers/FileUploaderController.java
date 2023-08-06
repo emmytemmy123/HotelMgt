@@ -6,6 +6,7 @@ import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/uploader")
 @RequiredArgsConstructor
 public class FileUploaderController {
@@ -21,6 +23,7 @@ public class FileUploaderController {
    private final UploadService uploadService;
 
     @PostMapping("/upload/files")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR') ")
     @ApiOperation(value = "Make a POST request to upload the file",
             produces = "application/json", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity uploadFile(
@@ -35,15 +38,17 @@ public class FileUploaderController {
     }
 
     @ApiOperation(value = "Endpoint for downloading file")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR') ")
+
     @GetMapping("/file/download")
-    public StreamingResponseBody downloadPhoto(@RequestParam("filename") String name,
-                                           @RequestParam(value="display", defaultValue = "attachment")String display,
+    public StreamingResponseBody downloadPhoto(@RequestParam("filename") String name, @RequestParam(value="display", defaultValue = "attachment")String display,
                                            HttpServletResponse response) throws IOException {
     return uploadService.loadPhoto(name, display, response);
     }
 
 
     @ApiOperation(value = "Endpoint for previewing downloading file")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR') ")
     @GetMapping("/file/preview")
     public StreamingResponseBody previewPhoto(@RequestParam("filename") String name, HttpServletResponse response) throws IOException {
         return uploadService.previewFile(name,  response);

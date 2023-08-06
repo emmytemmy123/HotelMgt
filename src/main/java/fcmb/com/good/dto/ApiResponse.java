@@ -12,9 +12,11 @@ import java.util.Map;
  */
 @Data
 public class ApiResponse<T> {
+
     private String message;
     private String code;
     private T data;
+
     private Map<String, Object> meta = new HashMap<>();
 
     public ApiResponse() {

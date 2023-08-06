@@ -7,14 +7,7 @@ import lombok.Data;
 public class SubServiceResponse extends BaseDto {
 
     private String serviceName;
-
     private Double unitCost;
-
-    private Double amount;
-
-    private String paymentStatus;
-
-    private Integer noOfOccupant;
 
 
 }

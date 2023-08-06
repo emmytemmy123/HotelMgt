@@ -1,5 +1,6 @@
 package fcmb.com.good.services.user;
 
+import fcmb.com.good.common.UserConstant;
 import fcmb.com.good.exception.RecordNotFoundException;
 import fcmb.com.good.filter.JwtFilter;
 import fcmb.com.good.mapper.Mapper;
@@ -143,9 +144,11 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setPhone(request.getPhone());
         employee.setUsername(request.getUsername());
         employee.setPhoto(request.getPhoto());
-        employee.setRole(request.getRole());
+        employee.setRoles(request.getRole());
         employee.setDesignation(request.getDesignation());
         employee.setCreatedBy(existingUser);
+        employee.setRoles(UserConstant.DEFAULT_ROLE);//USER
+
 
         return employee;
     }
@@ -158,20 +161,35 @@ public class EmployeeServiceImpl implements EmployeeService {
      * Create the employee definition and update
      * @return a Success Message
      * * */
-    public ApiResponse<String> updateEmployee(UUID employeeId, @RequestBody EmployeeRequest employee) {
-//        if(jwtFilter.isAdmin()){
-            Employee employ = validateEmployee(employeeId);
-            employ.setName(employee.getName());
-            employ.setEmail(employee.getEmail());
-            employ.setGender(employee.getGender());
-            employ.setCountry(employee.getCountry());
-            employ.setCity(employee.getCity());
-            employ.setAddress(employee.getAddress());
-            employ.setPhone(employee.getPhone());
-            employ.setDesignation(employee.getDesignation());
-            employ.setUsername(employee.getUsername());
+    public ApiResponse<String> updateEmployee(UUID employeeId, @RequestBody EmployeeRequest request) {
+            Employee employee = validateEmployee(employeeId);
 
-            employeeRepository.save(employ);
+        if (request.getName() != null) {
+            employee.setName(request.getName());
+        }
+
+        if (request.getAddress() != null) {
+            employee.setAddress(request.getAddress());
+        }
+        if (request.getCountry() != null) {
+            employee.setCountry(request.getCountry());
+        }
+        if (request.getCity() != null) {
+            employee.setCity(request.getCity());
+        }
+        if (request.getGender() != null) {
+            employee.setGender(request.getGender());
+        }
+        if (request.getPhone() != null) {
+            employee.setPhone(request.getPhone());
+        }
+
+        if (request.getPhoto() != null) {
+            employee.setPhoto(request.getPhoto());
+        }
+
+
+            employeeRepository.save(employee);
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Updated Successfully");
         }

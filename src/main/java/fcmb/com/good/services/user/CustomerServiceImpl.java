@@ -1,5 +1,6 @@
 package fcmb.com.good.services.user;
 
+import fcmb.com.good.common.UserConstant;
 import fcmb.com.good.exception.RecordNotFoundException;
 import fcmb.com.good.filter.JwtFilter;
 import fcmb.com.good.mapper.Mapper;
@@ -46,7 +47,7 @@ public class CustomerServiceImpl implements CustomerService  {
      * @return the list of customer and a Success Message*
      * * */
     public ApiResponse<List<CustomerResponse>> getListOfCustomer(int page, int size) {
-//        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()){
+
             List<Customer> customerList = customerRepository.findAll(PageRequest.of(page,size)).toList();
             if(customerList.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
@@ -54,9 +55,6 @@ public class CustomerServiceImpl implements CustomerService  {
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     Mapper.convertList(customerList, CustomerResponse.class));
         }
-//        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
-//    }
 
     @Override
     /**
@@ -65,7 +63,7 @@ public class CustomerServiceImpl implements CustomerService  {
      * Create user definition and save
      * @return success message
      * * */
-    public ApiResponse<String> addCustomer(@RequestBody CustomerRequest request) throws IOException {
+    public ApiResponse<String> addCustomer(CustomerRequest request) throws IOException {
 
         Optional<Customer> customer  = validateCustomerByEmailId(request.getEmail());
 
@@ -132,9 +130,6 @@ public class CustomerServiceImpl implements CustomerService  {
      */
     private Customer getCustomerFromRequest(CustomerRequest request) throws IOException {
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
         Customer customer = new Customer();
         customer.setName(request.getName());
         customer.setEmail(request.getEmail());
@@ -146,9 +141,9 @@ public class CustomerServiceImpl implements CustomerService  {
         customer.setPhone(request.getPhone());
         customer.setUsername(request.getUsername());
         customer.setPhoto(request.getPhoto());
-        customer.setRole(request.getRole());
         customer.setNin(request.getNin());
-        customer.setCreatedBy(existingUser);
+        customer.setRoles(UserConstant.DEFAULT_ROLE);//USER
+
 
         return customer;
     }
@@ -161,24 +156,41 @@ public class CustomerServiceImpl implements CustomerService  {
      * Create the customer definition and update
      * @return a Success Message
      * * */
-    public ApiResponse<String> updateCustomer(UUID customerId, @RequestBody CustomerRequest cst) {
-//        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()){
-            Customer customer = validateCustomer(customerId);
-            customer.setName(cst.getName());
-            customer.setEmail(cst.getEmail());
-            customer.setPhone(cst.getPhone());
-            customer.setAddress(cst.getAddress());
-            customer.setNin(cst.getNin());
-            customer.setPhoto(cst.getPhoto());
-            customer.setUsername(cst.getUsername());
+    public ApiResponse<String> updateCustomer(UUID customerUuid, @RequestBody CustomerRequest request) {
+            Customer customer = validateCustomer(customerUuid);
+
+        if (request.getName() != null) {
+            customer.setName(request.getName());
+        }
+
+        if (request.getAddress() != null) {
+            customer.setAddress(request.getAddress());
+        }
+        if (request.getCountry() != null) {
+            customer.setCountry(request.getCountry());
+        }
+        if (request.getCity() != null) {
+            customer.setCity(request.getCity());
+        }
+        if (request.getGender() != null) {
+            customer.setGender(request.getGender());
+        }
+        if (request.getPhone() != null) {
+            customer.setPhone(request.getPhone());
+        }
+
+        if (request.getPhoto() != null) {
+            customer.setPhoto(request.getPhoto());
+        }
+        if (request.getNin() != null) {
+            customer.setNin(request.getNin());
+        }
 
             customerRepository.save(customer);
             return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Updated Successfully");
         }
-//        return new ApiResponse(AppStatus.FAILED.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
-//    }
+
 
 
     @Override

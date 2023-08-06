@@ -41,7 +41,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * @return the list of productCategory and a Success Message* *
      * * */
     public ApiResponse<List<ProductCategoryResponse>> getListOfProductCategory(int page, int size) {
-//        if(jwtFilter.isAdmin() || jwtFilter.isEmployee()) {
 
             List<ProductType> productCategoryList = productCategoryRepository.findAll(PageRequest.of(page,size)).toList();
             if(productCategoryList.isEmpty())
@@ -50,9 +49,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
             return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     Mapper.convertList(productCategoryList, ProductCategoryResponse.class));
         }
-//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
-//    }
 
 
 
@@ -99,6 +95,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
 
     }
 
+
     /**
      * Set and get the productCategory parameters
      */
@@ -133,7 +130,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * @return the list of productCategory and a Success Message
      * * */
     public ApiResponse<ProductCategoryResponse> getProductCategoryById(UUID productCategoryId) {
-//        if(jwtFilter.isAdmin()){
 
             Optional<ProductType> productCategoryOptional = productCategoryRepository.findByUuid(productCategoryId);
 
@@ -145,9 +141,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
             return new ApiResponse<ProductCategoryResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     Mapper.convertObject(productCategory,ProductCategoryResponse.class));
         }
-//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
-//    }
+
 
 
     @Override
@@ -158,7 +152,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * @return a Success Message
      * * */
     public ApiResponse<String> updateProductCategory(UUID productCategoryId,ProductCategoryRequest request) {
-//        if(jwtFilter.isAdmin()){
 
         ProductType productCategory = validateProductCategory(productCategoryId);
 
@@ -171,9 +164,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Updated Successfully");
         }
-//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
-//    }
+
 
     @Override
     /**
@@ -183,16 +174,16 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * @return a Success Message
      * * */
     public ApiResponse<String> deleteProductCategory(UUID productCategoryId) {
-//        if(jwtFilter.isAdmin()){
 
             ProductType productCategory = validateProductCategory(productCategoryId);
+
             productCategoryRepository.delete(productCategory);
+
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Deleted successfully");
         }
-//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
-//    }
+
+
 
 
 }

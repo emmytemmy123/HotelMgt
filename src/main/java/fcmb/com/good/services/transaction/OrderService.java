@@ -1,6 +1,8 @@
 package fcmb.com.good.services.transaction;
 
 
+import fcmb.com.good.model.dto.request.orderItemRequest.OrderItemsRequest;
+import fcmb.com.good.model.dto.request.transactionRequest.OrderItemRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.OrdersRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.OrdersResponse;
@@ -21,8 +23,9 @@ public interface OrderService {
 
     ApiResponse<List<OrdersResponse>> getOrdersByCustomer(UUID customerUuid);
 
-    ApiResponse<List<OrdersResponse>> findOrderByDate(LocalDateTime dateCreated);
+    ApiResponse<List<OrdersResponse>> findOrderByDate(String dateCreated);
 
+    ApiResponse<String> updateOrder (UUID orderItemUuid, OrderItemRequest request);
 
 
 }

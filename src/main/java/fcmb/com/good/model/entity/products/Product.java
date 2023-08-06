@@ -2,8 +2,6 @@ package fcmb.com.good.model.entity.products;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.services.Services;
-import fcmb.com.good.model.entity.transaction.OrderItems;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,6 +21,8 @@ public class Product extends BaseEntity {
     private String category;
     private String brand;
     private String name;
+    private String room;
+    private String productStatus;
     private String description;
     private Integer quantity;
     private Double salesPrice;
@@ -39,6 +39,8 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private List<ProductFacility> productFacilityList;
 
+//    @OneToMany(mappedBy = "product")
+//    private List<SubService> subServiceList;
 
     public Product(){}
 

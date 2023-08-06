@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 public class OrderItems extends BaseEntity {
 
     private String itemName;
+    private String room;
     private Double salesPrice;
     private Integer quantity;
     private Double amount;

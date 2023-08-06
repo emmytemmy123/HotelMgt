@@ -26,11 +26,9 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Query("select st from Orders st where st.customer.uuid=:customerUuid")
     List<Orders> findOrdersByCustomer(@Param("customerUuid") UUID customerUuid);
 
-    @Query("select st from Orders st where st.dateCreated=:dateCreated")
-    List<Orders> searchOrderByDateCreated(@Param("dateCreated") LocalDateTime dateCreated);
-
-//    @Query( value = "select * from orders where month(date_created) =:month and year(date_created) =:year", nativeQuery = true)
-//    List<Orders> searchOrderByDateCreated(@Param("month")Integer month, @Param("year") Integer year);
+//    @Query("select st from Orders st where st.dateCreated=:dateCreated")
+    @Query("SELECT p FROM Orders p WHERE p.dateCreated LIKE CONCAT('%',:query, '%')")
+    List<Orders> searchOrderByDateCreated(String query);
 
     @Query( value = "select * from orders where month(date_created) =:month and year(date_created) =:year order by id Desc limit 1", nativeQuery = true)
     List<Orders> findOrderForCurrentDate(@Param("month")Integer month, @Param("year") Integer year);

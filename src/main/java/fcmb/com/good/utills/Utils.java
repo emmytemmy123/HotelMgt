@@ -35,8 +35,7 @@ public class Utils {
         };
     }
 
-    public static Workbook getWorkbook(String excelFilePath)
-            throws IOException {
+    public static Workbook getWorkbook(String excelFilePath) throws IOException {
         Workbook workbook = null;
 
         if (excelFilePath.endsWith("xlsx")) {
@@ -112,10 +111,10 @@ public class Utils {
         return fl;
     }
 
-    public static String getDate(Date d){
+    public static String getDate(Date date){
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd");
         ft.setTimeZone(TimeZone.getTimeZone("GMT+01"));
-        return ft.format(d);
+        return ft.format(date);
     }
 
     public static String getNewFileName(String path, String name) {

@@ -32,20 +32,20 @@ public class CustomerRequest {
      @NotEmpty(message = INVALID_PHONE)
      private String phone;
 
-     @NotNull(message = INVALID_GENDER)
-      @NotEmpty(message = INVALID_GENDER)
+//     @NotNull(message = INVALID_GENDER)
+//      @NotEmpty(message = INVALID_GENDER)
      private String gender;
 
      @NotNull(message = INVALID_ADDRESS)
      @NotEmpty(message = INVALID_ADDRESS)
      private String address;
 
-     @NotNull(message = INVALID_COUNTRY)
-     @NotEmpty(message = INVALID_COUNTRY)
+//     @NotNull(message = INVALID_COUNTRY)
+//     @NotEmpty(message = INVALID_COUNTRY)
      private String country;
 
-     @NotNull(message = INVALID_CITY)
-     @NotEmpty(message = INVALID_CITY)
+//     @NotNull(message = INVALID_CITY)
+//     @NotEmpty(message = INVALID_CITY)
      private String city;
 
      @NotNull(message = INVALID_NIN)
@@ -64,12 +64,8 @@ public class CustomerRequest {
      @NotEmpty(message = INVALID_PASSWORD)
      private String password;
 
-     @NotNull(message = INVALID_USERNAME)
-     @NotEmpty(message = INVALID_USERNAME)
-     private String role;
 
-     @NotNull(message = INVALID_PASSWORD)
-//     @NotEmpty(message = INVALID_PASSWORD)
-     private UUID createdById;
+
+
 
 }

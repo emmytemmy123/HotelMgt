@@ -2,6 +2,8 @@ package fcmb.com.good.model.dto.response.productsResponse;
 
 
 import fcmb.com.good.model.dto.BaseDto;
+import fcmb.com.good.model.dto.response.servicesResponse.SubServiceHelper;
+import fcmb.com.good.model.entity.services.SubService;
 import lombok.Data;
 
 import java.sql.Date;
@@ -23,6 +25,8 @@ public class ProductResponse extends BaseDto {
      private String postedBy;
 
      private List<ProductHelperResponse> productFacilityList;
+
+     private List<SubServiceHelper> subServiceList;
 
 
 }

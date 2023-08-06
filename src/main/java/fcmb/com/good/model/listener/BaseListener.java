@@ -7,7 +7,7 @@ import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.model.entity.others.Hotel;
 import fcmb.com.good.model.entity.products.*;
 import fcmb.com.good.model.entity.products.ProductFacility;
-import fcmb.com.good.model.entity.services.Services;
+import fcmb.com.good.model.entity.services.SubServiceRequest;
 import fcmb.com.good.model.entity.services.SubService;
 import fcmb.com.good.model.entity.transaction.*;
 import fcmb.com.good.model.entity.transaction.Orders;
@@ -58,9 +58,9 @@ public class BaseListener {
             product.setUuid(UUID.randomUUID());
         }
 
-        else if(data instanceof Services){
-            Services services = (Services) data;
-            services.setUuid(UUID.randomUUID());
+        else if(data instanceof SubServiceRequest){
+            SubServiceRequest subServiceRequest = (SubServiceRequest) data;
+            subServiceRequest.setUuid(UUID.randomUUID());
         }
         else if(data instanceof AccountCategory){
             AccountCategory accountCategory = (AccountCategory) data;

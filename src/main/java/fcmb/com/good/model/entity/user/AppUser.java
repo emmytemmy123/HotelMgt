@@ -17,11 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 public class AppUser extends BaseUser {
 
-
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "roleId", referencedColumnName = "id")
-    private List<Role> roles = new ArrayList<Role>();
-
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "userTypeId", referencedColumnName = "id")
     private List<UserType> usertype = new ArrayList<UserType>();

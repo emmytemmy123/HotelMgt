@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 public class OrdersResponse extends BaseDto {
 
-    private Integer orderNo;
+    private String orderNo;
     private String orderBy;
     private Double amount;
     private Double amountDue;

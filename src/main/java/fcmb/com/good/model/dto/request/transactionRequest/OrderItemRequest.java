@@ -13,16 +13,16 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @Data
 public class OrderItemRequest {
 
-    @NotNull(message = INVALID_NAME)
+//    @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
     private Integer quantity;
 
-    @NotNull(message = INVALID_NAME)
-    @NotEmpty(message = INVALID_NAME)
-    private String serviceName;
+//    @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
+    private String roomStatus;
 
-    @NotNull(message = INVALID_NAME)
-    @NotEmpty(message = INVALID_NAME)
+//    @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
     private String description;
 
     @NotNull(message = INVALID_NAME)

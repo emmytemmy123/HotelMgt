@@ -66,20 +66,11 @@ public class SubServiceImpl implements SubServiceService {
         AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Customer existingCustomer  = customerRepository.findByUuid(request.getCustomerId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
-        Product existingProduct  = productRepository.findByUuid(request.getProductId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
         SubService subService = new SubService();
 
         subService.setServiceName(request.getServiceName());
         subService.setUnitCost(request.getUnitCost());
-        subService.setNoOfOccupant(request.getNoOfOccupant());
         subService.setCreatedBy(existingUser);
-        subService.setCustomer(existingCustomer);
-        subService.setProduct(existingProduct);
 
         subServiceRepository.save(subService);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
@@ -106,7 +97,7 @@ public class SubServiceImpl implements SubServiceService {
      * Create the subServiceOptional definition and get the product Optional by uuid
      * @return the list of subService and a Success Message
      * * */
-    public ApiResponse<SubServiceResponse> getSubServiceById(@RequestParam("id")UUID subServiceId) {
+    public ApiResponse<SubServiceResponse> getSubServiceById(UUID subServiceId) {
 
         Optional<SubService> subServiceOptional = subServiceRepository.findByUuid(subServiceId);
         if(subServiceOptional.isEmpty())
@@ -141,9 +132,9 @@ public class SubServiceImpl implements SubServiceService {
     public ApiResponse<String> updateSubService(UUID subServiceId, SubServiceRequest request) {
 
         SubService subService = validateSubService(subServiceId);
+
         subService.setServiceName(request.getServiceName());
         subService.setUnitCost(request.getUnitCost());
-        subService.setNoOfOccupant(request.getNoOfOccupant());
 
         subServiceRepository.save(subService);
         return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),

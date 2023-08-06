@@ -24,8 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static fcmb.com.good.model.dto.enums.AppStatus.FAILED;
-import static fcmb.com.good.utills.MessageUtil.FILE_TOO_LARGE;
-import static fcmb.com.good.utills.MessageUtil.SERVER_ERROR;
+import static fcmb.com.good.utills.MessageUtil.*;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.*;
@@ -36,9 +35,11 @@ import static org.springframework.http.HttpStatus.*;
 public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(MaxUploadSizeExceededException.class)
+
     public ResponseEntity<ApiResponse> handleMaxSizeException(MaxUploadSizeExceededException exc) {
-        return ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED, ResponseCode.FAILED,FILE_TOO_LARGE));
+        return ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED, ResponseCode.FAILED, FILE_TOO_LARGE));
     }
+
     @Override
     protected ResponseEntity handleMethodArgumentNotValid(
             MethodArgumentNotValidException ex,
@@ -122,6 +123,7 @@ public class GlobalErrorHandler extends ResponseEntityExceptionHandler {
         log.warn("An error occur  {}", exception.fillInStackTrace().getMessage());
         return ResponseEntity.ok(new ApiResponse<>(MessageUtil.FAILED, ResponseCode.BAD_REQUEST, SERVER_ERROR));
     }
+
 
 
 }

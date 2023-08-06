@@ -22,17 +22,15 @@ public class SubServiceRequest {
     private Double unitCost;
 
     @NotNull(message = INVALID_NAME)
-    @Min(value = 1, message = INVALID_NAME)
-    private Integer noOfOccupant;
-
-    @NotNull(message = INVALID_NAME)
     private UUID createdById;
 
-    @NotNull(message = INVALID_NAME)
-    private UUID customerId;
+//    @NotNull(message = INVALID_NAME)
+//    @Min(value = 1, message = INVALID_NAME)
+//    private Integer noOfOccupant;
 
-    @NotNull(message = INVALID_NAME)
-    private UUID productId;
+
+
+
 
 
 }

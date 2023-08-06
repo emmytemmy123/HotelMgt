@@ -5,11 +5,13 @@ import fcmb.com.good.model.dto.Others.MailUser;
 import fcmb.com.good.services.mail.MailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.UUID;
 
 @Controller
+@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class MailController {
 

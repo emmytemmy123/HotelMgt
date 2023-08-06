@@ -17,32 +17,31 @@ public class TestData {
 //    private final UserRepository userRepository;
 
 
-
     public static List<AppUser> addUser() {
         
         List list = new ArrayList<>();
 
         AppUser user = new AppUser();
-//        user.setName("Adeniyi");
-//        user.setEmail("emmy@gmail.com");
-//        user.setAddress("No 4 Adebola Street");
+
+        user.setName("Adeniyi");
+        user.setEmail("emmy@gmail.com");
+        user.setAddress("No 4 Adebola Street");
         user.setUsername("emmytemmy123");
         user.setPassword("emmytemmy");
 
         user = new AppUser();
-//        user.setName("Emmanuel");
-//        user.setEmail("emmytemmy@gmail.com");
-//        user.setAddress("No 4 Adebola Street");
+        user.setName("Emmanuel");
+        user.setEmail("emmytemmy@gmail.com");
+        user.setAddress("No 4 Adebola Street");
         user.setUsername("emmadex");
         user.setPassword("emmytemmy");
 
         user = new AppUser();
-//        user.setName("John");
-//        user.setEmail("john@gmail.com");
-//        user.setAddress("No 4 Adebola Street");
+        user.setName("John");
+        user.setEmail("john@gmail.com");
+        user.setAddress("No 4 Adebola Street");
         user.setUsername("johnny");
         user.setPassword("joshua123");
-
 
         return List.of(user);
 
@@ -53,9 +52,9 @@ public class TestData {
         AppUser user = new AppUser();
 
         user.setId(2L);
-//        user.setName("John");
-//        user.setEmail("john@gmail.com");
-//        user.setAddress("No 4 Adebola Street");
+        user.setName("John");
+        user.setEmail("john@gmail.com");
+        user.setAddress("No 4 Adebola Street");
         user.setUsername("johnny");
         user.setPassword("joshua123");
         return List.of(user);
@@ -64,7 +63,6 @@ public class TestData {
 
     public static String getContentType() {
         return "application/json";
-
     }
 
 
@@ -76,8 +74,8 @@ public class TestData {
         user.setName("Emmanuel");
         user.setEmail("emmytemmy@gmail.com");
         user.setAddress("No 4 Adebola Street");
-        user.setUsername("emmadex");
-        user.setPassword("emmytemmy");
+        user.setUsername("homemade");
+        user.setPassword("jemmy");
 
         return user;
     }

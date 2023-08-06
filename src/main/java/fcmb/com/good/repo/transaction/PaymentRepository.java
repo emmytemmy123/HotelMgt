@@ -16,9 +16,8 @@ import java.util.UUID;
 @Repository
 public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
-
-    @Query(value = "SELECT * FROM payment WHERE date_created BETWEEN 'start_date' AND 'end_date'", nativeQuery = true)
-    List<Payment> findByDateCreatedBetween (@Param("start_date") String from, @Param("end_date") String to);
+    @Query(value = "SELECT * FROM payment WHERE date_created BETWEEN :start_date AND :end_date", nativeQuery = true)
+    List<Payment> findByDateCreatedBetween ( String start_date, String end_date);
 
     @Query("select st from Payment st where st.uuid=:recordId")
     Optional<Payment> findByUuid(@Param("recordId") UUID uuid);
@@ -31,8 +30,8 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
 
 //    Optional<Payment> findByName(String name);
 
-    @Query("SELECT st FROM Payment st WHERE st.dateCreated =:dateCreated")
-    List<Payment> findByDateCreated(@Param("dateCreated") LocalDateTime dateCreated);
+    @Query("SELECT st FROM Payment st WHERE st.dateCreated LIKE CONCAT('%',:query,'%') ")
+    List<Payment> findByDateCreated(String query);
 
     @Query("select st from Payment st where st.order.customer.createdBy.uuid=:recordId")
     List<Payment> findPaymentBySalesPerson(@Param("recordId") UUID uuid);

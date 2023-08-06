@@ -21,7 +21,8 @@ public class BaseUser extends BaseEntity {
     private String city;
     private String username;
     private String password;
-    private String role;
+    private String roles;
+    private boolean active;
 
 
 }

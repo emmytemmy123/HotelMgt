@@ -79,7 +79,6 @@ public class ProductServiceImpl implements ProductService {
      * @return the list of products and a Success Message* *
      * * */
     public ApiResponse<ProductResponse> getProductById(UUID productId) {
-//        if(jwtFilter.isAdmin()){
 
         Optional<Product> productOptional = productRepository.findByUuid(productId);
 
@@ -91,9 +90,7 @@ public class ProductServiceImpl implements ProductService {
         return new ApiResponse<ProductResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 Mapper.convertObject(product,ProductResponse.class));
     }
-//        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
-//                "You are not Authorized");
-//    }
+
 
     /**
      * @validating products by uuid*
@@ -138,8 +135,9 @@ public class ProductServiceImpl implements ProductService {
         product.setCategory(request.getCategory());
         product.setBrand(request.getBrand());
         product.setName(request.getName());
+        product.setRoom(request.getRoomNo());
         product.setDescription(request.getDescription());
-        product.setQuantity((product.getQuantity())+(request.getQuantity()));
+        product.setQuantity(request.getQuantity());
         product.setSalesPrice(request.getSalesPrice());
         product.setDurations(request.getDurations());
         product.setPurchasePrice(request.getPurchasedPrice());
@@ -170,7 +168,7 @@ public class ProductServiceImpl implements ProductService {
         product.setBrand(request.getBrand());
         product.setName(request.getName());
         product.setDescription(request.getDescription());
-        product.setQuantity(product.getQuantity()+request.getQuantity());
+        product.setQuantity(Integer.sum(product.getQuantity(),request.getQuantity()));
         product.setSalesPrice(request.getSalesPrice());
         product.setDurations(request.getDurations());
         product.setPurchasePrice(request.getPurchasedPrice());
@@ -181,6 +179,7 @@ public class ProductServiceImpl implements ProductService {
         return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record updated successfully");
         }
+
 //        return new ApiResponse(AppStatus.REJECT.label, HttpStatus.EXPECTATION_FAILED.value(),
 //                "You are not Authorized");
 //    }

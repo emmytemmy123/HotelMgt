@@ -6,10 +6,12 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.assetsRequest.AssetsCategoryRequest;
 import fcmb.com.good.model.dto.response.assetsResponse.AssetsCategoryResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
+import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.assets.AssetsCategory;
-import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.user.Users;
+import fcmb.com.good.repo.activityLog.ActivityLogRepository;
 import fcmb.com.good.repo.assets.AssetsCategoryRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -26,7 +29,8 @@ import java.util.UUID;
 public class AssetsCategoryServiceImpl implements AssetsCategoryService {
 
     private final AssetsCategoryRepository assetsCategoryRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
+    private final ActivityLogRepository activityLogRepository;
 
     @Override
     /**
@@ -54,7 +58,7 @@ public class AssetsCategoryServiceImpl implements AssetsCategoryService {
 
         Optional<AssetsCategory> assetsCategoryOptional = validateDuplicateAssetsCategory(request.getName());
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         if (!assetsCategoryOptional.isEmpty()) {
@@ -68,6 +72,15 @@ public class AssetsCategoryServiceImpl implements AssetsCategoryService {
         assetsCategory.setCreatedBy(existingUser);
 
         assetsCategoryRepository.save(assetsCategory);
+
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setName("assetCategory");
+        activityLog.setCategory("add");
+        activityLog.setDescription("this is a assetCategory add log");
+        activityLog.setPerformedBy(existingUser.getName());
+        activityLog.setPerformedDate(LocalDateTime.now());
+
+        activityLogRepository.save(activityLog);
 
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Added successfully");
@@ -140,6 +153,16 @@ public class AssetsCategoryServiceImpl implements AssetsCategoryService {
         assetsCategory.setDescription(request.getDescription());
 
         assetsCategoryRepository.save(assetsCategory);
+
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setName("assetCategory");
+        activityLog.setCategory("update");
+        activityLog.setDescription("this is a assetCategory update log");
+        activityLog.setPerformedBy(String.valueOf(assetsCategory.getCreatedBy()));
+        activityLog.setPerformedDate(LocalDateTime.now());
+
+        activityLogRepository.save(activityLog);
+
         return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record updated successfully");
     }

@@ -6,6 +6,7 @@ import lombok.Data;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
@@ -13,23 +14,28 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @Data
 public class OrderItemRequest {
 
-//    @NotNull(message = INVALID_NAME)
+    @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
     private Integer quantity;
 
-//    @NotNull(message = INVALID_NAME)
+    @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
+    private String description;
+
+    @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
     private String roomStatus;
 
-//    @NotNull(message = INVALID_NAME)
+    @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
-    private String description;
+    private String productStatus;
 
     @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
     private UUID productId;
 
 
+    private List<OrderItemRequest> items;
 
 
 

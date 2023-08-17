@@ -8,19 +8,15 @@ import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.AccountChartResponse;
 import fcmb.com.good.model.entity.transaction.AccountCategory;
 import fcmb.com.good.model.entity.transaction.AccountChart;
-import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Customer;
+import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.transaction.AccountCategoryRepository;
 import fcmb.com.good.repo.transaction.AccountChartRepository;
-import fcmb.com.good.repo.user.CustomerRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,8 +27,7 @@ import java.util.UUID;
 public class AccountChartServiceImpl implements AccountChartService {
 
     private  final AccountChartRepository accountChartRepository;
-    private final CustomerRepository customerRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
     private final AccountCategoryRepository accountCategoryRepository;
 
 
@@ -80,11 +75,10 @@ public class AccountChartServiceImpl implements AccountChartService {
                         (request.getAccountCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Customer existingCustomer  = customerRepository.findByUuid(request.getCurrentCustomerId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
+
 
         AccountChart accountChart = new AccountChart();
 
@@ -93,8 +87,7 @@ public class AccountChartServiceImpl implements AccountChartService {
         accountChart.setAccountName(request.getAccountName());
         accountChart.setAccountNo(request.getAccountNo());
         accountChart.setBalance(request.getBalance());
-        accountChart.setCurrentCustomer(existingCustomer.getName());
-        accountChart.setCustomer(existingCustomer);
+        accountChart.setCurrentCustomer(existingUser.getName());
         accountChart.setCreatedBy(existingUser);
         accountChart.setAccountCategory(existingAccountCategory);
 

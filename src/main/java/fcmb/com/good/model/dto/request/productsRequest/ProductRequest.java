@@ -15,12 +15,12 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @Data
 public class ProductRequest  {
 
-     @NotNull(message = INVALID_NAME)
-     @NotEmpty(message = INVALID_NAME)
+//     @NotNull(message = INVALID_NAME)
+//     @NotEmpty(message = INVALID_NAME)
      private String name;
 
-     @NotNull(message = INVALID_NAME)
-     @NotEmpty(message = INVALID_NAME)
+//     @NotNull(message = INVALID_NAME)
+//     @NotEmpty(message = INVALID_NAME)
      private String roomNo;
 
      @NotNull(message = INVALID_NAME)
@@ -35,13 +35,13 @@ public class ProductRequest  {
 //   @NotEmpty(message = INVALID_NAME)
      private Date expDate;
 
-     @NotNull(message = INVALID_NAME)
-     @NotEmpty(message = INVALID_NAME)
+//     @NotNull(message = INVALID_NAME)
+//     @NotEmpty(message = INVALID_NAME)
      private String description;
 
-     @NotNull(message = INVALID_NAME)
-     @Min(value = 1, message = INVALID_NAME)
-     private Integer durations;
+//     @NotNull(message = INVALID_NAME)
+//     @Min(value = 1, message = INVALID_NAME)
+//     private Integer durations;
 
      @NotNull(message = INVALID_NAME)
      @Min(value=50, message = INVALID_NAME)

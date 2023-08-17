@@ -63,7 +63,7 @@ public class ServiceController {
 
     @PostMapping(ADD_SUB_SERVICE_REQUEST)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR') ")
-    @ApiOperation(value = "Endpoint for adding new subServicerEQUEST to database", response = String.class)
+    @ApiOperation(value = "Endpoint for adding new subServiceREQUEST to database", response = String.class)
     public ApiResponse<String> addSubServiceRequest(@RequestBody SubServiceRequest2 request) {
         return subServiceRequestService.addSubServiceRequest(request);
     }

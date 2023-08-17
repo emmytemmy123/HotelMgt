@@ -2,14 +2,12 @@ package fcmb.com.good.model.entity.assets;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
-import java.util.UUID;
 
 
 @Data
@@ -31,7 +29,7 @@ public class DamagedAssets extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdById", updatable = true)
-    private AppUser createdBy;
+    private Users createdBy;
 
     public DamagedAssets(){
 

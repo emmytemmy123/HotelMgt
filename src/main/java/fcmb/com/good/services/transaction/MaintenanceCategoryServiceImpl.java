@@ -8,10 +8,10 @@ import fcmb.com.good.model.dto.request.transactionRequest.MaintenanceCategoryReq
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.MaintenanceCategoryResponse;
 import fcmb.com.good.model.entity.transaction.MaintenanceCategory;
-import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.transaction.MaintenanceCategoryRepository;
 import fcmb.com.good.repo.transaction.MaintenanceRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -28,7 +28,7 @@ public class MaintenanceCategoryServiceImpl implements MaintenanceCategoryServic
 
     private final MaintenanceCategoryRepository maintenanceCategoryRepository;
     private final MaintenanceRepository maintenanceRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
 
     @Override
     /**
@@ -65,7 +65,7 @@ public class MaintenanceCategoryServiceImpl implements MaintenanceCategoryServic
                     "Duplicate Record");
         }
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         MaintenanceCategory maintenanceCategory = new MaintenanceCategory();

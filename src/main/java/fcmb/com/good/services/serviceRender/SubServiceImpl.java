@@ -6,20 +6,16 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.servicesRequest.SubServiceRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
-import fcmb.com.good.model.entity.products.Product;
-import fcmb.com.good.model.entity.services.SubService;
-import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Customer;
+import fcmb.com.good.model.entity.services.ServiceCategory;
+import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.products.ProductRepository;
 import fcmb.com.good.repo.services.SubServiceRepository;
-import fcmb.com.good.repo.user.CustomerRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,8 +26,7 @@ import java.util.UUID;
 public class SubServiceImpl implements SubServiceService {
 
     private final SubServiceRepository subServiceRepository;
-    private final UserRepository userRepository;
-    private final CustomerRepository customerRepository;
+    private final UsersRepository usersRepository;
     private final ProductRepository productRepository;
 
 
@@ -43,12 +38,12 @@ public class SubServiceImpl implements SubServiceService {
      * * */
     public ApiResponse<List<SubServiceResponse>> getListOfSubService(int page, int size) {
 
-        List<SubService> subServiceList = subServiceRepository.findAll(PageRequest.of(page,size)).toList();
-        if(subServiceList.isEmpty())
+        List<ServiceCategory> serviceCategoryList = subServiceRepository.findAll(PageRequest.of(page,size)).toList();
+        if(serviceCategoryList.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(subServiceList, SubServiceResponse.class));
+                Mapper.convertList(serviceCategoryList, SubServiceResponse.class));
     }
 
 
@@ -63,16 +58,16 @@ public class SubServiceImpl implements SubServiceService {
 
         validateDuplicateSubService(request.getServiceName());
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        SubService subService = new SubService();
+        ServiceCategory serviceCategory = new ServiceCategory();
 
-        subService.setServiceName(request.getServiceName());
-        subService.setUnitCost(request.getUnitCost());
-        subService.setCreatedBy(existingUser);
+        serviceCategory.setServiceName(request.getServiceName());
+        serviceCategory.setUnitCost(request.getUnitCost());
+        serviceCategory.setCreatedBy(existingUser);
 
-        subServiceRepository.save(subService);
+        subServiceRepository.save(serviceCategory);
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record created successfully");
 
@@ -84,7 +79,7 @@ public class SubServiceImpl implements SubServiceService {
      * @Validate if the List of existingSubServiceOptional is empty otherwise return Duplicate Record
      * * */
     private void validateDuplicateSubService(String serviceName){
-        Optional<SubService> existingSubServiceOptional = subServiceRepository.findByName(serviceName);
+        Optional<ServiceCategory> existingSubServiceOptional = subServiceRepository.findByName(serviceName);
         if(existingSubServiceOptional.isPresent())
             throw new RecordNotFoundException("Duplicate record");
     }
@@ -99,14 +94,14 @@ public class SubServiceImpl implements SubServiceService {
      * * */
     public ApiResponse<SubServiceResponse> getSubServiceById(UUID subServiceId) {
 
-        Optional<SubService> subServiceOptional = subServiceRepository.findByUuid(subServiceId);
+        Optional<ServiceCategory> subServiceOptional = subServiceRepository.findByUuid(subServiceId);
         if(subServiceOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        SubService subService = subServiceOptional.get();
+        ServiceCategory serviceCategory = subServiceOptional.get();
 
         return new ApiResponse<SubServiceResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertObject(subService,SubServiceResponse.class));
+                Mapper.convertObject(serviceCategory,SubServiceResponse.class));
 
     }
 
@@ -116,7 +111,7 @@ public class SubServiceImpl implements SubServiceService {
      * @Validate if subService is empty otherwise return record not found
      * @return subService
      * * */
-    private SubService validateSubService(UUID uuid){
+    private ServiceCategory validateSubService(UUID uuid){
         return subServiceRepository.findByUuid(uuid).orElseThrow(()->
                 new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
     }
@@ -126,17 +121,17 @@ public class SubServiceImpl implements SubServiceService {
     /**
      * @Validating the list of existingSubService by uuid
      * @Validate if the List of existingSubService is empty otherwise return record not found
-     * Create the SubService definition and save
+     * Create the ServiceCategory definition and save
      * @return a Success Message
      * * */
     public ApiResponse<String> updateSubService(UUID subServiceId, SubServiceRequest request) {
 
-        SubService subService = validateSubService(subServiceId);
+        ServiceCategory serviceCategory = validateSubService(subServiceId);
 
-        subService.setServiceName(request.getServiceName());
-        subService.setUnitCost(request.getUnitCost());
+        serviceCategory.setServiceName(request.getServiceName());
+        serviceCategory.setUnitCost(request.getUnitCost());
 
-        subServiceRepository.save(subService);
+        subServiceRepository.save(serviceCategory);
         return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record updated successfully");
 
@@ -151,8 +146,8 @@ public class SubServiceImpl implements SubServiceService {
      * * */
     public ApiResponse<String> deleteSubService(UUID subServiceId) {
 
-        SubService subService = validateSubService(subServiceId);
-        subServiceRepository.delete(subService);
+        ServiceCategory serviceCategory = validateSubService(subServiceId);
+        subServiceRepository.delete(serviceCategory);
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Deleted successfully");
 
@@ -162,13 +157,13 @@ public class SubServiceImpl implements SubServiceService {
     @Override
     public ApiResponse<List<SubServiceResponse>> searchSubServiceByName(String serviceName) {
 
-        List<SubService> searchSubServiceByName = subServiceRepository.searchSubServiceByName(serviceName);
+        List<ServiceCategory> searchServiceCategoryByName = subServiceRepository.searchSubServiceByName(serviceName);
 
-        if(searchSubServiceByName.isEmpty())
+        if(searchServiceCategoryByName.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(searchSubServiceByName, SubServiceResponse.class));
+                Mapper.convertList(searchServiceCategoryByName, SubServiceResponse.class));
 
     }
 

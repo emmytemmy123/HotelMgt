@@ -7,12 +7,14 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.assetsRequest.AssetsRequest;
 import fcmb.com.good.model.dto.response.assetsResponse.AssetsResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
+import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.assets.Assets;
 import fcmb.com.good.model.entity.assets.AssetsCategory;
-import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.user.Users;
+import fcmb.com.good.repo.activityLog.ActivityLogRepository;
 import fcmb.com.good.repo.assets.AssetsCategoryRepository;
 import fcmb.com.good.repo.assets.AssetsRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -20,6 +22,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -29,8 +32,9 @@ import java.util.UUID;
 public class AssetsServiceImp implements AssetsService {
 
     private final AssetsRepository assetsRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
     private final AssetsCategoryRepository assetsCategoryRepository;
+    private final ActivityLogRepository activityLogRepository;
 
 
     @Override
@@ -61,7 +65,7 @@ public class AssetsServiceImp implements AssetsService {
 
         Optional<Assets> assetsOptional = validateDuplicateAssets(request.getName());
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         AssetsCategory existingAssetCategory  = assetsCategoryRepository.findByUuid(request.getAssetsCategoryId())
@@ -84,6 +88,15 @@ public class AssetsServiceImp implements AssetsService {
         assets.setAssetsCategory(existingAssetCategory);
 
         assetsRepository.save(assets);
+
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setName("asset");
+        activityLog.setCategory("add");
+        activityLog.setDescription("this is a asset add log");
+        activityLog.setPerformedBy(existingUser.getName());
+        activityLog.setPerformedDate(LocalDateTime.now());
+
+        activityLogRepository.save(activityLog);
 
         return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Added successfully");
@@ -147,6 +160,16 @@ public class AssetsServiceImp implements AssetsService {
         assets.setCode(request.getCode());
 
         assetsRepository.save(assets);
+
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setName("asset");
+        activityLog.setCategory("add");
+        activityLog.setDescription("this is a asset add log");
+        activityLog.setPerformedBy(String.valueOf(assets.getCreatedBy()));
+        activityLog.setPerformedDate(LocalDateTime.now());
+
+        activityLogRepository.save(activityLog);
+
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated Successfully");
     }

@@ -21,13 +21,10 @@ public class PaymentRequest  {
 
        @NotNull(message = INVALID_NAME)
        @Min(value=50, message = INVALID_NAME)
-       private Double amount;
+       private Double amountPaid;
 
        @NotNull(message = INVALID_NAME)
        private UUID ordersId;
-
-        @NotNull(message = INVALID_NAME)
-        private UUID subServiceId;
 
         @NotNull(message = INVALID_NAME)
         private String tranReference;

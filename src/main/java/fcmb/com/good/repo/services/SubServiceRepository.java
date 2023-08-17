@@ -1,7 +1,7 @@
 package fcmb.com.good.repo.services;
 
 
-import fcmb.com.good.model.entity.services.SubService;
+import fcmb.com.good.model.entity.services.ServiceCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -13,26 +13,26 @@ import java.util.UUID;
 
 
 @Repository
-public interface SubServiceRepository extends JpaRepository<SubService, Long> {
+public interface SubServiceRepository extends JpaRepository<ServiceCategory, Long> {
 
-//    @Query("select st from SubService st where st.product.uuid=:productUuid")
-//    List<SubService> findByRooms(@Param("productUuid") UUID productUuid);
+//    @Query("select st from ServiceCategory st where st.product.uuid=:productUuid")
+//    List<ServiceCategory> findByRooms(@Param("productUuid") UUID productUuid);
 
-//    @Query("select st from SubService st where st.customer.uuid=:customerUuid and st.product.uuid=:productUuid")
-//    List<SubService> findSubServiceByCustomerAndRoom(@Param("customerUuid") UUID customerUuid, @Param("productUuid")UUID productUuid);
+//    @Query("select st from ServiceCategory st where st.customer.uuid=:customerUuid and st.product.uuid=:productUuid")
+//    List<ServiceCategory> findSubServiceByCustomerAndRoom(@Param("customerUuid") UUID customerUuid, @Param("productUuid")UUID productUuid);
 
-    @Query("select st from SubService st where st.uuid=:recordId")
-    Optional<SubService> findByUuid(@Param("recordId") UUID uuid);
+    @Query("select st from ServiceCategory st where st.uuid=:recordId")
+    Optional<ServiceCategory> findByUuid(@Param("recordId") UUID uuid);
 
-    @Query("delete from SubService st where st.uuid=:recordId")
-    Optional<SubService> deleteByUuid(@Param("recordId")UUID uuid);
+    @Query("delete from ServiceCategory st where st.uuid=:recordId")
+    Optional<ServiceCategory> deleteByUuid(@Param("recordId")UUID uuid);
 
-    @Query("select st from SubService st where st.serviceName=:recordId")
-    Optional<SubService> findByName(@Param("recordId") String serviceName);
+    @Query("select st from ServiceCategory st where st.serviceName=:recordId")
+    Optional<ServiceCategory> findByName(@Param("recordId") String serviceName);
 
-    @Query("SELECT st FROM SubService st WHERE " +
+    @Query("SELECT st FROM ServiceCategory st WHERE " +
             "st.serviceName LIKE CONCAT('%',:query, '%')" )
-    List<SubService> searchSubServiceByName(String query);
+    List<ServiceCategory> searchSubServiceByName(String query);
 
 
 

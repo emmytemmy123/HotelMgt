@@ -7,7 +7,7 @@ import lombok.Data;
 public class SubServiceHelper  {
 
     private String serviceName;
-    private Double unitCost;
+    private Double price;
     private Integer noOfOccupant;
 
 }

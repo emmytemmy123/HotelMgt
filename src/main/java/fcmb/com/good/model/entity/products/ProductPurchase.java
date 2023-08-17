@@ -2,7 +2,7 @@ package fcmb.com.good.model.entity.products;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
-import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,11 +32,11 @@ public class ProductPurchase extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "createdBy", updatable = true, insertable=true)
-    private AppUser createdBy;
+    private Users createdBy;
 
     @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @JoinColumn(name = "productCategory", updatable = true)
-    private ProductType productCategory;
+    private ProductCategory productCategory;
 
     public ProductPurchase(){}
 

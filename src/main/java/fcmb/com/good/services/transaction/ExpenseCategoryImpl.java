@@ -7,10 +7,10 @@ import fcmb.com.good.model.dto.request.transactionRequest.ExpenseCategoryRequest
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.ExpenseCategoryResponse;
 import fcmb.com.good.model.entity.transaction.ExpenseCategory;
-import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.transaction.ExpenseCategoryRepository;
 import fcmb.com.good.repo.transaction.ExpensesRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +27,7 @@ public class ExpenseCategoryImpl implements ExpenseCategoryService{
 
     private final ExpenseCategoryRepository expenseCategoryRepository;
     private final ExpensesRepository expensesRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
 
     @Override
     /**
@@ -59,7 +59,7 @@ public class ExpenseCategoryImpl implements ExpenseCategoryService{
 
         Optional<ExpenseCategory> expenseCategoryOptional = validateDuplicateExpenseCategory(request.getName());
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         if (!expenseCategoryOptional.isEmpty()) {

@@ -6,23 +6,17 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.MaintenanceRequest;
 import fcmb.com.good.model.dto.response.transactionResponse.MaintenanceResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.entity.transaction.ExpenseCategory;
-import fcmb.com.good.model.entity.transaction.Expenses;
 import fcmb.com.good.model.entity.transaction.Maintenance;
 import fcmb.com.good.model.entity.transaction.MaintenanceCategory;
-import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Employee;
+import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.transaction.MaintenanceCategoryRepository;
 import fcmb.com.good.repo.transaction.MaintenanceRepository;
-import fcmb.com.good.repo.user.EmployeeRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -33,8 +27,7 @@ import java.util.UUID;
 public class MaintenanceServiceImpl implements MaintenanceService {
 
     private  final MaintenanceRepository maintenanceRepository;
-    private final UserRepository userRepository;
-    private final EmployeeRepository employeeRepository;
+    private final UsersRepository usersRepository;
     private final MaintenanceCategoryRepository maintenanceCategoryRepository;
 
 
@@ -80,11 +73,9 @@ public class MaintenanceServiceImpl implements MaintenanceService {
 
         validateDuplicateMaintenance(request.getName());
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Employee existingEmployee  = employeeRepository.findByUuid(request.getCurrentEmployeeId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         MaintenanceCategory existingMaintenanceCategory  = maintenanceCategoryRepository.findByUuid(request.getCurrentMaintenanceCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
@@ -99,11 +90,10 @@ public class MaintenanceServiceImpl implements MaintenanceService {
         maintenance.setStatus(request.getStatus());
         maintenance.setQuantity(request.getQuantity());
         maintenance.setAmount((request.getCost())*(request.getQuantity()));
-        maintenance.setMaintainedBy(existingEmployee.getName());
-        maintenance.setRequestedBy(existingEmployee.getName());
+        maintenance.setMaintainedBy(existingUser.getName());
+        maintenance.setRequestedBy(existingUser.getName());
         maintenance.setMaintenanceCategory(existingMaintenanceCategory);
         maintenance.setCreatedBy(existingUser);
-        maintenance.setEmployee(existingEmployee);
 
         maintenanceRepository.save(maintenance);
 

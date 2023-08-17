@@ -33,10 +33,10 @@ public interface PaymentRepository extends JpaRepository<Payment, Long> {
     @Query("SELECT st FROM Payment st WHERE st.dateCreated LIKE CONCAT('%',:query,'%') ")
     List<Payment> findByDateCreated(String query);
 
-    @Query("select st from Payment st where st.order.customer.createdBy.uuid=:recordId")
-    List<Payment> findPaymentBySalesPerson(@Param("recordId") UUID uuid);
+//    @Query("select st from Payment st where st.order.customer.createdBy.uuid=:recordId")
+//    List<Payment> findPaymentBySalesPerson(@Param("recordId") UUID uuid);
 
-    @Query("select st from Payment st where st.order.customer.uuid=:recordId")
-    List<Payment> findPaymentByCustomer(@Param("recordId") UUID uuid);
+//    @Query("select st from Payment st where st.order.customer.uuid=:recordId")
+//    List<Payment> findPaymentByCustomer(@Param("recordId") UUID uuid);
 
 }

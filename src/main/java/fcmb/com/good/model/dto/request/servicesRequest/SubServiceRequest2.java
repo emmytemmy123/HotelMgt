@@ -12,10 +12,10 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @Data
 public class SubServiceRequest2 {
 
-        @NotNull(message = INVALID_NAME)
+//        @NotNull(message = INVALID_NAME)
         private UUID orderId;
 
-        @NotNull(message = INVALID_NAME)
+//        @NotNull(message = INVALID_NAME)
         private UUID subServiceId;
 
         @NotNull(message = INVALID_NAME)

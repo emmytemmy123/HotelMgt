@@ -9,5 +9,4 @@ public class SubServiceResponse extends BaseDto {
     private String serviceName;
     private Double unitCost;
 
-
 }

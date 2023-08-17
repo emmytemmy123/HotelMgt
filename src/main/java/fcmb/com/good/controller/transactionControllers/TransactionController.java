@@ -156,11 +156,6 @@ public class TransactionController {
         return paymentService.addPayment(request);
     }
 
-//    @PostMapping(ADD_PAYMENT_CATEGORY)
-//    @ApiOperation(value = "Endpoint for adding new paymentCategory to database", response = String.class)
-//    public ApiResponse<String> addPaymentCategory(@Valid @RequestBody PaymentCategoryRequest request) {
-//        return paymentCategoryService.addPaymentCategory(request);
-//    }
 
 
     @PostMapping(ADD_ORDER)
@@ -278,6 +273,14 @@ public class TransactionController {
         return ordersService.updateOrder(orderItemUuid, request);
     }
 
+
+    @PutMapping(UPDATE_ORDER_ADD_PRODUCT)
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_USER') ")
+    @ApiOperation(value = "Endpoint for updating ORDER by id and add product from database", response = String.class)
+    public ApiResponse<String> updateOrderAndAddProduct(@PathVariable(value = "id")  UUID orderUuid,
+                                           @RequestBody OrdersRequest2 request) {
+        return ordersService.addProductToExistingOrder(orderUuid, request);
+    }
 
 
 

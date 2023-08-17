@@ -4,9 +4,12 @@ package fcmb.com.good.services.transaction;
 import fcmb.com.good.model.dto.request.orderItemRequest.OrderItemsRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.OrderItemRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.OrdersRequest;
+import fcmb.com.good.model.dto.request.transactionRequest.OrdersRequest2;
+import fcmb.com.good.model.dto.request.transactionRequest.OrdersUpdateRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.OrdersResponse;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
@@ -21,11 +24,14 @@ public interface OrderService {
 
     ApiResponse<String> addOrder(OrdersRequest request);
 
+    ApiResponse<String> updateOrder(UUID orderItemUuid, OrderItemRequest request);
+
+    ApiResponse<String> addProductToExistingOrder(UUID orderUuid, OrdersRequest2 request);
+
     ApiResponse<List<OrdersResponse>> getOrdersByCustomer(UUID customerUuid);
 
     ApiResponse<List<OrdersResponse>> findOrderByDate(String dateCreated);
 
-    ApiResponse<String> updateOrder (UUID orderItemUuid, OrderItemRequest request);
 
 
 }

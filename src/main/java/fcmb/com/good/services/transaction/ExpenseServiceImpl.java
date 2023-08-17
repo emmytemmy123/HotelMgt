@@ -4,28 +4,19 @@ import fcmb.com.good.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.transactionRequest.ExpenseRequest;
-import fcmb.com.good.model.dto.response.productsResponse.ProductResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.ExpenseResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.entity.products.Product;
-import fcmb.com.good.model.entity.transaction.AccountCategory;
-import fcmb.com.good.model.entity.transaction.AccountChart;
 import fcmb.com.good.model.entity.transaction.ExpenseCategory;
 import fcmb.com.good.model.entity.transaction.Expenses;
-import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Customer;
-import fcmb.com.good.model.entity.user.Employee;
+import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.transaction.ExpenseCategoryRepository;
 import fcmb.com.good.repo.transaction.ExpensesRepository;
-import fcmb.com.good.repo.user.EmployeeRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,8 +27,7 @@ import java.util.UUID;
 public class ExpenseServiceImpl implements ExpenseService {
 
     private  final ExpensesRepository expensesRepository;
-    private final UserRepository userRepository;
-    private final EmployeeRepository employeeRepository;
+    private final UsersRepository usersRepository;
     private final ExpenseCategoryRepository expenseCategoryRepository;
 
 
@@ -84,11 +74,9 @@ public class ExpenseServiceImpl implements ExpenseService {
 
         validateDuplicateExpenses(request.getName());
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        Employee existingEmployee  = employeeRepository.findByUuid(request.getCurrentEmployeeId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         ExpenseCategory existingExpenseCategory  = expenseCategoryRepository.findByUuid(request.getCurrentExpenseCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
@@ -101,10 +89,9 @@ public class ExpenseServiceImpl implements ExpenseService {
         expenses.setPrice(request.getPrice());
         expenses.setQuantity(request.getQuantity());
         expenses.setTotalAmount((request.getPrice())*(request.getQuantity()));
-        expenses.setExpensedBy(existingEmployee.getName());
+        expenses.setExpensedBy(existingUser.getName());
         expenses.setExpenseCategory(existingExpenseCategory);
         expenses.setCreatedBy(existingUser);
-        expenses.setExpenseId(existingEmployee);
 
         expensesRepository.save(expenses);
 

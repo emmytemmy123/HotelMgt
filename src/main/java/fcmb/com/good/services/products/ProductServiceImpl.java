@@ -7,12 +7,14 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.productsRequest.ProductRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductResponse;
+import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.products.Product;
-import fcmb.com.good.model.entity.products.ProductType;
-import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.products.ProductCategory;
+import fcmb.com.good.model.entity.user.Users;
+import fcmb.com.good.repo.activityLog.ActivityLogRepository;
 import fcmb.com.good.repo.products.ProductCategoryRepository;
 import fcmb.com.good.repo.products.ProductRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -33,7 +36,10 @@ public class ProductServiceImpl implements ProductService {
     private final ProductRepository productRepository;
     private final ProductCategoryRepository productCategoryRepository;
     private final JwtFilter jwtFilter;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
+    private final ActivityLogRepository activityLogRepository;
+
+
 
     @Override
     /**
@@ -124,10 +130,10 @@ public class ProductServiceImpl implements ProductService {
 
         validateDuplicationProduct(request.getName());
 
-        ProductType existingProductType = productCategoryRepository.findByUuid(request.getCategoryId())
+        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Product product = new Product();
@@ -139,13 +145,21 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(request.getDescription());
         product.setQuantity(request.getQuantity());
         product.setSalesPrice(request.getSalesPrice());
-        product.setDurations(request.getDurations());
         product.setPurchasePrice(request.getPurchasedPrice());
         product.setExpDate(request.getExpDate());
         product.setPostedBy(existingUser.getName());
-        product.setProductType(existingProductType);
+        product.setProductCategory(existingProductCategory);
 
         productRepository.save(product);
+
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setName("product");
+        activityLog.setCategory("add");
+        activityLog.setDescription("this is a product add log");
+        activityLog.setPerformedBy(existingUser.getName());
+        activityLog.setPerformedDate(LocalDateTime.now());
+
+        activityLogRepository.save(activityLog);
 
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record created successfully");
@@ -170,7 +184,6 @@ public class ProductServiceImpl implements ProductService {
         product.setDescription(request.getDescription());
         product.setQuantity(Integer.sum(product.getQuantity(),request.getQuantity()));
         product.setSalesPrice(request.getSalesPrice());
-        product.setDurations(request.getDurations());
         product.setPurchasePrice(request.getPurchasedPrice());
         product.setExpDate((Date) request.getExpDate());
 
@@ -195,6 +208,9 @@ public class ProductServiceImpl implements ProductService {
     public ApiResponse<String> deleteProduct(UUID productId) {
             Product product = validateProducts(productId);
             productRepository.delete(product);
+
+
+
             return new ApiResponse(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     "Record Deleted successfully");
         }

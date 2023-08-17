@@ -1,8 +1,8 @@
 package fcmb.com.good.config;
 
 
-import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.model.entity.user.Users;
+import fcmb.com.good.repo.user.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,13 +15,13 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
 
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        Optional<AppUser> user = userRepository.findByUsername(username);
+        Optional<Users> user = Optional.ofNullable(usersRepository.findByUsername(username));
 
         return user.map(GroupUserDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException(username + " Not Found"));    }

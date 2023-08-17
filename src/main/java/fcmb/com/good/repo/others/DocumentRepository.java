@@ -1,7 +1,6 @@
 package fcmb.com.good.repo.others;
 
 import fcmb.com.good.model.entity.others.Document;
-import fcmb.com.good.model.entity.user.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

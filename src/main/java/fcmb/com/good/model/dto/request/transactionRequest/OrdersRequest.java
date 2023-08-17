@@ -18,9 +18,9 @@ public class OrdersRequest {
 //    @NotEmpty(message = INVALID_NAME)
     private UUID createdById;
 
-    @NotNull(message = INVALID_NAME)
+//    @NotNull(message = INVALID_NAME)
 //    @NotEmpty(message = INVALID_NAME)
-    private UUID customerId;
+    private Integer numberOfDays;
 
     private List<OrderItemRequest> items;
 

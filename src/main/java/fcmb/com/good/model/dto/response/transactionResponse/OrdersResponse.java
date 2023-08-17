@@ -1,6 +1,7 @@
 package fcmb.com.good.model.dto.response.transactionResponse;
 
 import fcmb.com.good.model.dto.BaseDto;
+import fcmb.com.good.model.dto.response.servicesResponse.SubServiceHelper;
 import lombok.Data;
 
 import java.sql.Timestamp;
@@ -20,6 +21,8 @@ public class OrdersResponse extends BaseDto {
     private LocalDateTime endTime;
 
     private List<OrderHelperResponse> orderItemsList;
+    private List<SubServiceHelper> subServiceRequestList;
+
 
 }
 

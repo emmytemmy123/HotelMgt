@@ -23,8 +23,8 @@ public interface OrdersRepository extends JpaRepository<Orders, Long> {
     @Query("delete from Orders st where st.uuid=:recordId")
     Optional<Orders> deleteByUuid(@Param("recordId")UUID uuid);
 
-    @Query("select st from Orders st where st.customer.uuid=:customerUuid")
-    List<Orders> findOrdersByCustomer(@Param("customerUuid") UUID customerUuid);
+//    @Query("select st from Orders st where st.customer.uuid=:customerUuid")
+//    List<Orders> findOrdersByCustomer(@Param("customerUuid") UUID customerUuid);
 
 //    @Query("select st from Orders st where st.dateCreated=:dateCreated")
     @Query("SELECT p FROM Orders p WHERE p.dateCreated LIKE CONCAT('%',:query, '%')")

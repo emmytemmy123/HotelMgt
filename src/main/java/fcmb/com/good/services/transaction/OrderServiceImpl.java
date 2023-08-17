@@ -1,26 +1,26 @@
 package fcmb.com.good.services.transaction;
 
 import fcmb.com.good.exception.BadRequestException;
-import fcmb.com.good.exception.GlobalErrorHandler;
 import fcmb.com.good.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.enums.MessageHelpers;
-import fcmb.com.good.model.dto.enums.Status;
+import fcmb.com.good.model.dto.request.orderItemRequest.OrderItemsRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.OrderItemRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.OrdersRequest;
+import fcmb.com.good.model.dto.request.transactionRequest.OrdersRequest2;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.OrdersResponse;
+import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.transaction.OrderItems;
 import fcmb.com.good.model.entity.transaction.Orders;
-import fcmb.com.good.model.entity.user.AppUser;
-import fcmb.com.good.model.entity.user.Customer;
+import fcmb.com.good.model.entity.user.Users;
+import fcmb.com.good.repo.activityLog.ActivityLogRepository;
 import fcmb.com.good.repo.products.ProductRepository;
 import fcmb.com.good.repo.transaction.OrderItemsRepository;
 import fcmb.com.good.repo.transaction.OrdersRepository;
-import fcmb.com.good.repo.user.CustomerRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,10 +39,10 @@ import java.util.*;
 public class OrderServiceImpl implements OrderService{
 
     private final OrdersRepository orderRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
     private final OrderItemsRepository orderItemsRepository;
     private final ProductRepository productRepository;
-    private final CustomerRepository customerRepository;
+    private final ActivityLogRepository activityLogRepository;
 
 
     @Override
@@ -108,17 +108,23 @@ public class OrderServiceImpl implements OrderService{
     @Override
     public ApiResponse<String> addOrder(OrdersRequest request) {
 
-        Customer existingCustomer  = customerRepository.findByUuid(request.getCustomerId())
-                .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
-
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Orders orders = new Orders();
 
-        orders.setOrderBy(existingCustomer.getName());
-        orders.setStartTime(LocalDateTime.now());
-        orders.setCustomer(existingCustomer);
+        if (existingUser.getName() != null && existingUser.getUsersCategory().equals("customer")) {
+            orders.setOrderBy(existingUser.getName());
+        }
+        else if(existingUser.getName() != null && existingUser.getUsersCategory().equals("admin")){
+            orders.setOrderBy(existingUser.getName());
+        }
+        else {
+            throw new RecordNotFoundException(MessageUtil.INVALID_CUSTOMER);
+        }
+
+        orders.setUsers(existingUser);
+        orders.setNumberOfDays(request.getNumberOfDays());
 
         Double totalAmount = 0.0;
         List<OrderItems> orderItemsList = new ArrayList<>();
@@ -129,7 +135,6 @@ public class OrderServiceImpl implements OrderService{
             Product existingProduct  = productRepository.findByUuid(orderItem.getProductId())
                     .orElse(null);
 
-
             if(existingProduct != null){
                 OrderItems orderItems = new OrderItems();
 
@@ -137,9 +142,21 @@ public class OrderServiceImpl implements OrderService{
                 orderItems.setRoom(existingProduct.getRoom());
                 orderItems.setSalesPrice(existingProduct.getSalesPrice());
                 orderItems.setQuantity(orderItem.getQuantity());
-                orderItems.setAmount((existingProduct.getSalesPrice() * (orderItem.getQuantity())));
+
+                    if (existingProduct.getRoom().isEmpty()) {
+                        orderItems.setAmount(existingProduct.getSalesPrice() * orderItem.getQuantity());
+                    } else if (existingProduct.getName().isEmpty()) {
+                        orderItems.setAmount(existingProduct.getSalesPrice() * orderItem.getQuantity() * orders.getNumberOfDays());
+                    }
+
                 orderItems.setPurchasePrice(existingProduct.getPurchasePrice());
-                orderItems.setPurchaseAmount((existingProduct.getPurchasePrice())*(orderItem.getQuantity()));
+
+                    if (existingProduct.getRoom().isEmpty()) {
+                        orderItems.setPurchaseAmount(existingProduct.getPurchasePrice() * orderItem.getQuantity());
+                    } else if (existingProduct.getName().isEmpty()) {
+                        orderItems.setPurchaseAmount(existingProduct.getPurchasePrice() * orderItem.getQuantity() * orders.getNumberOfDays());
+                    }
+
                 orderItems.setProfit((orderItems.getAmount())-(orderItems.getPurchaseAmount()));
                 orderItems.setServiceName(existingProduct.getCategory());
                 orderItems.setDescription(orderItem.getDescription());
@@ -150,27 +167,25 @@ public class OrderServiceImpl implements OrderService{
                 orderItems.setOrders(orders);
                 existingProduct.setQuantity(existingProduct.getQuantity() - orderItems.getQuantity());
 
-//                if(orderItems.getRoom().isEmpty())
-//                    existingProduct.setProductStatus("booked");
-
-                totalAmount += orderItem.getQuantity() * existingProduct.getSalesPrice();
+                totalAmount += orderItems.getAmount();
                 orderItemsList.add(orderItems);
 
             }
 
-            if(!existingProduct.getName().isEmpty()){
+            if(existingProduct.getQuantity() <= 0)
+            existingProduct.setProductStatus("Booked/Out Of Stock");
+
+            if (existingProduct.getRoom().isEmpty()) {
+                orders.setProductStatus("pending");
+            } else  {
                 orders.setRoomStatus("booked");
             }
 
-//            if(!existingProduct.getName().isEmpty()){
-//                orders.setProductStatus("pending");
-//            }
-
-
-
+            orders.setRoomNo(existingProduct.getRoom());
             orders.setAmount(totalAmount);
             orders.setAmountDue(totalAmount);
             orders.setOrderItemsList(orderItemsList);
+            orders.setProduct(existingProduct);
 
             Integer msg = existingProduct.getQuantity();
             if(msg <= -1)
@@ -178,10 +193,20 @@ public class OrderServiceImpl implements OrderService{
 
             orderRepository.save(orders);
 
+            ActivityLog activityLog = new ActivityLog();
+            activityLog.setName("addOrder");
+            activityLog.setCategory("add");
+            activityLog.setDescription("this is a order log");
+            activityLog.setPerformedBy(orders.getOrderBy());
+            activityLog.setPerformedDate(LocalDateTime.now());
+
+            activityLogRepository.save(activityLog);
+
         }
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 MessageHelpers.CREATE_SUCCESSFUL.message);
     }
+
 
 
     /**
@@ -205,57 +230,160 @@ public class OrderServiceImpl implements OrderService{
         Product product = orderItems.getProduct();
         product.setQuantity( ((Integer.sum(product.getQuantity(), orderItems.getQuantity()))) - (request.getQuantity()));
 
-            orderItems.setItemName(orderItems.getItemName());
-            orderItems.setSalesPrice(orderItems.getSalesPrice());
-            orderItems.setQuantity(request.getQuantity());
-            orderItems.setAmount((orderItems.getSalesPrice() * (request.getQuantity())));
-            orderItems.setPurchasePrice(orderItems.getPurchasePrice());
-            orderItems.setPurchaseAmount((orderItems.getPurchasePrice())*(orderItems.getQuantity()));
-            orderItems.setProfit((orderItems.getAmount())-(orderItems.getPurchaseAmount()));
-            orderItems.setServiceName(orderItems.getServiceName());
-            orderItems.setDescription(request.getDescription());
-            orderItems.setTransactionDate(LocalDateTime.now());
-            orderItems.setStatus("pending");
-            orderItems.setProduct(orderItems.getProduct());
-            orderItems.setCreatedBy(orderItems.getCreatedBy());
+        orderItems.setItemName(orderItems.getItemName());
+        orderItems.setSalesPrice(orderItems.getSalesPrice());
+        orderItems.setQuantity(request.getQuantity());
+        orderItems.setAmount((orderItems.getSalesPrice() * (request.getQuantity())));
+        orderItems.setPurchasePrice(orderItems.getPurchasePrice());
+        orderItems.setPurchaseAmount((orderItems.getPurchasePrice())*(orderItems.getQuantity()));
+        orderItems.setProfit((orderItems.getAmount())-(orderItems.getPurchaseAmount()));
+        orderItems.setServiceName(orderItems.getServiceName());
+        orderItems.setDescription(request.getDescription());
+        orderItems.setTransactionDate(LocalDateTime.now());
+        orderItems.setStatus("In Progress ......");
+        orderItems.setProduct(orderItems.getProduct());
+        orderItems.setCreatedBy(orderItems.getCreatedBy());
 
         Integer existingProduct = product.getQuantity();
         if(existingProduct <= -1)
             throw new BadRequestException(MessageUtil.OUT_OF_STOCK);
 
-            orderItemsRepository.save(orderItems);
+        orderItemsRepository.save(orderItems);
 
         Orders orders = orderItems.getOrders();
 
         orders.setAmount((orders.getAmount() - orderItems.getAmount()));
         orders.setAmountDue(orders.getAmount());
+        orders.setProductStatus(request.getProductStatus());
         orders.setRoomStatus(request.getRoomStatus());
 
         if (orders.getRoomStatus().equals("checkIn")) {
-            product.setProductStatus("Customer CheckIn");
-        } else {
-            product.setProductStatus("Customer CheckOut");
+            orders.setCheckInDate(LocalDateTime.now());
+            orders.setCheckOutDate(LocalDateTime.now().plusDays(orders.getNumberOfDays()));
+            product.setProductStatus("CheckIn");
+        }
+
+        if(orders.getRoomStatus().equals("checkOut")) {
+            product.setProductStatus("CheckOut/Available");
+            product.setQuantity(product.getQuantity() + 1);
         }
 
         orderRepository.save(orders);
 
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setName("updateOrders");
+        activityLog.setCategory("update");
+        activityLog.setDescription("update order log");
+        activityLog.setPerformedBy("admin");
+        activityLog.setPerformedDate(LocalDateTime.now());
+
+        activityLogRepository.save(activityLog);
+
         return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 MessageHelpers.UPDATE_SUCCESSFUL.message);
 
+    }
+
+
+
+    @Override
+    public ApiResponse<String> addProductToExistingOrder(UUID orderUuid, OrdersRequest2 request) {
+
+        Orders orders = validateOrders(orderUuid);
+
+        Double totalAmount = 0.0;
+        List<OrderItems> orderItemsList = new ArrayList<>();
+
+            for (OrderItemRequest orderItem : request.getItems()) {
+
+                Product existingProduct  = productRepository.findByUuid(orderItem.getProductId())
+                        .orElse(null);
+
+                if (existingProduct != null ) {
+                    OrderItems orderItems = new OrderItems();
+
+                orderItems.setItemName(existingProduct.getName());
+                orderItems.setSalesPrice(existingProduct.getSalesPrice());
+                orderItems.setQuantity(orderItem.getQuantity());
+                orderItems.setAmount(existingProduct.getSalesPrice() * orderItem.getQuantity());
+                orderItems.setPurchasePrice(existingProduct.getPurchasePrice());
+                orderItems.setPurchaseAmount(existingProduct.getPurchasePrice() * orderItem.getQuantity());
+
+                orderItems.setProfit((orderItems.getAmount()) - (orderItems.getPurchaseAmount()));
+                orderItems.setServiceName(existingProduct.getCategory());
+                orderItems.setDescription(orderItem.getDescription());
+                orderItems.setTransactionDate(LocalDateTime.now());
+                orderItems.setStatus("pending");
+                orderItems.setOrders(orders);
+                orderItems.setProduct(existingProduct);
+                orderItems.setCreatedBy(orders.getUsers());
+                existingProduct.setQuantity(existingProduct.getQuantity() - orderItems.getQuantity());
+
+                totalAmount += orderItems.getAmount();
+                orderItemsList.add(orderItems);
+
+            }
+
+            if(existingProduct.getQuantity() <= 0)
+                existingProduct.setProductStatus("Booked/Out Of Stock");
+
+            orders.setAmount(orders.getAmount() + totalAmount);
+            orders.setAmountDue(orders.getAmountDue() + totalAmount);
+            orders.setOrderItemsList(orderItemsList);
+
+            Integer msg = existingProduct.getQuantity();
+            if(msg <= -1)
+                throw new BadRequestException(MessageUtil.OUT_OF_STOCK);
+
+            orderRepository.save(orders);
+
+            ActivityLog activityLog = new ActivityLog();
+            activityLog.setName("addProductToOrder");
+            activityLog.setCategory("add");
+            activityLog.setDescription("this is a addProduct log");
+            activityLog.setPerformedBy(orders.getOrderBy());
+            activityLog.setPerformedDate(LocalDateTime.now());
+
+            activityLogRepository.save(activityLog);
+
         }
+
+        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                MessageHelpers.CREATE_SUCCESSFUL.message);
+
+    }
+
+
+
+
+    /**
+     * @validating order by uuid
+     * @Validate if the List of order is empty otherwise return record not found
+     * @return order
+     * * */
+    private Orders validateOrders(UUID uuid){
+        Optional<Orders> ordersOptional = orderRepository.findByUuid(uuid);
+        if(ordersOptional.isEmpty())
+            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+        return ordersOptional.get();
+    }
+
+
+
 
 
 
     @Override
     public ApiResponse<List<OrdersResponse>> getOrdersByCustomer(UUID customerUuid) {
 
-        List<Orders> ordersList = orderRepository.findOrdersByCustomer(customerUuid);
-
-        if(ordersList.isEmpty())
-            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
-
-        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
-                Mapper.convertList(ordersList, OrdersResponse.class));
+//        List<Orders> ordersList = orderRepository.findOrdersByCustomer(customerUuid);
+//
+//        if(ordersList.isEmpty())
+//            throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
+//
+//        return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+//                Mapper.convertList(ordersList, OrdersResponse.class));
+        return null;
     }
 
 

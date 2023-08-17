@@ -6,18 +6,20 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.productsRequest.ProductFacilityRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductFacilityResponse;
+import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.products.Product;
 import fcmb.com.good.model.entity.products.ProductFacility;
-import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.user.Users;
+import fcmb.com.good.repo.activityLog.ActivityLogRepository;
 import fcmb.com.good.repo.products.ProductFacilityRepository;
 import fcmb.com.good.repo.products.ProductRepository;
-import fcmb.com.good.repo.user.CustomerRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,9 +29,9 @@ import java.util.UUID;
 public class ProductFacilityServiceImpl implements ProductFacilityService {
 
     private final ProductFacilityRepository productFacilityRepository;
-    private final UserRepository userRepository;
-    private final CustomerRepository customerRepository;
+    private final UsersRepository usersRepository;
     private final ProductRepository productRepository;
+    private final ActivityLogRepository activityLogRepository;
 
 
     /**
@@ -55,7 +57,7 @@ public class ProductFacilityServiceImpl implements ProductFacilityService {
 
         validateDuplicationProductFacility(request.getName());
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Product existingProduct  = productRepository.findByUuid(request.getProductId())
@@ -72,6 +74,16 @@ public class ProductFacilityServiceImpl implements ProductFacilityService {
         productFacility.setProduct(existingProduct);
 
         productFacilityRepository.save(productFacility);
+
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setName("productFacility");
+        activityLog.setCategory("add");
+        activityLog.setDescription("this is a productFacility log add");
+        activityLog.setPerformedBy(existingUser.getName());
+        activityLog.setPerformedDate(LocalDateTime.now());
+
+        activityLogRepository.save(activityLog);
+
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record created successfully");
 
@@ -126,6 +138,16 @@ public class ProductFacilityServiceImpl implements ProductFacilityService {
         productFacility.setDescription(request.getDescription());
 
         productFacilityRepository.save(productFacility);
+
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setName("productFacility");
+        activityLog.setCategory("update");
+        activityLog.setDescription("this is a productFacility log update");
+        activityLog.setPerformedBy(productFacility.getCreatedBy().getName());
+        activityLog.setPerformedDate(LocalDateTime.now());
+
+        activityLogRepository.save(activityLog);
+
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated successfully");
     }

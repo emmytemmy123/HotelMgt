@@ -1,7 +1,6 @@
 package fcmb.com.good.repo.assets;
 
 import fcmb.com.good.model.entity.assets.DamagedAssets;
-import fcmb.com.good.model.entity.user.Customer;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

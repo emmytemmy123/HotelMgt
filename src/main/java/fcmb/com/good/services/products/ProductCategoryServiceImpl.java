@@ -7,10 +7,10 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.productsRequest.ProductCategoryRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductCategoryResponse;
-import fcmb.com.good.model.entity.products.ProductType;
-import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.products.ProductCategory;
+import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.products.ProductCategoryRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.EmailUtils;
 import fcmb.com.good.utills.JwtUtil;
 import fcmb.com.good.utills.MessageUtil;
@@ -18,7 +18,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +28,7 @@ import java.util.UUID;
 public class ProductCategoryServiceImpl implements ProductCategoryService{
 
     private  final ProductCategoryRepository productCategoryRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
     private final JwtUtil jwtUtil;
     private final JwtFilter jwtFilter;
     private final EmailUtils emailUtils;
@@ -42,7 +41,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * * */
     public ApiResponse<List<ProductCategoryResponse>> getListOfProductCategory(int page, int size) {
 
-            List<ProductType> productCategoryList = productCategoryRepository.findAll(PageRequest.of(page,size)).toList();
+            List<ProductCategory> productCategoryList = productCategoryRepository.findAll(PageRequest.of(page,size)).toList();
             if(productCategoryList.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
@@ -61,10 +60,10 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * * */
     public ApiResponse<String> addProductCategory(ProductCategoryRequest request) {
 
-        Optional<ProductType> productCategoryOptional = validateDuplicateProductCategory
+        Optional<ProductCategory> productCategoryOptional = validateDuplicateProductCategory
                 (request.getRoom(),request.getItems());
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         if (!productCategoryOptional.isEmpty()) {
@@ -72,7 +71,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
                     "Duplicate Record");
         }
 
-        ProductType productCategory = new ProductType();
+        ProductCategory productCategory = new ProductCategory();
 
         productCategory.setRoom(request.getRoom());
         productCategory.setItems(request.getItems());
@@ -89,8 +88,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * @Validating existingProductCategoryOptional by name
      * @Validate if the List of existingProductCategoryOptional is empty otherwise return Duplicate Record
      * */
-    private Optional<ProductType> validateDuplicateProductCategory(String room, String items) {
-        Optional<ProductType> existingProductCategoryOptional = productCategoryRepository.findProductCategoryByRoomAndItems(room, items);
+    private Optional<ProductCategory> validateDuplicateProductCategory(String room, String items) {
+        Optional<ProductCategory> existingProductCategoryOptional = productCategoryRepository.findProductCategoryByRoomAndItems(room, items);
         return existingProductCategoryOptional;
 
     }
@@ -99,8 +98,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
     /**
      * Set and get the productCategory parameters
      */
-    private ProductType getProductCategoryFromRequest(ProductCategoryRequest request) {
-        ProductType productCategory = new ProductType();
+    private ProductCategory getProductCategoryFromRequest(ProductCategoryRequest request) {
+        ProductCategory productCategory = new ProductCategory();
 
         productCategory.setRoom(request.getRoom());
         productCategory.setItems(request.getItems());
@@ -114,8 +113,8 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * @Validate if the List of productCategory is empty otherwise return record not found
      * @return productCategoryOptional
      * * */
-    private ProductType validateProductCategory(UUID uuid){
-        Optional<ProductType> productCategoryOptional = productCategoryRepository.findByUuid(uuid);
+    private ProductCategory validateProductCategory(UUID uuid){
+        Optional<ProductCategory> productCategoryOptional = productCategoryRepository.findByUuid(uuid);
         if(productCategoryOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
         return productCategoryOptional.get();
@@ -131,12 +130,12 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * * */
     public ApiResponse<ProductCategoryResponse> getProductCategoryById(UUID productCategoryId) {
 
-            Optional<ProductType> productCategoryOptional = productCategoryRepository.findByUuid(productCategoryId);
+            Optional<ProductCategory> productCategoryOptional = productCategoryRepository.findByUuid(productCategoryId);
 
             if(productCategoryOptional.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-            ProductType productCategory = productCategoryOptional.get();
+            ProductCategory productCategory = productCategoryOptional.get();
 
             return new ApiResponse<ProductCategoryResponse>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                     Mapper.convertObject(productCategory,ProductCategoryResponse.class));
@@ -153,7 +152,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * * */
     public ApiResponse<String> updateProductCategory(UUID productCategoryId,ProductCategoryRequest request) {
 
-        ProductType productCategory = validateProductCategory(productCategoryId);
+        ProductCategory productCategory = validateProductCategory(productCategoryId);
 
         productCategory.setRoom(request.getRoom());
         productCategory.setItems(request.getItems());
@@ -175,7 +174,7 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * * */
     public ApiResponse<String> deleteProductCategory(UUID productCategoryId) {
 
-            ProductType productCategory = validateProductCategory(productCategoryId);
+            ProductCategory productCategory = validateProductCategory(productCategoryId);
 
             productCategoryRepository.delete(productCategory);
 

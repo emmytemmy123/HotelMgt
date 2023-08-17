@@ -7,9 +7,9 @@ import fcmb.com.good.model.dto.request.transactionRequest.AccountCategoryRequest
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.AccountCategoryResponse;
 import fcmb.com.good.model.entity.transaction.AccountCategory;
-import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.transaction.AccountCategoryRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -27,7 +27,7 @@ import java.util.UUID;
 public class AccountCategoryServiceImpl implements AccountCategoryService {
 
     private  final AccountCategoryRepository accountCategoryRepository;
-    private final UserRepository userRepository;
+    private final UsersRepository usersRepository;
 
 
     @Override
@@ -67,7 +67,7 @@ public class AccountCategoryServiceImpl implements AccountCategoryService {
 
         Optional<AccountCategory> accountCategoryOptional = validateDuplicateAccountCategory(request.getCurrency());
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedById())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedById())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         if (!accountCategoryOptional.isEmpty()) {

@@ -6,14 +6,16 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.productsRequest.ProductPurchaseRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.productsResponse.ProductPurchaseResponse;
+import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.products.Product;
-import fcmb.com.good.model.entity.products.ProductType;
+import fcmb.com.good.model.entity.products.ProductCategory;
 import fcmb.com.good.model.entity.products.ProductPurchase;
-import fcmb.com.good.model.entity.user.AppUser;
+import fcmb.com.good.model.entity.user.Users;
+import fcmb.com.good.repo.activityLog.ActivityLogRepository;
 import fcmb.com.good.repo.products.ProductCategoryRepository;
 import fcmb.com.good.repo.products.ProductPurchaseRepository;
 import fcmb.com.good.repo.products.ProductRepository;
-import fcmb.com.good.repo.user.UserRepository;
+import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -33,8 +35,9 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
 
     private  final ProductPurchaseRepository productPurchaseRepository;
     private  final ProductCategoryRepository productCategoryRepository;
-    private  final UserRepository userRepository;
+    private  final UsersRepository usersRepository;
     private  final ProductRepository productRepository;
+    private final ActivityLogRepository activityLogRepository;
 
 
     @Override
@@ -90,10 +93,10 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
 
         validateDuplicationProductPurchase(request.getName());
 
-        ProductType existingProductCategory = productCategoryRepository.findByUuid(request.getProductCategoryId())
+        ProductCategory existingProductCategory = productCategoryRepository.findByUuid(request.getProductCategoryId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
-        AppUser existingUser  = userRepository.findByUuid(request.getCreatedBy())
+        Users existingUser  = usersRepository.findByUuid(request.getCreatedBy())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
         Product existingProduct  = productRepository.findByUuid(request.getProductId())
@@ -114,6 +117,15 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
         productPurchase.setProduct(existingProduct);
         productPurchase.setProductCategory(existingProductCategory);
         productPurchaseRepository.save(productPurchase);
+
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setName("productPurchase");
+        activityLog.setCategory("add");
+        activityLog.setDescription("this is a productPurchase add log");
+        activityLog.setPerformedBy(existingUser.getName());
+        activityLog.setPerformedDate(LocalDateTime.now());
+
+        activityLogRepository.save(activityLog);
 
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Added Successfully");
@@ -151,6 +163,7 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
         public ApiResponse<String> updateProductPurchase( UUID productPurchaseId, ProductPurchaseRequest request) {
 
         ProductPurchase productPurchase = validateProductPurchase(productPurchaseId);
+
         Product existingProduct  = productRepository.findByUuid(request.getProductId())
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
@@ -167,6 +180,16 @@ public class ProductPurchaseServiceImpl implements ProductPurchaseService {
         existingProduct.setQuantity(Integer.sum(existingProduct.getQuantity(), Integer.parseInt(request.getQuantity())));
 
         productPurchaseRepository.save(productPurchase);
+
+        ActivityLog activityLog = new ActivityLog();
+        activityLog.setName("product");
+        activityLog.setCategory("add");
+        activityLog.setDescription("this is a product add log");
+        activityLog.setPerformedBy(productPurchase.getCreatedBy().getName());
+        activityLog.setPerformedDate(LocalDateTime.now());
+
+        activityLogRepository.save(activityLog);
+
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated Successfully");
     }

@@ -2,7 +2,7 @@ package fcmb.com.good.utills;
 
 public class MessageUtil {
 
-                            //others
+                            //activityLogResponse
     public  final static String STAFF_UPDATED = "Great, staff %s successfully.";
     public  final static String PATIENT_MESSAGE = "Great, patient %s successfully.";
     public  final static String DELETE_SUCCESSFUL = "Great,record deleted successfully";
@@ -19,6 +19,7 @@ public class MessageUtil {
 
     //users messages
     public final static String INVALID_NAME = "Invalid name, value is required";
+    public final static String INVALID_CUSTOMER = "Unrecognized Customer, you are not a customer ";
     public final static String INVALID_EMAIL = "Invalid email format, value is required";
     public final static String INVALID_PHONE = "Invalid phone format, value is required";
     public final static String INVALID_ADDRESS = "Invalid, field cant be empty, value is required";

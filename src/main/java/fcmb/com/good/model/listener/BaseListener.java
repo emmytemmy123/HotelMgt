@@ -1,17 +1,19 @@
 package fcmb.com.good.model.listener;
 
+import fcmb.com.good.model.entity.activityLog.ActivityLog;
+import fcmb.com.good.model.entity.activityLog.ActivityLogCategory;
 import fcmb.com.good.model.entity.assets.Assets;
 import fcmb.com.good.model.entity.assets.AssetsCategory;
 import fcmb.com.good.model.entity.assets.DamagedAssets;
 import fcmb.com.good.model.entity.others.Document;
-import fcmb.com.good.model.entity.others.Hotel;
 import fcmb.com.good.model.entity.products.*;
 import fcmb.com.good.model.entity.products.ProductFacility;
 import fcmb.com.good.model.entity.services.SubServiceRequest;
-import fcmb.com.good.model.entity.services.SubService;
+import fcmb.com.good.model.entity.services.ServiceCategory;
 import fcmb.com.good.model.entity.transaction.*;
 import fcmb.com.good.model.entity.transaction.Orders;
-import fcmb.com.good.model.entity.user.*;
+import fcmb.com.good.model.entity.user.UserCategory;
+import fcmb.com.good.model.entity.user.Users;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.PrePersist;
@@ -40,10 +42,7 @@ public class BaseListener {
             Document document = (Document) data;
             document.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof Hotel){
-            Hotel hotel = (Hotel) data;
-            hotel.setUuid(UUID.randomUUID());
-        }
+
         else if(data instanceof Orders){
             Orders productOrder = (Orders) data;
             productOrder.setUuid(UUID.randomUUID());
@@ -70,10 +69,7 @@ public class BaseListener {
             AccountChart accountChart = (AccountChart) data;
             accountChart.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof Booking){
-            Booking booking = (Booking) data;
-            booking.setUuid(UUID.randomUUID());
-        }
+
         else if(data instanceof BookingReminder){
             BookingReminder bookingReminder = (BookingReminder) data;
             bookingReminder.setUuid(UUID.randomUUID());
@@ -94,40 +90,15 @@ public class BaseListener {
             Payment payment = (Payment) data;
             payment.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof Customer){
-            Customer customer = (Customer) data;
-            customer.setUuid(UUID.randomUUID());
-        }
-        else if(data instanceof Employee){
-            Employee employee = (Employee) data;
-            employee.setUuid(UUID.randomUUID());
-        }
-        else if(data instanceof EmployeeShift){
-            EmployeeShift employeeShift = (EmployeeShift) data;
-            employeeShift.setUuid(UUID.randomUUID());
-        }
-        else if(data instanceof Role){
-            Role role = (Role) data;
-            role.setUuid(UUID.randomUUID());
-        }
-        else if(data instanceof AppUser){
-            AppUser user = (AppUser) data;
-            user.setUuid(UUID.randomUUID());
-        }
 
-        else if(data instanceof UserType){
-            UserType type = (UserType) data;
-            type.setUuid(UUID.randomUUID());
-        }
-
-        else if(data instanceof ProductType){
-            ProductType productCategory = (ProductType) data;
+        else if(data instanceof ProductCategory){
+            ProductCategory productCategory = (ProductCategory) data;
             productCategory.setUuid(UUID.randomUUID());
         }
 
-        else if(data instanceof SubService){
-            SubService subService = (SubService) data;
-            subService.setUuid(UUID.randomUUID());
+        else if(data instanceof ServiceCategory){
+            ServiceCategory serviceCategory = (ServiceCategory) data;
+            serviceCategory.setUuid(UUID.randomUUID());
         }
 
         else if(data instanceof ProductFacility){
@@ -145,14 +116,30 @@ public class BaseListener {
             maintenanceCategory.setUuid(UUID.randomUUID());
         }
 
-        else if(data instanceof PaymentCategory){
-            PaymentCategory paymentCategory = (PaymentCategory) data;
-            paymentCategory.setUuid(UUID.randomUUID());
-        }
 
         else if(data instanceof OrderItems){
             OrderItems orderItems = (OrderItems) data;
             orderItems.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof Users){
+            Users users = (Users) data;
+            users.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof UserCategory){
+            UserCategory userCategory = (UserCategory) data;
+            userCategory.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof ActivityLogCategory){
+            ActivityLogCategory activityLogCategory = (ActivityLogCategory) data;
+            activityLogCategory.setUuid(UUID.randomUUID());
+        }
+
+        else if(data instanceof ActivityLog){
+            ActivityLog activityLog = (ActivityLog) data;
+            activityLog.setUuid(UUID.randomUUID());
         }
 
 

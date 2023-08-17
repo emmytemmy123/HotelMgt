@@ -26,7 +26,6 @@ public class Product extends BaseEntity {
     private String description;
     private Integer quantity;
     private Double salesPrice;
-    private Integer durations;
     private Double purchasePrice;
     private Date expDate;
     private String postedBy;
@@ -34,13 +33,13 @@ public class Product extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "productTypeId", updatable = true)
-    private ProductType productType;
+    private ProductCategory productCategory;
 
     @OneToMany(mappedBy = "product")
     private List<ProductFacility> productFacilityList;
 
 //    @OneToMany(mappedBy = "product")
-//    private List<SubService> subServiceList;
+//    private List<ServiceCategory> subServiceList;
 
     public Product(){}
 

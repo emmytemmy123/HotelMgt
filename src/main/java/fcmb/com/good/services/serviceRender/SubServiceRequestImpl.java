@@ -12,6 +12,7 @@ import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.services.ServiceCategory;
 import fcmb.com.good.model.entity.services.SubServiceRequest;
 import fcmb.com.good.model.entity.transaction.Orders;
+import fcmb.com.good.model.entity.transaction.Payment;
 import fcmb.com.good.repo.activityLog.ActivityLogRepository;
 import fcmb.com.good.repo.services.SubServiceRepository;
 import fcmb.com.good.repo.services.SubServiceRequestRepository;
@@ -157,33 +158,31 @@ public class SubServiceRequestImpl implements SubServiceRequestService {
 
         ServiceCategory serviceCategory = subServiceRequest.getServiceCategory();
 
-        if (request.getNoOfOccupant() != null) {
-            subServiceRequest.setNoOfOccupant(request.getNoOfOccupant());
-        }
-
-        if (request.getNoOfOccupant() != null && serviceCategory != null && serviceCategory.getUnitCost() != null) {
-            Integer occupantNumber = request.getNoOfOccupant() - subServiceRequest.getNoOfOccupant();
-            subServiceRequest.setPrice(serviceCategory.getUnitCost() * occupantNumber);
-        }
-
         subServiceRequest.setStatus("In Progress.........");
-
-        subServiceRequestRepository.save(subServiceRequest);
 
         Orders orders = subServiceRequest.getOrders();
 
-        Integer prevNoOfOccupant = subServiceRequest.getNoOfOccupant() - request.getNoOfOccupant();
-        Double prevSubAmount = prevNoOfOccupant * (serviceCategory != null ? serviceCategory.getUnitCost() : 0);
+        Payment payment = subServiceRequest.getPayment();
 
-        if (request.getNoOfOccupant() != null && subServiceRequest.getNoOfOccupant() != null) {
-            if (request.getNoOfOccupant() > subServiceRequest.getNoOfOccupant()) {
-                orders.setAmount(orders.getAmount() + subServiceRequest.getPrice());
-                orders.setAmountDue(orders.getAmountDue() + subServiceRequest.getPrice());
-            } else {
-                orders.setAmount((orders.getAmount() - prevSubAmount) - subServiceRequest.getPrice());
-                orders.setAmountDue((orders.getAmountDue() - prevSubAmount) - subServiceRequest.getPrice());
-            }
+        boolean checkNoOfOccupant = (subServiceRequest.getNoOfOccupant() > request.getNoOfOccupant());
+        if (checkNoOfOccupant) {
+            subServiceRequest.setNoOfOccupant(subServiceRequest.getNoOfOccupant() - request.getNoOfOccupant());
+            subServiceRequest.setPrice(subServiceRequest.getPrice() - (serviceCategory.getUnitCost() * subServiceRequest.getNoOfOccupant()));
+            orders.setAmount(orders.getAmount() - (serviceCategory.getUnitCost() * subServiceRequest.getNoOfOccupant()));
+            orders.setAmountDue(orders.getAmountDue() - (serviceCategory.getUnitCost() * subServiceRequest.getNoOfOccupant()));
+            payment.setTotalAmount(orders.getAmount());
+            payment.setBalance(orders.getAmountDue());
+        }else{
+            subServiceRequest.setNoOfOccupant(request.getNoOfOccupant() - subServiceRequest.getNoOfOccupant());
+            subServiceRequest.setPrice(subServiceRequest.getNoOfOccupant() * serviceCategory.getUnitCost()
+                    + subServiceRequest.getPrice());
+            orders.setAmount(orders.getAmount() + (serviceCategory.getUnitCost() * subServiceRequest.getNoOfOccupant()));
+            orders.setAmountDue(orders.getAmountDue() + (serviceCategory.getUnitCost() * subServiceRequest.getNoOfOccupant()));
+            payment.setTotalAmount(orders.getAmount());
+            payment.setBalance(orders.getAmountDue());
         }
+
+        subServiceRequestRepository.save(subServiceRequest);
 
         orderRepository.save(orders);
 

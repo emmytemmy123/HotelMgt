@@ -1,4 +1,4 @@
-package fcmb.com.good.model.entity.transaction;
+package fcmb.com.good.model.entity.Events;
 
 
 import fcmb.com.good.model.entity.BaseEntity;
@@ -13,8 +13,8 @@ import javax.persistence.*;
 @AllArgsConstructor
 @EntityListeners(BaseListener.class)
 @Entity
-@Table(name = "maintenanceCategory")
-public class MaintenanceCategory extends BaseEntity {
+@Table(name = "eventsCategory")
+public class EventsCategory extends BaseEntity {
 
     private String name;
     private String description;
@@ -24,8 +24,10 @@ public class MaintenanceCategory extends BaseEntity {
     @JoinColumn(name = "createdById", updatable = true)
     private Users createdBy;
 
+    public EventsCategory(){
+
+    }
 
 
-    public MaintenanceCategory(){}
 
 }

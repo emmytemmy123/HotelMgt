@@ -13,11 +13,11 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 public class MaintenanceCategoryRequest {
 
     @NotNull(message = INVALID_NAME)
-    @NotEmpty(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
     private String name;
 
     @NotNull(message = INVALID_NAME)
-    @NotEmpty(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
     private String description;
 
     @NotNull(message = INVALID_NAME)

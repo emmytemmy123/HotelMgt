@@ -2,6 +2,7 @@ package fcmb.com.good.model.entity.services;
 
 import fcmb.com.good.model.entity.BaseEntity;
 import fcmb.com.good.model.entity.transaction.Orders;
+import fcmb.com.good.model.entity.transaction.Payment;
 import fcmb.com.good.model.listener.BaseListener;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,6 +32,10 @@ public class SubServiceRequest extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "ordersId", insertable = true, updatable = true)
     private Orders orders;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "paymentId", insertable = true, updatable = true)
+    private Payment payment;
 
 
     public SubServiceRequest(){}

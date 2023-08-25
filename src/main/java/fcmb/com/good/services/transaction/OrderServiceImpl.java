@@ -7,6 +7,7 @@ import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.enums.MessageHelpers;
 import fcmb.com.good.model.dto.request.orderItemRequest.OrderItemsRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.OrderItemRequest;
+import fcmb.com.good.model.dto.request.transactionRequest.OrderRequest3;
 import fcmb.com.good.model.dto.request.transactionRequest.OrdersRequest;
 import fcmb.com.good.model.dto.request.transactionRequest.OrdersRequest2;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
@@ -135,6 +136,10 @@ public class OrderServiceImpl implements OrderService{
             Product existingProduct  = productRepository.findByUuid(orderItem.getProductId())
                     .orElse(null);
 
+            if(!existingProduct.getName().isEmpty() && existingProduct.getName() != null){
+                throw new RuntimeException(MessageUtil.SERVER_ERROR_PRODUCT);
+            }
+
             if(existingProduct != null){
                 OrderItems orderItems = new OrderItems();
 
@@ -255,18 +260,6 @@ public class OrderServiceImpl implements OrderService{
         orders.setAmount((orders.getAmount() - orderItems.getAmount()));
         orders.setAmountDue(orders.getAmount());
         orders.setProductStatus(request.getProductStatus());
-        orders.setRoomStatus(request.getRoomStatus());
-
-        if (orders.getRoomStatus().equals("checkIn")) {
-            orders.setCheckInDate(LocalDateTime.now());
-            orders.setCheckOutDate(LocalDateTime.now().plusDays(orders.getNumberOfDays()));
-            product.setProductStatus("CheckIn");
-        }
-
-        if(orders.getRoomStatus().equals("checkOut")) {
-            product.setProductStatus("CheckOut/Available");
-            product.setQuantity(product.getQuantity() + 1);
-        }
 
         orderRepository.save(orders);
 
@@ -354,6 +347,33 @@ public class OrderServiceImpl implements OrderService{
     }
 
 
+
+    @Override
+    public ApiResponse<String> updateOrderToUpdateCheckIn(UUID orderUuid, OrderRequest3 request) {
+
+        Orders orders = validateOrders(orderUuid);
+
+        Product product = orders.getProduct();
+
+        orders.setRoomStatus(request.getRoomStatus());
+
+        if (orders.getRoomStatus().equals("checkIn")) {
+            orders.setCheckInDate(LocalDateTime.now());
+            orders.setCheckOutDate(LocalDateTime.now().plusDays(orders.getNumberOfDays()));
+            product.setProductStatus("CheckIn");
+        }
+
+        if(orders.getRoomStatus().equals("checkOut")) {
+            product.setProductStatus("CheckOut/Available");
+            product.setQuantity(product.getQuantity() + 1);
+        }
+
+        orderRepository.save(orders);
+
+        return new ApiResponse<String>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
+                MessageHelpers.UPDATE_SUCCESSFUL.message);
+
+    }
 
 
     /**

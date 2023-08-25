@@ -14,20 +14,17 @@ import static fcmb.com.good.utills.MessageUtil.INVALID_NAME;
 @Data
 public class MaintenanceRequest {
 
-       @NotNull(message = INVALID_NAME)
-       @NotEmpty(message = INVALID_NAME)
-       private String category;
 
        @NotNull(message = INVALID_NAME)
-       @NotEmpty(message = INVALID_NAME)
+//       @NotEmpty(message = INVALID_NAME)
        private String name;
 
        @NotNull(message = INVALID_NAME)
-       @NotEmpty(message = INVALID_NAME)
+//       @NotEmpty(message = INVALID_NAME)
        private String description;
 
        @NotNull(message = INVALID_NAME)
-       @NotEmpty(message = INVALID_NAME)
+//       @NotEmpty(message = INVALID_NAME)
        private String comment;
 
        @NotNull(message = INVALID_NAME)
@@ -39,17 +36,18 @@ public class MaintenanceRequest {
        private Double cost;
 
        @NotNull(message = INVALID_NAME)
-       @NotEmpty(message = INVALID_NAME)
-       private String status;
+//       @NotEmpty(message = INVALID_NAME)
+       private String location;
 
        @NotNull(message = INVALID_NAME)
-       private UUID createdById;
+//       @NotEmpty(message = INVALID_NAME)
+       private String maintainedBy;
+
+//       @NotNull(message = INVALID_NAME)
+//       private UUID createdById;
 
        @NotNull(message = INVALID_NAME)
-       private UUID currentEmployeeId;
-
-       @NotNull(message = INVALID_NAME)
-       private UUID currentMaintenanceCategoryId;
+       private String categoryName;
 
 
 }

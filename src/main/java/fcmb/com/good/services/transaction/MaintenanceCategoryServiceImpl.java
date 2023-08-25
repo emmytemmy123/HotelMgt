@@ -10,7 +10,7 @@ import fcmb.com.good.model.dto.response.transactionResponse.MaintenanceCategoryR
 import fcmb.com.good.model.entity.transaction.MaintenanceCategory;
 import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.transaction.MaintenanceCategoryRepository;
-import fcmb.com.good.repo.transaction.MaintenanceRepository;
+import fcmb.com.good.repo.transaction.MaintenanceRequestRepository;
 import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +27,7 @@ import java.util.UUID;
 public class MaintenanceCategoryServiceImpl implements MaintenanceCategoryService {
 
     private final MaintenanceCategoryRepository maintenanceCategoryRepository;
-    private final MaintenanceRepository maintenanceRepository;
+    private final MaintenanceRequestRepository maintenanceRequestRepository;
     private final UsersRepository usersRepository;
 
     @Override
@@ -73,7 +73,6 @@ public class MaintenanceCategoryServiceImpl implements MaintenanceCategoryServic
         maintenanceCategory.setName(request.getName());
         maintenanceCategory.setDescription(request.getDescription());
         maintenanceCategory.setCreatedBy(existingUser);
-        maintenanceCategory.setPostedBy(existingUser.getName());
 
         maintenanceCategoryRepository.save(maintenanceCategory);
 
@@ -143,6 +142,7 @@ public class MaintenanceCategoryServiceImpl implements MaintenanceCategoryServic
         maintenanceCategory.setDescription(request.getDescription());
 
         maintenanceCategoryRepository.save(maintenanceCategory);
+
         return new ApiResponse<>(AppStatus.SUCCESS.label, HttpStatus.OK.value(),
                 "Record Updated Successfully");
 

@@ -16,6 +16,10 @@ public class OrdersRequest2 {
 //    @NotEmpty(message = INVALID_NAME)
     private Integer numberOfDays;
 
+    //    @NotNull(message = INVALID_NAME)
+//    @NotEmpty(message = INVALID_NAME)
+    private String roomStatus;
+
     private List<OrderItemRequest> items;
 
 

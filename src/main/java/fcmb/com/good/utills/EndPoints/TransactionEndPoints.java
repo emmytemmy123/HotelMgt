@@ -86,6 +86,7 @@ public class TransactionEndPoints {
     public static final String FIND_ORDER_BY_ID= ORDER+"/{id}";
     public static final String UPDATE_ORDER= ORDER+"/update/{id}";
     public static final String UPDATE_ORDER_ADD_PRODUCT= ORDER+"/update/addProduct/{id}";
+    public static final String UPDATE_ORDER_TO_CHECK_IN= ORDER+"/update/checkIn/{id}";
     public static final String DELETE_ORDER= ORDER+"/delete/{id}";
     public static final String FIND_ORDER_BY_CUSTOMER= ORDER+"/findOrderByCustomer";
     public static final String FIND_LISTS_OF_ORDER_BY_DATE= ORDER+"/findOrderByDate";

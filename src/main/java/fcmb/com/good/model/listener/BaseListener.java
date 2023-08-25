@@ -1,10 +1,11 @@
 package fcmb.com.good.model.listener;
 
+import fcmb.com.good.model.entity.Events.EventOrder;
+import fcmb.com.good.model.entity.Events.Events;
+import fcmb.com.good.model.entity.Events.EventsCategory;
 import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.activityLog.ActivityLogCategory;
-import fcmb.com.good.model.entity.assets.Assets;
-import fcmb.com.good.model.entity.assets.AssetsCategory;
-import fcmb.com.good.model.entity.assets.DamagedAssets;
+import fcmb.com.good.model.entity.others.DamagedAssets;
 import fcmb.com.good.model.entity.others.Document;
 import fcmb.com.good.model.entity.products.*;
 import fcmb.com.good.model.entity.products.ProductFacility;
@@ -26,14 +27,22 @@ public class BaseListener {
     private void beforeCreate(Object data) {
 
 
-        if(data instanceof Assets){
-            Assets assets = (Assets) data;
-            assets.setUuid(UUID.randomUUID());
+        if(data instanceof Events){
+            Events events = (Events) data;
+            events.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof AssetsCategory){
-            AssetsCategory assetsCategory = (AssetsCategory) data;
-            assetsCategory.setUuid(UUID.randomUUID());
+
+        else if(data instanceof EventsCategory){
+            EventsCategory eventsCategory = (EventsCategory) data;
+            eventsCategory.setUuid(UUID.randomUUID());
         }
+
+        else if(data instanceof EventOrder){
+            EventOrder eventsOrder = (EventOrder) data;
+            eventsOrder.setUuid(UUID.randomUUID());
+        }
+
+
         else if(data instanceof DamagedAssets){
             DamagedAssets damagedAssets = (DamagedAssets) data;
             damagedAssets.setUuid(UUID.randomUUID());
@@ -74,18 +83,22 @@ public class BaseListener {
             BookingReminder bookingReminder = (BookingReminder) data;
             bookingReminder.setUuid(UUID.randomUUID());
         }
+
         else if(data instanceof ExpenseRequest){
             ExpenseRequest expenseRequest = (ExpenseRequest) data;
             expenseRequest.setUuid(UUID.randomUUID());
         }
+
         else if(data instanceof Expenses){
             Expenses expenses = (Expenses) data;
             expenses.setUuid(UUID.randomUUID());
         }
-        else if(data instanceof Maintenance){
-            Maintenance maintenanceRequest = (Maintenance) data;
-            maintenanceRequest.setUuid(UUID.randomUUID());
+
+        else if(data instanceof MaintenanceRequest){
+          MaintenanceRequest maintenanceRequest = (MaintenanceRequest) data;
+          maintenanceRequest.setUuid(UUID.randomUUID());
         }
+
         else if(data instanceof Payment){
             Payment payment = (Payment) data;
             payment.setUuid(UUID.randomUUID());

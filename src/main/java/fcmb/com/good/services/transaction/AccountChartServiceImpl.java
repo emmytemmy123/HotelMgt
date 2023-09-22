@@ -79,7 +79,6 @@ public class AccountChartServiceImpl implements AccountChartService {
                 .orElseThrow(()->new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND));
 
 
-
         AccountChart accountChart = new AccountChart();
 
         accountChart.setCategory(request.getCategory());

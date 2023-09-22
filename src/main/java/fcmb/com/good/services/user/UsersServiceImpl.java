@@ -67,12 +67,13 @@ public class UsersServiceImpl implements UsersService {
         }
 
 
+
     /**
      * @validating userOptional by uuid*
      * @Validate if the List of user is empty otherwise return record not found
      * @return userOptional* *
      * * */
-    private Users validateUser(UUID uuid) {
+    public Users validateUser(UUID uuid) {
         Optional<Users> userOptional = usersRepository.findByUuid(uuid);
         if (userOptional.isEmpty())
             throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
@@ -146,7 +147,7 @@ public class UsersServiceImpl implements UsersService {
 
         activityLogRepository.save(activityLog);
 
-            return new ApiResponse("Record Added successfully", AppStatus.SUCCESS.label,
+            return new ApiResponse( "Record Added successfully", AppStatus.SUCCESS.label,
                     HttpStatus.OK.value());
         }
 
@@ -163,7 +164,8 @@ public class UsersServiceImpl implements UsersService {
             if (userOptional.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);
 
-        Users appUser = userOptional.get();
+
+            Users appUser = userOptional.get();
 
             return new ApiResponse<UsersResponse>(AppStatus.SUCCESS.label,
                     Mapper.convertObject(appUser, UsersResponse.class));

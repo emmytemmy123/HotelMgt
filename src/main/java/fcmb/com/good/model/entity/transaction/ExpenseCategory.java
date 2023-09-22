@@ -26,13 +26,7 @@ public class ExpenseCategory extends BaseEntity {
     @JoinColumn(name = "createdById", insertable = true, updatable = true)
     private Users createdBy;
 
-//    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "expenseId", insertable = true, updatable = true)
-//    private Expenses expenses;
-//
-////    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-////    @JoinColumn(name = "expenseRequestId", insertable = true, updatable = true)
-////    private ExpenseRequest expenseRequest;
+
 
 
 }

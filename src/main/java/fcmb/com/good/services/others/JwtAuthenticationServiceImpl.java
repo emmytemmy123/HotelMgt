@@ -1,21 +1,20 @@
 package fcmb.com.good.services.others;
 
 import fcmb.com.good.common.UserConstant;
-import fcmb.com.good.config.GroupUserDetails;
-import fcmb.com.good.exception.RecordNotFoundException;
+import fcmb.com.good.security.GroupUserDetails;
+import fcmb.com.good.model.dto.response.exception.RecordNotFoundException;
 import fcmb.com.good.model.dto.request.othersRequest.AuthRequest;
 import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.activityLog.ActivityLogRepository;
 import fcmb.com.good.repo.user.UsersRepository;
-import fcmb.com.good.utills.JwtUtil;
+import fcmb.com.good.security.JwtUtil;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.security.Principal;
@@ -61,7 +60,6 @@ public class JwtAuthenticationServiceImpl implements JwtAuthenticationService{
         if (authentication.isAuthenticated() )
             token = jwtUtil.generateToken(authRequest.getUsername());
 
-
         ActivityLog activityLog = new ActivityLog();
         activityLog.setName("user login");
         activityLog.setCategory("login");
@@ -70,7 +68,6 @@ public class JwtAuthenticationServiceImpl implements JwtAuthenticationService{
         activityLog.setPerformedDate(LocalDateTime.now());
 
         activityLogRepository.save(activityLog);
-
 
         GroupUserDetails userDetails = (GroupUserDetails) authentication.getPrincipal();
 

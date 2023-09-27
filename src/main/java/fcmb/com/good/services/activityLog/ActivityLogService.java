@@ -1,9 +1,8 @@
 package fcmb.com.good.services.activityLog;
 
 
-import fcmb.com.good.dto.ApiResponse;
+import fcmb.com.good.model.dto.response.ApiResponse;
 import fcmb.com.good.model.dto.response.activityLogResponse.ActivityLogResponse;
-import fcmb.com.good.model.dto.response.transactionResponse.PaymentResponse;
 
 import java.util.List;
 

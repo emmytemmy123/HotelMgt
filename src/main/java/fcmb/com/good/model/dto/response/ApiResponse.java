@@ -1,4 +1,4 @@
-package fcmb.com.good.dto;
+package fcmb.com.good.model.dto.response;
 
 import lombok.Data;
 

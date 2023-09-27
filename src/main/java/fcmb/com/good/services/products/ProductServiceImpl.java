@@ -1,7 +1,7 @@
 package fcmb.com.good.services.products;
 
-import fcmb.com.good.exception.RecordNotFoundException;
-import fcmb.com.good.filter.JwtFilter;
+import fcmb.com.good.model.dto.response.exception.RecordNotFoundException;
+import fcmb.com.good.security.JwtFilter;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.productsRequest.ProductRequest;

@@ -1,6 +1,6 @@
 package fcmb.com.good.controller.usersControllers;
 
-import fcmb.com.good.dto.ApiResponse;
+import fcmb.com.good.model.dto.response.ApiResponse;
 import fcmb.com.good.model.dto.request.othersRequest.AuthRequest;
 import fcmb.com.good.model.dto.request.userRequest.*;
 import fcmb.com.good.model.dto.response.othersResponse.AuthResponse;
@@ -9,6 +9,7 @@ import fcmb.com.good.services.user.UserCategoryService;
 import fcmb.com.good.services.user.UsersService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,6 +29,7 @@ import static fcmb.com.good.utills.EndPoints.UsersEndPoints.*;
 public class UsersController  {
 
     private final UsersService userService;
+
     private final UserCategoryService userCategoryService;
 
 
@@ -37,8 +39,8 @@ public class UsersController  {
     @GetMapping(FIND_USER)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @ApiOperation(value = "Endpoint for retrieving lists of user", response = UsersResponse.class, responseContainer = "List")
-    public fcmb.com.good.dto.ApiResponse<List<UsersResponse>> getListOfUsers(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
-                                                                             @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
+    public ApiResponse<List<UsersResponse>> getListOfUsers(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
+                                                           @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {
         return userService.getListOfUsers(page,size);
     }
 
@@ -58,7 +60,7 @@ public class UsersController  {
 
     @PostMapping(ADD_USER)
     @ApiOperation(value = "Endpoint for adding new user to database", response = String.class)
-    public fcmb.com.good.dto.ApiResponse<String> addUsers(@Valid @RequestBody UsersRequest request) throws IOException {
+    public ApiResponse<String> addUsers(@Valid @RequestBody UsersRequest request) throws IOException {
         return userService.addUsers(request);
     }
 
@@ -74,7 +76,7 @@ public class UsersController  {
     @GetMapping(FIND_USER_BY_ID)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR') ")
     @ApiOperation(value = "Endpoint for fetching user by id from database", response = UsersResponse.class)
-    public fcmb.com.good.dto.ApiResponse<UsersResponse> getUsersById(@PathVariable(value = "uuid") UUID userUuid) {
+    public ApiResponse<UsersResponse> getUsersById(@PathVariable(value = "uuid") UUID userUuid) {
         return userService.getUsersById(userUuid);
     }
 
@@ -84,8 +86,8 @@ public class UsersController  {
     @PutMapping(UPDATE_USER)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR') or hasAuthority('ROLE_USER') ")
     @ApiOperation(value = "Endpoint for updating user by id from database", response = String.class)
-    public fcmb.com.good.dto.ApiResponse<String> updateUsers(@PathVariable(value = "uuid") UUID userUuid,
-                                                             @RequestBody UsersRequest request) {
+    public ApiResponse<String> updateUsers(@PathVariable(value = "uuid") UUID userUuid,
+                                           @RequestBody UsersRequest request) {
         return userService.updateUsers(userUuid, request);
     }
 
@@ -97,7 +99,7 @@ public class UsersController  {
     @DeleteMapping(DELETE_USER)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') ")
     @ApiOperation(value = "Endpoint for deleting user by id from database", response = String.class)
-    public fcmb.com.good.dto.ApiResponse<String> deleteUser(@PathVariable(value = "uuid") UUID userUuid) {
+    public ApiResponse<String> deleteUser(@PathVariable(value = "uuid") UUID userUuid) {
         return userService.deleteUsers(userUuid);
     }
 
@@ -108,7 +110,7 @@ public class UsersController  {
     @PutMapping(RESET_USER_PASSWORD)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR') or hasAuthority('ROLE_USER') ")
     @ApiOperation(value = "Endpoint for resetting users password from database", response = String.class)
-    public fcmb.com.good.dto.ApiResponse<String> resetPassword(@RequestBody changeUserPasswordRequest request, String email) {
+    public ApiResponse<String> resetPassword(@RequestBody changeUserPasswordRequest request, String email) {
         return userService.resetUsersPassword(email, request);
     }
 
@@ -119,7 +121,7 @@ public class UsersController  {
     @GetMapping(FORGOT_USER_PASSWORD)
     @PreAuthorize("hasAuthority('ROLE_USER') ")
     @ApiOperation(value = "Endpoint for getting forgotten users password from database", response = String.class)
-    public fcmb.com.good.dto.ApiResponse<String> forgotUserPassword(String email) throws MessagingException {
+    public ApiResponse<String> forgotUserPassword(String email) throws MessagingException {
         return userService.forgotUsersPassword(email);
     }
 

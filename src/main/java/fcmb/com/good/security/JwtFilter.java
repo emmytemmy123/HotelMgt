@@ -1,8 +1,8 @@
-package fcmb.com.good.filter;
+package fcmb.com.good.security;
 
 
-import fcmb.com.good.config.CustomUserDetailsService;
-import fcmb.com.good.utills.JwtUtil;
+import fcmb.com.good.security.CustomUserDetailsService;
+import fcmb.com.good.security.JwtUtil;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

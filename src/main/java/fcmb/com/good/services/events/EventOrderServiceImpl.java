@@ -1,17 +1,15 @@
 package fcmb.com.good.services.events;
 
 
-import fcmb.com.good.exception.RecordNotFoundException;
+import fcmb.com.good.model.dto.response.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.eventsRequest.EventOrderRequest;
 import fcmb.com.good.model.dto.request.eventsRequest.EventOrderRequest2;
 import fcmb.com.good.model.dto.response.eventsResponse.EventOrderResponse;
-import fcmb.com.good.model.dto.response.eventsResponse.EventsResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.entity.Events.EventOrder;
 import fcmb.com.good.model.entity.Events.Events;
-import fcmb.com.good.model.entity.Events.EventsCategory;
 import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.activityLog.ActivityLogRepository;

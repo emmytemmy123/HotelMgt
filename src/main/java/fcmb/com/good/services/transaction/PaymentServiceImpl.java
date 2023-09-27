@@ -1,6 +1,6 @@
 package fcmb.com.good.services.transaction;
 
-import fcmb.com.good.exception.RecordNotFoundException;
+import fcmb.com.good.model.dto.response.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.enums.Status;
@@ -8,7 +8,6 @@ import fcmb.com.good.model.dto.request.transactionRequest.PaymentRequest;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.dto.response.transactionResponse.PaymentResponse;
 import fcmb.com.good.model.entity.activityLog.ActivityLog;
-import fcmb.com.good.model.entity.services.SubServiceRequest;
 import fcmb.com.good.model.entity.transaction.Orders;
 import fcmb.com.good.model.entity.transaction.Payment;
 import fcmb.com.good.repo.activityLog.ActivityLogRepository;

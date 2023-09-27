@@ -1,21 +1,15 @@
 package fcmb.com.good.services.activityLog;
 
-import fcmb.com.good.dto.ApiResponse;
-import fcmb.com.good.exception.RecordNotFoundException;
+import fcmb.com.good.model.dto.response.ApiResponse;
+import fcmb.com.good.model.dto.response.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.response.activityLogResponse.ActivityLogResponse;
-import fcmb.com.good.model.dto.response.transactionResponse.OrdersResponse;
-import fcmb.com.good.model.dto.response.transactionResponse.PaymentResponse;
-import fcmb.com.good.model.dto.response.userResponse.UsersResponse;
 import fcmb.com.good.model.entity.activityLog.ActivityLog;
-import fcmb.com.good.model.entity.transaction.Orders;
-import fcmb.com.good.model.entity.transaction.Payment;
 import fcmb.com.good.repo.activityLog.ActivityLogRepository;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

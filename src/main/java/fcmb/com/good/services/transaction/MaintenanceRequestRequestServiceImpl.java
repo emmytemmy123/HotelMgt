@@ -1,13 +1,12 @@
 package fcmb.com.good.services.transaction;
 
-import fcmb.com.good.exception.RecordNotFoundException;
+import fcmb.com.good.model.dto.response.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.response.transactionResponse.MaintenanceResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
 import fcmb.com.good.model.entity.transaction.MaintenanceRequest;
 import fcmb.com.good.model.entity.transaction.MaintenanceCategory;
-import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.transaction.MaintenanceCategoryRepository;
 import fcmb.com.good.repo.transaction.MaintenanceRequestRepository;
 import fcmb.com.good.repo.user.UsersRepository;
@@ -17,9 +16,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;

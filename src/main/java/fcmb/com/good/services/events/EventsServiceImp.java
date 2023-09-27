@@ -1,7 +1,7 @@
 package fcmb.com.good.services.events;
 
 
-import fcmb.com.good.exception.RecordNotFoundException;
+import fcmb.com.good.model.dto.response.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.eventsRequest.EventsRequest;

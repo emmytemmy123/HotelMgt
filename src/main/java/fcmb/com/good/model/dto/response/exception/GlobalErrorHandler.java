@@ -1,7 +1,7 @@
-package fcmb.com.good.exception;
+package fcmb.com.good.model.dto.response.exception;
 
 
-import fcmb.com.good.dto.ApiResponse;
+import fcmb.com.good.model.dto.response.ApiResponse;
 import fcmb.com.good.utills.MessageUtil;
 import fcmb.com.good.utills.ResponseCode;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +25,6 @@ import java.util.List;
 
 import static fcmb.com.good.model.dto.enums.AppStatus.FAILED;
 import static fcmb.com.good.utills.MessageUtil.*;
-import static org.springframework.http.HttpStatus.BAD_REQUEST;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
-import static org.springframework.http.HttpStatus.*;
 
 
 @ControllerAdvice

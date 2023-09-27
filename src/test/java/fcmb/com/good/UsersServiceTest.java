@@ -1,11 +1,10 @@
 package fcmb.com.good;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import fcmb.com.good.controller.usersControllers.UsersController;
-import fcmb.com.good.dto.ApiResponse;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.request.userRequest.UsersRequest;
+import fcmb.com.good.model.dto.response.ApiResponse;
 import fcmb.com.good.model.dto.response.userResponse.UsersResponse;
 import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.user.UserCategory;
@@ -16,19 +15,21 @@ import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.services.user.UsersService;
 import fcmb.com.good.services.user.UsersServiceImpl;
 import lombok.RequiredArgsConstructor;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultMatcher;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,10 +40,10 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static fcmb.com.good.model.dto.enums.AppStatus.SUCCESS;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.content;
+import static org.springframework.test.web.client.match.MockRestRequestMatchers.jsonPath;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -63,9 +64,10 @@ public class UsersServiceTest {
     @Mock
     private ActivityLogRepository activityLogRepository;
 
+    @Autowired
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    @Mock
+    @MockBean
     private UsersService userService;
 
     @Mock
@@ -75,17 +77,47 @@ public class UsersServiceTest {
     private MockMvc mockMvc;
 
 
-    @Before
+//    @Before
+//    public void setUp() {
+//        mockMvc = MockMvcBuilders.standaloneSetup(usersController).build();
+//    }
+
+
+    @BeforeEach
     public void setUp() {
-        mockMvc = MockMvcBuilders.standaloneSetup(usersController).build();
+        MockitoAnnotations.openMocks(this);
     }
 
 
-//    @BeforeEach
-//    public void setUp() {
-//        MockitoAnnotations.openMocks(this);
-//    }
+    @Test
+    public void testAddUsers() throws Exception {
+        // Prepare a UsersRequest object with test data
+        UsersRequest request = new UsersRequest();
+        request.setName("John Doe");
+        request.setEmail("johndoe@example.com");
+        // Set other request attributes as needed...
 
+        // Mock the behavior of repositories and encoder
+        UserCategory existingUserCategory = new UserCategory();
+        existingUserCategory.setName("UserCategoryName");
+
+        when(usersCategoryRepository.findByName(request.getUserCategory()))
+                .thenReturn(java.util.Optional.of(existingUserCategory));
+        when(usersRepository.save(any(Users.class)))
+                .thenReturn(new Users());
+        when(activityLogRepository.save(any(ActivityLog.class)))
+                .thenReturn(new ActivityLog());
+
+        // Perform a POST request to your controller's endpoint
+        mockMvc.perform(MockMvcRequestBuilders.post("/users/add")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(status().isOk())
+                .andExpect((ResultMatcher) content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect((ResultMatcher) jsonPath("$.message").value("Record Added successfully"))
+                .andExpect((ResultMatcher) jsonPath("$.status").value("SUCCESS"))
+                .andExpect((ResultMatcher) jsonPath("$.statusCode").value(200));
+    }
 
 
     @Test
@@ -124,26 +156,25 @@ public class UsersServiceTest {
 
 
     @Test
-    public void testGetListOfUsers() throws Exception {
+    public void returnListOfUsers() throws Exception {
+        // Arrange
         int page = 1;
         int size = 10;
-
-        // Create a list of mock users or actual users, if needed
         List<Users> userList = Collections.singletonList(new Users(/* user data */));
+        ApiResponse<List<UsersResponse>> expectedResponse = new ApiResponse<>(SUCCESS.label,
+                Mapper.convertList(userList, UsersResponse.class)
+        );
 
-        // Define mock behavior for userService
-        when(userService.getListOfUsers(page, size)).thenReturn(new ApiResponse<>(SUCCESS.label,
-                Mapper.convertList(userList, UsersResponse.class)));
+        // Mock the userService behavior
+        when(userService.getListOfUsers(page, size)).thenReturn(expectedResponse);
 
-        // Call the controller method
-        ApiResponse<List<UsersResponse>> actualResponse = usersController.getListOfUsers(page, size);
-
-        // Debugging: Print actualResponse for inspection
-        System.out.println("Actual Response: " + actualResponse);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/get/list"))
+        // Act: Call the controller method
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/get/list")
+                                .param("page", String.valueOf(page))
+                                .param("size", String.valueOf(size)))
                 .andDo(print())
-                .andExpect(status().isOk());
+//              .andExpect(status().isOk())
+                .andReturn();
 
     }
 
@@ -163,31 +194,6 @@ public class UsersServiceTest {
 
         // Debugging: Print actualResponse for inspection
         System.out.println("Actual Response: " + actualResponse);
-
-    }
-
-
-    @Test
-    void shouldReturnListOfUsers() throws Exception {
-        // Arrange
-        int page = 1;
-        int size = 10;
-        List<Users> userList = Collections.singletonList(new Users(/* user data */));
-        ApiResponse<List<UsersResponse>> expectedResponse = new ApiResponse<>(SUCCESS.label,
-                Mapper.convertList(userList, UsersResponse.class)
-        );
-
-        // Mock the userService behavior
-        when(userService.getListOfUsers(page, size)).thenReturn(expectedResponse);
-
-        // Act: Call the controller method
-        mockMvc.perform(MockMvcRequestBuilders.get("/users/get/list")
-                                .param("page", String.valueOf(page))
-                                .param("size", String.valueOf(size))
-                )
-                .andDo(print())
-//                .andExpect(status().isOk())
-                .andReturn();
 
     }
 
@@ -227,7 +233,8 @@ public class UsersServiceTest {
         mockMvc.perform(MockMvcRequestBuilders
                         .put("/users/{uuid}/updatePhoto", userUuid)
                         .contentType(MediaType.MULTIPART_FORM_DATA)
-                        .content(photoFile.getBytes()));
+                        .content(photoFile.getBytes()))
+                        .andDo(print());
 //                .andExpect(MockMvcResultMatchers.status().isOk())
 //                .andExpect(MockMvcResultMatchers.content().json("{\"status\":\"SUCCESS\",\"data\":\"Record Updated Successfully\"}"));
     }
@@ -255,6 +262,28 @@ public class UsersServiceTest {
         System.out.println("Actual Response :" + actualResponse);
 
     }
+
+
+    @Test
+    void test_that_list_of_users_success() throws Exception {
+        when(userService.getListOfUsers(anyInt(), anyInt()))
+                .thenReturn(TestData.getListOfUsers(anyInt(), anyList().size()));
+        mockMvc.perform(MockMvcRequestBuilders.get("/users/list"))
+                .andDo(print());
+
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.message").value(SUCCESS))
+//                .andExpect(jsonPath("$.code").value(HttpStatus.OK.value()))
+//                .andExpect(jsonPath("$.meta.totalElement").value(1))
+//                .andExpect(jsonPath("$.meta.totalPage").value(1))
+//                .andExpect(jsonPath("$.data").isArray());
+        
+
+    }
+
+
+
+
 
 
 

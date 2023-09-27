@@ -1,9 +1,8 @@
 package fcmb.com.good.controller.othersControllers;
 
 
-import fcmb.com.good.dto.ApiResponse;
+import fcmb.com.good.model.dto.response.ApiResponse;
 import fcmb.com.good.model.dto.response.activityLogResponse.ActivityLogResponse;
-import fcmb.com.good.model.dto.response.servicesResponse.SubServiceResponse;
 import fcmb.com.good.services.activityLog.ActivityLogService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 import static fcmb.com.good.utills.EndPoints.ActivityLogEndPoints.*;
-import static fcmb.com.good.utills.EndPoints.ServiceEndPoints.FIND_SUB_SERVICE;
-import static fcmb.com.good.utills.EndPoints.ServiceEndPoints.service;
-import static fcmb.com.good.utills.EndPoints.TransactionEndPoints.*;
 import static fcmb.com.good.utills.EndpointParam.*;
 import static fcmb.com.good.utills.EndpointParam.SIZE_DEFAULT;
 
@@ -56,7 +52,7 @@ public class ActivityLogController {
     @GetMapping(FIND_LIST_OF_ACTIVITY_LOG_BY_DATE_RANGE)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR') ")
     @ApiOperation(value = "Endpoint for retrieving lists of activityLog by dateRange", response = ActivityLogResponse.class, responseContainer = "List")
-    public fcmb.com.good.dto.ApiResponse<List<ActivityLogResponse>> getListOfActivityLogResponseByDateRange(@RequestParam String from, @RequestParam String to) {
+    public ApiResponse<List<ActivityLogResponse>> getListOfActivityLogResponseByDateRange(@RequestParam String from, @RequestParam String to) {
         return activityLogService.getActivityLogByDateRange(from, to);
     }
 
@@ -66,7 +62,7 @@ public class ActivityLogController {
     @GetMapping(FIND_LIST_OF_ACTIVITY_LOG_BY_DATE)
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR') ")
     @ApiOperation(value = "Endpoint for retrieving lists of activityLog by date", response = ActivityLogResponse.class, responseContainer = "List")
-    public fcmb.com.good.dto.ApiResponse<List<ActivityLogResponse>> getListOfActivityLogResponseByDate(@RequestParam String performDate) {
+    public ApiResponse<List<ActivityLogResponse>> getListOfActivityLogResponseByDate(@RequestParam String performDate) {
         return activityLogService.getActivityLogByDate(performDate);
     }
 

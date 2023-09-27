@@ -1,4 +1,4 @@
-package fcmb.com.good.utills;
+package fcmb.com.good.security;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

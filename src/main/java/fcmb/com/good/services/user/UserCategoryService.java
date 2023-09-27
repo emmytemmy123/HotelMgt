@@ -1,6 +1,6 @@
 package fcmb.com.good.services.user;
 
-import fcmb.com.good.dto.ApiResponse;
+import fcmb.com.good.model.dto.response.ApiResponse;
 import fcmb.com.good.model.dto.request.userRequest.UserCategoryRequest;
 import fcmb.com.good.model.dto.response.userResponse.UserCategoryResponse;
 

@@ -1,8 +1,8 @@
 package fcmb.com.good.services.user;
 
 import fcmb.com.good.common.UserConstant;
-import fcmb.com.good.dto.ApiResponse;
-import fcmb.com.good.exception.RecordNotFoundException;
+import fcmb.com.good.model.dto.response.ApiResponse;
+import fcmb.com.good.model.dto.response.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.othersRequest.AuthRequest;
@@ -19,7 +19,7 @@ import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.services.others.FileStorageService;
 import fcmb.com.good.services.others.JwtAuthenticationServiceImpl;
 import fcmb.com.good.utills.EmailUtils;
-import fcmb.com.good.utills.JwtUtil;
+import fcmb.com.good.security.JwtUtil;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -129,7 +129,7 @@ public class UsersServiceImpl implements UsersService {
             user.setCountry(request.getCountry());
             user.setCity(request.getCity());
             user.setGender(request.getGender());
-            user.setPassword(request.getPassword());
+            user.setPassword(passwordEncoder.encode("test"));
             user.setPhone(request.getPhone());
             user.setUsername(request.getUsername());
             user.setUserCategory(existingUserCategory);

@@ -1,4 +1,4 @@
-package fcmb.com.good.exception;
+package fcmb.com.good.model.dto.response.exception;
 
 public class BadRequestException extends RuntimeException{
 

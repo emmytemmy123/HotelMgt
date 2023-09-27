@@ -1,12 +1,11 @@
 package fcmb.com.good.services.others;
 
-import fcmb.com.good.exception.RecordNotFoundException;
+import fcmb.com.good.model.dto.response.exception.RecordNotFoundException;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.othersRequest.DamagedAssetsRequest;
 import fcmb.com.good.model.dto.response.othersResponse.DamagedAssetsResponse;
 import fcmb.com.good.model.dto.response.othersResponse.ApiResponse;
-import fcmb.com.good.model.entity.Events.Events;
 import fcmb.com.good.model.entity.activityLog.ActivityLog;
 import fcmb.com.good.model.entity.others.DamagedAssets;
 import fcmb.com.good.model.entity.user.Users;

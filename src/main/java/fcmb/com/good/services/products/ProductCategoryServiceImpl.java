@@ -1,7 +1,7 @@
 package fcmb.com.good.services.products;
 
-import fcmb.com.good.exception.RecordNotFoundException;
-import fcmb.com.good.filter.JwtFilter;
+import fcmb.com.good.model.dto.response.exception.RecordNotFoundException;
+import fcmb.com.good.security.JwtFilter;
 import fcmb.com.good.mapper.Mapper;
 import fcmb.com.good.model.dto.enums.AppStatus;
 import fcmb.com.good.model.dto.request.productsRequest.ProductCategoryRequest;
@@ -12,7 +12,7 @@ import fcmb.com.good.model.entity.user.Users;
 import fcmb.com.good.repo.products.ProductCategoryRepository;
 import fcmb.com.good.repo.user.UsersRepository;
 import fcmb.com.good.utills.EmailUtils;
-import fcmb.com.good.utills.JwtUtil;
+import fcmb.com.good.security.JwtUtil;
 import fcmb.com.good.utills.MessageUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;

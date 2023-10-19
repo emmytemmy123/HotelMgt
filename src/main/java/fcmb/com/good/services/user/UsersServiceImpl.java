@@ -39,6 +39,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class UsersServiceImpl implements UsersService {
+
     private final UsersRepository usersRepository;
     private final UsersCategoryRepository usersCategoryRepository;
     private final EmailUtils emailUtils;

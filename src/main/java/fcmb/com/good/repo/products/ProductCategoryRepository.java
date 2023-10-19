@@ -20,4 +20,6 @@ public interface ProductCategoryRepository extends JpaRepository<ProductCategory
 
     @Query("select st from ProductCategory st where st.room=:name and st.items=:items ")
     Optional<ProductCategory> findProductCategoryByRoomAndItems(@Param("name") String room, @Param("items") String items );
+
+
 }

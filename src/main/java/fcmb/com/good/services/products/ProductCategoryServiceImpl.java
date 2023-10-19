@@ -40,7 +40,6 @@ public class ProductCategoryServiceImpl implements ProductCategoryService{
      * @return the list of productCategory and a Success Message* *
      * * */
     public ApiResponse<List<ProductCategoryResponse>> getListOfProductCategory(int page, int size) {
-
             List<ProductCategory> productCategoryList = productCategoryRepository.findAll(PageRequest.of(page,size)).toList();
             if(productCategoryList.isEmpty())
                 throw new RecordNotFoundException(MessageUtil.RECORD_NOT_FOUND);

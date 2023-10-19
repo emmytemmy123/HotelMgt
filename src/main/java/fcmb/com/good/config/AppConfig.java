@@ -2,6 +2,7 @@ package fcmb.com.good.config;
 
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,6 +19,7 @@ import java.util.Locale;
 @Configuration
 @EnableWebMvc
 @EnableAsync
+@ComponentScan(basePackages = {"fcmb.com.good"})
 public class AppConfig implements WebMvcConfigurer{
 
     @Override

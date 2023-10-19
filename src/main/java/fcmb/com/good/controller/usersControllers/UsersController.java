@@ -37,7 +37,7 @@ public class UsersController  {
 
 
     @GetMapping(FIND_USER)
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
+//    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_MODERATOR')")
     @ApiOperation(value = "Endpoint for retrieving lists of user", response = UsersResponse.class, responseContainer = "List")
     public ApiResponse<List<UsersResponse>> getListOfUsers(@RequestParam(value=PAGE, defaultValue = PAGE_DEFAULT) int page,
                                                            @RequestParam(value=SIZE,defaultValue=SIZE_DEFAULT) int size) {

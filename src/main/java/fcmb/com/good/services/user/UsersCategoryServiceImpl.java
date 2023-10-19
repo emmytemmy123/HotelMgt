@@ -68,7 +68,6 @@ public class UsersCategoryServiceImpl implements UserCategoryService {
 
         usersCategoryRepository.save(userCategory);
 
-
         return new ApiResponse("Record Added successfully", AppStatus.SUCCESS.label,
                 HttpStatus.OK.value());
     }

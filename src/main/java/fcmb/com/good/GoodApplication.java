@@ -24,17 +24,13 @@ import java.util.Arrays;
 
 
 @SpringBootApplication(exclude = {SecurityAutoConfiguration.class })
-@RequiredArgsConstructor
-//@SpringBootApplication
-//@ComponentScan(basePackages = "fcmb.com.good.controller")
+@ComponentScan(basePackages = {"fcmb.com.good.security.CustomUserDetailsService" } )
 public class GoodApplication {
 
 	public static void main(String[] args) {
 
         SpringApplication.run(GoodApplication.class, args);
 	}
-
-
 
 
 
